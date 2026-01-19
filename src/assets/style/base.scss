@@ -1,0 +1,122 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0 !important;
+  background-color: #F5F7F9;
+}
+#app {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #F5F7F9;
+}
+
+.fill {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+.vcontainer {
+  display: flex;
+  flex-direction: column;
+}
+.hcontainer {
+  display: flex;
+  flex-direction: row;
+}
+.vcenter {
+  align-content: center;
+  align-items: center;
+}
+.hcenter {
+  justify-content: center;
+  justify-items: center;
+}
+.flex-start {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.flex-around {
+  justify-content: space-around;
+}
+.flex-between {
+  justify-content: space-between;
+}
+.flex-end {
+  justify-content: flex-end; 
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.align-end {
+  align-items: flex-end;
+}
+
+// 超出1行显示省略号
+.o-line-1 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+// 超出1行显示省略号
+.o-line-2 {
+  display: -webkit-box !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical !important;
+}
+// 超出3行显示省略号
+.o-line-3 {
+  display: -webkit-box !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical !important;
+}
+// 超出4行显示省略号
+.o-line-4 {
+  display: -webkit-box !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical !important;
+}
+// 超出5行显示省略号
+.o-line-5 {
+  display: -webkit-box !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical !important;
+}
+
+.main-container {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+* {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 6px;
+    background: rgba($color: #fff, $alpha: 0.2);
+  }
+  &::-webkit-scrollbar-thumb {
+    width: 0px !important;
+    height: 0px;
+    border-radius: 6px !important;
+    background: #adb7bd;
+  }
+}

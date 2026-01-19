@@ -1,0 +1,87 @@
+// 常用宽高(整10, 10px-500px)
+@for $i from 1 through 50 {
+  .h-#{($i * 10)} {
+    height: #{$i * 10}px;
+  }
+  .w-#{($i * 10)} {
+    width: #{$i * 10}px;
+  }
+}
+
+// 常用图标大小
+@for $i from 20 through 80 {
+  .icon-#{$i} {
+    width: #{$i}px;
+    height: #{$i}px;
+  }
+}
+
+// 常用空白占位
+@for $i from 5 through 100 {
+  .blankh-#{$i} {
+    height: 100%;
+    width: #{$i}px;
+    background-color: transparent;
+  }
+  .blankv-#{$i} {
+    height: #{$i}px;
+    width: 100%;
+    background-color: transparent;
+  }
+}
+
+// 常用margin, padding
+@for $i from 1 through 100 {
+  .m-#{$i} {
+    margin: #{$i}px;
+  }
+  .mv-#{$i} {
+    margin: #{$i}px 0;
+  }
+  .mh-#{$i} {
+    margin: 0 #{$i}px;
+  }
+  .mt-#{$i} {
+    margin-top: #{$i}px;
+  }
+  .mb-#{$i} {
+    margin-bottom: #{$i}px;
+  }
+  .ml-#{$i} {
+    margin-left: #{$i}px;
+  }
+  .mr-#{$i} {
+    margin-right: #{$i}px;
+  }
+  .p-#{$i} {
+    padding: #{$i}px;
+  }
+  .pv-#{$i} {
+    padding: #{$i}px 0;
+  }
+  .ph-#{$i} {
+    padding: 0 #{$i}px;
+  }
+  .pt-#{$i} {
+    padding-top: #{$i}px;
+  }
+  .pb-#{$i} {
+    padding-bottom: #{$i}px;
+  }
+  .pl-#{$i} {
+    padding-left: #{$i}px;
+  }
+  .pr-#{$i} {
+    padding-right: #{$i}px;
+  }
+}
+
+// 常用flex, font-size
+@for $i from 1 through 30 {
+  .flex-#{$i} {
+    flex: #{$i};
+  }
+  .font-#{$i} {
+    font-size: #{$i}px;
+  }
+}
