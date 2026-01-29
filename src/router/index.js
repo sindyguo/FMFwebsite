@@ -6,7 +6,7 @@ const originalPush = VueRouter.prototype.push
 const originalReplace = VueRouter.prototype.replace
 
 // 重写push
-VueRouter.prototype.push = function push (location, onResolve, onReject) {
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
   if (onResolve || onReject) {
     return originalPush.call(this, location, onResolve, onReject)
   }
@@ -16,7 +16,7 @@ VueRouter.prototype.push = function push (location, onResolve, onReject) {
 }
 
 // 重写replace
-VueRouter.prototype.replace = function replace (location, onResolve, onReject) {
+VueRouter.prototype.replace = function replace(location, onResolve, onReject) {
   if (onResolve || onReject) {
     return originalReplace.call(this, location, onResolve, onReject)
   }
@@ -147,12 +147,84 @@ const routes = [
         }
       },
       {
+        path: '/look-for-life',
+        name: 'SupportDevelopingCountries',
+        component: () => import(/* webpackChunkName: 'SupportDevelopingCountries' */ '../views/SupportDevelopingCountries.vue'),
+        meta: {
+          title: 'Support in developing countries',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/look-for-life-developed',
+        name: 'SupportDevelopedCountries',
+        component: () => import(/* webpackChunkName: 'SupportDevelopedCountries' */ '../views/SupportDevelopedCountries.vue'),
+        meta: {
+          title: 'Support in developed countries',
+          requiresAuth: false
+        }
+      },
+      {
         path: '/congressSignUp',
         name: 'CongressSignUp',
         component: () => import(/* webpackChunkName: 'CongressSignUp' */ '../views/CongressSignUp.vue'),
         meta: {
           title: 'CongressSignUp',
           requiresAuth: true
+        }
+      },
+      {
+        path: '/fmf-supported-course',
+        name: 'FmfSupportedCourse',
+        component: () => import(/* webpackChunkName: 'FmfSupportedCourse' */ '../views/SupportedCourse.vue'),
+        meta: {
+          title: 'FMF Supported Course',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/fellowships',
+        name: 'Fellowships',
+        component: () => import(/* webpackChunkName: 'Fellowships' */ '../views/Fellowships.vue'),
+        meta: {
+          title: 'FMF fellowships',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/research',
+        name: 'Research',
+        component: () => import(/* webpackChunkName: 'Research' */ '../views/Research.vue'),
+        meta: {
+          title: 'Research',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/fmf-certification',
+        name: 'FMFCertification',
+        component: () => import(/* webpackChunkName: 'FMFCertification' */ '../views/FMFCertification.vue'),
+        meta: {
+          title: 'FMF Certification',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/calculators',
+        name: 'Calculators',
+        component: () => import(/* webpackChunkName: 'Calculators' */ '../views/Calculators.vue'),
+        meta: {
+          title: 'Calculators',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/research-publications',
+        name: 'ResearchPublications',
+        component: () => import(/* webpackChunkName: 'ResearchPublications' */ '../views/ResearchPublications.vue'),
+        meta: {
+          title: 'Research publications',
+          requiresAuth: false
         }
       },
     ]
@@ -204,6 +276,15 @@ const routes = [
     }
   },
   {
+    path: '/template-preview',
+    name: 'TemplatePreview',
+    component: () => import(/* webpackChunkName: 'TemplatePreview' */ '../views/TemplatePreview.vue'),
+    meta: {
+      title: 'Template Preview',
+      requiresAuth: false
+    }
+  },
+  {
     path: '/payCom',
     name: 'payCom',
     component: () => import(/* webpackChunkName: 'payCom' */ '../views/payCom.vue'),
@@ -242,7 +323,7 @@ router.onError(error => {
     })
     return false
   }
-  
+
   if (error.message && error.message.includes('Loading chunk')) {
     console.warn('Loading chunk error, and reload page')
     window.location.reload()
@@ -268,7 +349,7 @@ router.beforeEach(async (to, from, next) => {
         })
         if (result) {
           next('/login')
-        } else { 
+        } else {
           next(false)
         }
       } catch (error) {

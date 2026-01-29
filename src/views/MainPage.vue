@@ -5,7 +5,7 @@
       ref="headerPage"
       :isTransparent="($route.path == '/' || $route.path == '/congress' ) && isHeaderTransparent">
     </HeaderPage>
-    <router-view class="centerBox"></router-view>
+    <router-view class="centerBox" :style="centerBoxStyle"></router-view>
     <FooterPage v-if="$route.name != 'exam'"></FooterPage>
   </div>
 </template>
@@ -23,6 +23,14 @@
       return {
         isHeaderTransparent: true,
         headerHeight: 104
+      }
+    },
+    computed: {
+      centerBoxStyle() {
+        if (this.$route.name === 'exam') {
+          return { paddingTop: '0px' }
+        }
+        return { paddingTop: `${this.headerHeight}px` }
       }
     },
     mounted() {

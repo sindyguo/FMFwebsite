@@ -39,19 +39,19 @@
           return [{
             img: require('@/assets/img/home_top1.jpg'),
             title: 'Welcome to The Fetal Medicine Foundation',
-            desc: 'The Fetal Medicine Foundation (FMF) is a Registered Charity that aims to improve the health of pregnant women and their babies through research and training in fetal medicine. The FMF with the support of an international group of experts, has introduced an educational programme both for healthcare professionals and doctors and in the last 25 years the FMF has donated more than £45 million for scholarships and research grants. In 2016/2017, the FMF made a donation of £22 million to King\'s College Hospital NHS Foundation Trust for investment in the Trust\'s Fetal Medicine services.',
+            desc: 'The Fetal Medicine Foundation (FMF) is a Registered Charity that aims to improve the health of pregnant women and their babies through research and training in fetal medicine. The FMF with the support of an international group of experts, has introduced an educational programme both for healthcare professionals and doctors and in the last 30 years the FMF has donated more than £75 million for scholarships, research grants and setting up fetal medicine units in developing countries.',
             homeMark: true
           },
           {
             img: require('@/assets/img/home_top2.jpg'),
             title: 'Welcome to The Fetal Medicine Foundation',
-            desc: 'The Fetal Medicine Foundation (FMF) is a Registered Charity that aims to improve the health of pregnant women and their babies through research and training in fetal medicine. The FMF with the support of an international group of experts, has introduced an educational programme both for healthcare professionals and doctors and in the last 25 years the FMF has donated more than £45 million for scholarships and research grants. In 2016/2017, the FMF made a donation of £22 million to King\'s College Hospital NHS Foundation Trust for investment in the Trust\'s Fetal Medicine services.',
+            desc: 'The Fetal Medicine Foundation (FMF) is a Registered Charity that aims to improve the health of pregnant women and their babies through research and training in fetal medicine. The FMF with the support of an international group of experts, has introduced an educational programme both for healthcare professionals and doctors and in the last 30 years the FMF has donated more than £75 million for scholarships, research grants and setting up fetal medicine units in developing countries.',
             homeMark: true
           },
           {
             img: require('@/assets/img/home_top3.jpg'),
             title: 'Welcome to The Fetal Medicine Foundation',
-            desc: 'The Fetal Medicine Foundation (FMF) is a Registered Charity that aims to improve the health of pregnant women and their babies through research and training in fetal medicine. The FMF with the support of an international group of experts, has introduced an educational programme both for healthcare professionals and doctors and in the last 25 years the FMF has donated more than £45 million for scholarships and research grants. In 2016/2017, the FMF made a donation of £22 million to King\'s College Hospital NHS Foundation Trust for investment in the Trust\'s Fetal Medicine services.',
+            desc: 'The Fetal Medicine Foundation (FMF) is a Registered Charity that aims to improve the health of pregnant women and their babies through research and training in fetal medicine. The FMF with the support of an international group of experts, has introduced an educational programme both for healthcare professionals and doctors and in the last 30 years the FMF has donated more than £75 million for scholarships, research grants and setting up fetal medicine units in developing countries.',
             homeMark: true
           }]
         }
@@ -148,8 +148,8 @@
         font-size: 16px;
         color: rgba(255, 255, 255, 0.85);
         line-height: 24px;
-        text-align: justify;
-        text-align-last: justify;
+        text-align: left;
+        text-align-last: left;
         font-style: normal;
         text-transform: none;
       }

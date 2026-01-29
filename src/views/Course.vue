@@ -1,42 +1,14 @@
 <template>
   <div class="fill vcontainer course">
     <section class="course-hero">
-      <div class="course-hero-bg"></div>
-      <div class="course-hero-overlay"></div>
-      <div class="course-hero-content main-container">
-        <div class="course-hero-title">Online Learning</div>
-        <div class="course-hero-subtitle">
-          Internet-based courses, free of charge, available in several languages.
-        </div>
-      </div>
-    </section>
-
-    <section class="course-welcome">
-      <div class="main-container course-welcome-card">
-        <div class="course-welcome-header">
-          <div class="course-welcome-icon"></div>
-          <div>
-            <div class="course-welcome-title">FMF Online Learning</div>
-            <div class="course-welcome-text">
-              Welcome to FMF's central portal for online learning. Increase your knowledge,
-              advance your career, and improve patient outcomes with clinically relevant education.
-            </div>
+      <BabyScanHeader class="course-hero-scan">
+        <div class="course-hero-content main-container">
+          <div class="course-hero-title">Online Learning</div>
+          <div class="course-hero-subtitle">
+            Internet-based courses, free of charge, available in several languages.
           </div>
         </div>
-        <div class="course-welcome-divider"></div>
-        <div class="course-welcome-actions">
-          <div>
-            <div class="course-welcome-subtitle">Getting Started</div>
-            <div class="course-welcome-text">
-              If you are registered or have purchased a course, access your content by logging in
-              using the same credentials as your FMF account.
-            </div>
-          </div>
-          <div class="course-welcome-buttons">
-            <button class="course-btn primary">My Activity</button>
-          </div>
-        </div>
-      </div>
+      </BabyScanHeader>
     </section>
 
     <section class="course-library">
@@ -71,7 +43,7 @@
             class="course-card"
             @click="itemClick(item)"
           >
-            <div class="course-card-media">
+            <div class="course-card-body">
               <div class="course-card-badges">
                 <span
                   v-if="item.featured == 1"
@@ -89,13 +61,10 @@
                   {{ item.updateStatus === 1 ? 'Updated' : 'Updating' }}
                 </span>
               </div>
-              <div class="course-card-meta">{{ item.moduleCount || 0 }} modules</div>
-            </div>
-            <div class="course-card-body">
               <div class="course-card-title" :title="item.categoryName">
                 {{ item.categoryName }}
               </div>
-              <div class="course-card-desc" v-html="item.content || ''"></div>
+              <div class="course-card-desc">{{ getCourseDesc(item.content) }}</div>
               <div class="course-card-footer">
                 <div v-if="isLogin && item.learningCount" class="course-progress-block">
                   <div class="course-progress-header">
@@ -129,27 +98,142 @@
       </div>
     </section>
 
-    <section class="course-cta">
-      <div class="course-cta-inner main-container">
-        <div class="course-cta-title">Start Your Learning Journey Today</div>
-        <div class="course-cta-text">
-          Access world-class fetal medicine education, completely free of charge.
-        </div>
-        <button class="course-cta-button">Browse All Courses</button>
-      </div>
-    </section>
   </div>
 </template>
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
+  import BabyScanHeader from '@/components/BabyScanHeader.vue'
+
   export default {
     name: 'CoursePage',
+    components: {
+      BabyScanHeader
+    },
     data() {
       return {
         listData: [],
         searchQuery: "",
-        selectedCategory: "all"
+        selectedCategory: "all",
+        onlineCoursesPreset: [
+          {
+            id: '1989284455255666689',
+            categoryName: 'Fetal echocardiography',
+            content: 'Provides key diagnostic features of common fetal cardiac defects through concise videos and explanatory text.',
+            featured: 1,
+            updateStatus: 1,
+            moduleCount: 9,
+            sort: 1
+          },
+          {
+            id: '1989307716978896898',
+            categoryName: 'Fetal neurosonography',
+            content: 'Summarizes the diagnosis, associated abnormalities, management, and prognosis of major fetal brain conditions.',
+            featured: 1,
+            updateStatus: 1,
+            moduleCount: 10,
+            sort: 2
+          },
+          {
+            id: '1989312171468156929',
+            categoryName: 'Genetics for fetal medicine',
+            content: 'Introduces core genetic principles essential for fetal medicine and explains their clinical application.',
+            featured: 1,
+            updateStatus: 1,
+            moduleCount: 7,
+            sort: 3
+          },
+          {
+            id: '1989422258010484738',
+            categoryName: 'Topics in maternal medicine',
+            content: 'Summarizes the causes, diagnosis, management, prevention, and long-term effects of major maternal medical disorders during and after pregnancy.',
+            featured: 1,
+            updateStatus: 0,
+            moduleCount: 13,
+            sort: 4
+          },
+          {
+            id: '1996163011516592129',
+            categoryName: 'Intrapartum ultrasound',
+            content: 'Describes key ultrasound techniques for labor assessment and reviews current evidence on their clinical indications.',
+            featured: 1,
+            updateStatus: 1,
+            moduleCount: 2,
+            sort: 5
+          },
+          {
+            id: '2004961251519148033',
+            categoryName: 'Twin pregnancies',
+            content: 'This course summarizes the differences in outcomes and management between dichorionic and monochorionic twin pregnancies.',
+            featured: 1,
+            updateStatus: 0,
+            moduleCount: 5,
+            sort: 6
+          },
+          {
+            id: '2005404637984239617',
+            categoryName: 'The 11-13 weeks scan',
+            content: 'This course covers all the important aspects of the 11-13 weeks scan.',
+            featured: 0,
+            updateStatus: 1,
+            moduleCount: 5,
+            sort: 7
+          },
+          {
+            id: '1989374664949395458',
+            categoryName: 'Cervical assessment',
+            content: 'Explains cervical length measurement and its clinical use in predicting and preventing preterm birth and managing labor‑related complications.',
+            featured: 0,
+            updateStatus: 1,
+            moduleCount: 8,
+            sort: 8
+          },
+          {
+            id: '1989379308115226626',
+            categoryName: 'Fetal abnormalities',
+            content: 'Provides an overview of the diagnosis, associated anomalies, investigations, management, prognosis, and recurrence risks of fetal abnormalities.',
+            featured: 0,
+            updateStatus: 1,
+            moduleCount: 13,
+            sort: 9
+          },
+          {
+            id: '1989368262591803394',
+            categoryName: 'Placenta accreta spectrum disorders',
+            content: 'Highlights the key diagnostic features of PAS disorders using images, diagrams, videos, and concise text.',
+            featured: 0,
+            updateStatus: 1,
+            moduleCount: 2,
+            sort: 10
+          },
+          {
+            id: '1992547864730415106',
+            categoryName: 'Fetal cardiac scanning',
+            content: 'Covers the essential techniques and views required for comprehensive fetal cardiac assessment.',
+            featured: 0,
+            updateStatus: 1,
+            moduleCount: 6,
+            sort: 11
+          },
+          {
+            id: '1989364592269619202',
+            categoryName: 'Preeclampsia screening',
+            content: 'Covers the essential principles and methods for screening preeclampsia across all trimesters.',
+            featured: 0,
+            updateStatus: 1,
+            moduleCount: 5,
+            sort: 12
+          },
+          {
+            id: '2001688356038684673',
+            categoryName: 'FMF lectures',
+            content: 'These lectures are given by leading international experts and are held on the 3rd Friday of each month.',
+            featured: 1,
+            updateStatus: 0,
+            moduleCount: 11,
+            sort: 13
+          }
+        ]
       }
     },
     computed: {
@@ -191,9 +275,47 @@
           self.$router.push('/courseDetail?categoryName=' + item.categoryName)
         })
       },
+      getCourseDesc(content) {
+        if (!content) return ''
+        return content
+          .replace(/<br\s*\/?>/gi, ' ')
+          .replace(/<[^>]+>/g, ' ')
+          .replace(/&nbsp;|&#160;/gi, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+      },
+      getCourseImage(name) {
+        // Default cover
+        let coverName = 'cover_ultrasound'
+        
+        if (!name) return require(`@/assets/img/course_covers/${coverName}.png`)
+        
+        const label = name.toLowerCase()
+
+        if (label.includes('echo') || label.includes('cardiography') || label.includes('heart') || label.includes('cardiac')) {
+          coverName = 'cover_heart'
+        }
+        else if (label.includes('brain') || label.includes('neuro')) {
+          coverName = 'cover_brain'
+        }
+        else if (label.includes('dna') || label.includes('genetic')) {
+          coverName = 'cover_dna'
+        }
+        
+        try {
+          return require(`@/assets/img/course_covers/${coverName}.png`)
+        } catch (e) {
+          return require('@/assets/img/course_covers/cover_ultrasound.png')
+        }
+      },
       websiteCourseNavigationFn(categoryName) {
         const reqData = {
           categoryName: categoryName
+        }
+        if (categoryName === 'Online Courses') {
+          this.listData = [...this.onlineCoursesPreset].sort((a, b) => a.sort - b.sort)
+          this.selectedCategory = 'all'
+          return
         }
         this.$api.websiteCourseNavigation(reqData).then(resp => {
           if ((resp.code === 200 || resp.code === 0) && Array.isArray(resp.data)) {
@@ -229,21 +351,15 @@
     background: #f5f7fb;
     .course-hero {
       position: relative;
-      height: 260px;
-      background: linear-gradient(120deg, #0b4b8d, #0f5aa4 55%, #0b4b8d);
+      height: 850px; /* Increased to 850px to ensure full fetus contour is visible */
+      background: #000;
       overflow: hidden;
-      .course-hero-bg {
-        position: absolute;
-        inset: 0;
-        background: url("#{$imgUrl}/course_hero.jpg") center/cover no-repeat;
-        opacity: 0.25;
-        transform: scale(1.02);
+      
+      .course-hero-scan {
+        width: 100%;
+        height: 100%;
       }
-      .course-hero-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(120deg, rgba(8, 40, 80, 0.82), rgba(10, 70, 120, 0.68));
-      }
+
       .course-hero-content {
         position: relative;
         display: flex;
@@ -251,94 +367,20 @@
         justify-content: center;
         height: 100%;
         color: #fff;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Added text shadow for legibility over scan */
+        
         .course-hero-title {
-          font-size: 40px;
+          font-size: 48px;
           font-weight: 700;
           letter-spacing: 0.5px;
         }
         .course-hero-subtitle {
-          margin-top: 8px;
-          font-size: 16px;
+          margin-top: 12px;
+          font-size: 18px;
           max-width: 680px;
-          color: rgba(255, 255, 255, 0.8);
+          color: rgba(255, 255, 255, 0.9);
         }
       }
-    }
-
-    .course-welcome {
-      margin-top: -12px;
-      margin-bottom: 28px;
-      position: relative;
-      z-index: 2;
-      .course-welcome-card {
-        background: #ffffff;
-        border-radius: 16px;
-        padding: 26px;
-        box-shadow: 0 18px 34px rgba(15, 42, 67, 0.12);
-      }
-      .course-welcome-header {
-        display: flex;
-        align-items: flex-start;
-        gap: 16px;
-      }
-      .course-welcome-icon {
-        width: 42px;
-        height: 42px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, #0f5aa4, #32a1ff);
-      }
-      .course-welcome-title {
-        font-size: 22px;
-        font-weight: 700;
-        color: #0e3045;
-      }
-      .course-welcome-subtitle {
-        font-size: 18px;
-        font-weight: 700;
-        color: #0e3045;
-      }
-      .course-welcome-text {
-        margin-top: 6px;
-        font-size: 14px;
-        color: #6b7380;
-        line-height: 22px;
-        max-width: 880px;
-      }
-      .course-welcome-divider {
-        margin: 18px 0;
-        height: 1px;
-        background: #e6edf5;
-      }
-      .course-welcome-actions {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-      }
-      .course-welcome-buttons {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-      }
-    }
-
-    .course-btn {
-      border-radius: 999px;
-      padding: 10px 18px;
-      font-size: 14px;
-      font-weight: 600;
-      border: 1px solid transparent;
-      cursor: pointer;
-    }
-    .course-btn.primary {
-      background: #0f5aa4;
-      color: #ffffff;
-    }
-    .course-btn.ghost {
-      background: #ffffff;
-      border-color: #0f5aa4;
-      color: #0f5aa4;
     }
 
     .course-library {
@@ -397,71 +439,52 @@
     }
     .course-card {
       background: #ffffff;
-      border-radius: 18px;
-      box-shadow: 0 16px 32px rgba(15, 42, 67, 0.08);
+      border-radius: 14px;
+      box-shadow: 0 14px 28px rgba(15, 42, 67, 0.08);
       overflow: hidden;
       cursor: pointer;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border-left: 4px solid #0f5aa4;
     }
     .course-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 22px 42px rgba(15, 42, 67, 0.14);
-    }
-    .course-card-media {
-      position: relative;
-      height: 140px;
-      background: linear-gradient(135deg, #0b4b8d, #4aa6ff);
-      overflow: hidden;
-    }
-    .course-card-media::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.24), transparent 55%);
+      box-shadow: 0 20px 36px rgba(15, 42, 67, 0.12);
     }
     .course-card-badges {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      z-index: 1;
-    }
-    .course-card-meta {
-      position: absolute;
-      left: 16px;
-      bottom: 14px;
-      color: #ffffff;
-      font-size: 13px;
-      font-weight: 600;
-      z-index: 1;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
     }
     .course-card-body {
-      padding: 18px;
+      padding: 22px;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      text-align: center;
+      text-align: left;
+      height: 100%;
     }
     .course-card-title {
       font-size: 18px;
       font-weight: 700;
-      color: #0e3045;
+      color: #0f5aa4;
       white-space: normal;
       word-break: break-word;
-      text-align: center;
+      text-align: left;
     }
     .course-card-desc {
-      font-size: 13px;
-      color: #6b7380;
-      line-height: 20px;
+      font-size: 14px;
+      color: #3c4a5c;
+      line-height: 22px;
       min-height: 0;
       word-break: break-word;
-      text-align: center;
+      text-align: left;
+      flex: 1 1 auto;
     }
     .course-card-footer {
       margin-top: auto;
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: flex-start;
     }
     .course-badge {
       font-size: 12px;
@@ -543,31 +566,7 @@
     }
 
     .course-cta {
-      background: linear-gradient(120deg, #0b4b8d, #0f5aa4 55%, #0b4b8d);
-      padding: 48px 0 56px;
-      color: #fff;
-      .course-cta-inner {
-        text-align: center;
-      }
-      .course-cta-title {
-        font-size: 28px;
-        font-weight: 700;
-      }
-      .course-cta-text {
-        margin-top: 8px;
-        font-size: 16px;
-        color: rgba(255, 255, 255, 0.8);
-      }
-      .course-cta-button {
-        margin-top: 20px;
-        padding: 10px 24px;
-        border-radius: 999px;
-        border: none;
-        background: #fff;
-        color: #0f5aa4;
-        font-weight: 700;
-        cursor: pointer;
-      }
+      display: none;
     }
 
     .tip {
@@ -584,24 +583,17 @@
       .course-grid {
         grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       }
-      .course-welcome-actions {
-        flex-direction: column;
-        align-items: flex-start;
-      }
     }
 
     @media (max-width: 768px) {
       .course-hero {
-        height: 220px;
+        height: 420px;
         .course-hero-title {
           font-size: 32px;
         }
       }
       .course-grid {
         grid-template-columns: 1fr;
-      }
-      .course-welcome-card {
-        padding: 20px;
       }
       .course-search-row {
         max-width: 100%;

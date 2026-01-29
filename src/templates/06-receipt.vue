@@ -1,0 +1,96 @@
+<template>
+  <div class="page">
+    <img class="logo" :src="logoUrl" alt="The Fetal Medicine Foundation" />
+    <div class="block" style="top: 18mm; right: 20mm; left: auto; width: 70mm; text-align: right;">
+      <div class="subtle">
+        The Fetal Medicine Foundation<br />
+        137 Harley Street, London W1G 6BG<br />
+        Tel: +44 20 7034 3070<br />
+        Fax: +44 20 7486 0294<br />
+        Email: education@fetalmedicine.org<br />
+        VAT # GB143 1180 52
+      </div>
+    </div>
+    <div class="blue-line" style="top: 44mm;"></div>
+
+    <div class="block center heading" style="top: 64mm; font-size: 20px;">
+      RECEIPT
+    </div>
+
+    <div class="block" style="top: 78mm; font-size: 12px; line-height: 1.6;">
+      <div>Receipt #: <span class="field">{{ receiptNumber }}</span></div>
+      <div>Date: <span class="field">{{ receiptDate }}</span></div>
+      <div>Transaction name: <span class="field">{{ congressTitle }}</span></div>
+    </div>
+
+    <div class="block" style="top: 100mm; font-size: 12px; line-height: 1.6;">
+      <div class="heading" style="font-size: 12px; color: #1b1b1b;">
+        REGISTRATION FEE RECEIVED FROM:
+      </div>
+      <div class="field">{{ attendeeTitle }} {{ attendeeName }}</div>
+      <div>{{ attendeeAddressLine1 }}</div>
+      <div>{{ attendeeAddressLine2 }}</div>
+      <div>{{ attendeeCity }}</div>
+      <div>{{ attendeeCountry }}</div>
+    </div>
+
+    <div class="block" style="top: 150mm; font-size: 12px;">
+      <div class="heading" style="font-size: 12px; color: #1b1b1b;">
+        REGISTRATION PAYMENT RECEIVED BY:
+      </div>
+      <div>The Fetal Medicine Foundation</div>
+      <div>Charity Registered No. 1037116</div>
+    </div>
+
+    <div class="block" style="top: 185mm; font-size: 11px;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th style="width: 6%;">No.</th>
+            <th>Description</th>
+            <th style="width: 18%;">Unit price</th>
+            <th style="width: 12%;">Quantity</th>
+            <th style="width: 18%;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>{{ lineItemDescription }}</td>
+            <td>{{ lineItemUnitPrice }}</td>
+            <td>{{ lineItemQuantity }}</td>
+            <td>{{ lineItemTotal }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="text-align: right; margin-top: 6px;">
+        <strong>Total paid: {{ amountPaid }}</strong>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ReceiptDocument",
+  props: {
+    logoUrl: { type: String, default: "" },
+    receiptNumber: { type: String, default: "" },
+    receiptDate: { type: String, default: "" },
+    congressTitle: { type: String, default: "" },
+    attendeeTitle: { type: String, default: "" },
+    attendeeName: { type: String, default: "" },
+    attendeeAddressLine1: { type: String, default: "" },
+    attendeeAddressLine2: { type: String, default: "" },
+    attendeeCity: { type: String, default: "" },
+    attendeeCountry: { type: String, default: "" },
+    lineItemDescription: { type: String, default: "" },
+    lineItemUnitPrice: { type: [String, Number], default: "" },
+    lineItemQuantity: { type: [String, Number], default: "" },
+    lineItemTotal: { type: [String, Number], default: "" },
+    amountPaid: { type: [String, Number], default: "" }
+  }
+};
+</script>
+
+<style src="./base.css"></style>

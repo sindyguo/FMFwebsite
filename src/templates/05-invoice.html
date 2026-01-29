@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Invoice</title>
+    <link rel="stylesheet" href="./base.css" />
+  </head>
+  <body>
+    <div class="page">
+      <img class="logo" :src="logoUrl" alt="The Fetal Medicine Foundation" />
+      <div class="block" style="top: 18mm; right: 20mm; left: auto; width: 70mm; text-align: right;">
+        <div class="subtle">
+          The Fetal Medicine Foundation<br />
+          137 Harley Street, London W1G 6BG<br />
+          Tel: +44 20 7034 3070<br />
+          Fax: +44 20 7486 0294<br />
+          Email: education@fetalmedicine.org<br />
+          VAT # GB143 1180 52
+        </div>
+      </div>
+      <div class="blue-line" style="top: 44mm;"></div>
+
+      <div class="block center heading" style="top: 64mm; font-size: 20px;">
+        INVOICE
+      </div>
+
+      <div class="block" style="top: 78mm; font-size: 12px; line-height: 1.6;">
+        <div>Invoice #: <span class="field">{{ invoiceNumber }}</span></div>
+        <div>Date: <span class="field">{{ invoiceDate }}</span></div>
+        <div>Transaction name: <span class="field">{{ congressTitle }}</span></div>
+      </div>
+
+      <div class="block" style="top: 100mm; font-size: 12px; line-height: 1.6;">
+        <div class="heading" style="font-size: 12px; color: #1b1b1b;">
+          REGISTRATION FEE RECEIVED FROM:
+        </div>
+        <div class="field">{{ companyName }}</div>
+        <div>{{ companyAddressLine1 }}</div>
+        <div>{{ companyAddressLine2 }}</div>
+        <div>{{ companyCity }}</div>
+        <div>{{ companyCountry }}</div>
+        <div>VAT #: <span class="field">{{ companyVat }}</span></div>
+      </div>
+
+      <div class="block" style="top: 150mm; font-size: 12px;">
+        <div class="heading" style="font-size: 12px; color: #1b1b1b;">
+          FOR THE REGISTRATION OF:
+        </div>
+        <div class="field">{{ attendeeTitle }} {{ attendeeName }}</div>
+      </div>
+
+      <div class="block" style="top: 170mm; font-size: 12px;">
+        <div class="heading" style="font-size: 12px; color: #1b1b1b;">
+          REGISTRATION PAYMENT RECEIVED BY:
+        </div>
+        <div>The Fetal Medicine Foundation</div>
+        <div>Charity Registered No. 1037116</div>
+      </div>
+
+      <div class="block" style="top: 205mm; font-size: 11px;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width: 6%;">No.</th>
+              <th>Description</th>
+              <th style="width: 18%;">Unit price</th>
+              <th style="width: 12%;">Quantity</th>
+              <th style="width: 18%;">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>{{ lineItemDescription }}</td>
+              <td>{{ lineItemUnitPrice }}</td>
+              <td>{{ lineItemQuantity }}</td>
+              <td>{{ lineItemTotal }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="text-align: right; margin-top: 6px;">
+          <strong>Total paid: {{ amountPaid }}</strong>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -35,18 +35,15 @@ export default {
 }
 </script>
 <style lang="scss">
-  html{
-    font-family: Helvetica;
-  }
   .cursor {
     cursor: pointer;
   }
   .link-span {
     @extend .cursor;
     &:hover {
-      color: #036FC0 !important;
+      color: var(--color-accent) !important;
       div, span {
-        color: #036FC0 !important;
+        color: var(--color-accent) !important;
       }
     }
   }

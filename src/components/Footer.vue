@@ -1,49 +1,24 @@
 <template>
   <div class="vcontainer vcenter footer">
-    <div class="fill hcontainer hcenter flex-between main-container">
-      <div class="vcontainer logo-container">
-        <span class="logo-title">Fetal Medicine Foundation</span>
-        <span class="logo-desc">Advanced medical education platform by The Fetal Medicine Foundation.</span>
+    <div class="fill hcontainer hcenter main-container footer-content">
+      <div class="footer-col footer-brand">Fetal Medicine Foundation</div>
+      <div class="footer-col">
+        <div>137 Harley Street</div>
+        <div>London, W1G 6BG</div>
+        <div>United Kingdom</div>
       </div>
-      <div v-for="(column, index) in navColumns" :key="index" class="vcontainer nav-item">
-        <span class="nav-title">{{ column.title }}</span>
-        <a v-for="(link, linkIndex) in column.links" :key="linkIndex" class="nav-link" :href="link.href" target="_blank">{{ link.text }}</a>
+      <div class="footer-col">
+        <div>Telephone: 00 44 (0)207 034 3070</div>
+        <div>Email: education@fetalmedicine.org</div>
       </div>
     </div>
-    <span class="copyright">© 2025 The Fetal Medicine Foundation. All rights reserved.</span>
+    <span class="copyright">© 2026 The Fetal Medicine Foundation. All rights reserved.</span>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'FooterPage',
-    data() {
-      return {
-        navColumns: [
-          {
-            title: 'Courses',
-            links: [
-              { text: 'Education', href: '/#/course?categoryName=Education' },
-              { text: 'Certificates', href: '/#/' }
-            ]
-          },
-          {
-            title: 'Congress',
-            links: [
-              { text: 'FMF World Congress', href: '/#/congress' },
-              { text: 'FMF Advances Course', href: 'https://www.fetalmedicine.org/courses-n-congress/fmf-advances-course' }
-            ]
-          },
-          {
-            title: 'Support',
-            links: [
-              { text: 'Calculators', href: 'https://www.fetalmedicine.org/' },
-              { text: 'Research', href: 'https://www.fetalmedicine.org/research/research-publications' }
-            ]
-          }
-        ]
-      }
-    }
+    name: 'FooterPage'
   }
 </script>
 
@@ -52,72 +27,52 @@
   width: 100%;
   height: auto;
   color: #ffffff;
-  font-size: 18px;
-  background-color: #0E3045;
+  font-size: 14px;
+  background-color: #0f3247;
+  font-family: 'Helvetica', Arial, sans-serif;
   .main-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
-    padding: 32px 24px 24px;
+    padding: 32px 24px;
     box-sizing: border-box;
-    flex-wrap: wrap;
-    gap: 20px;
-    .logo-container {
-      height: 100%;
-      max-width: 280px;
-      text-align: left;
-      .logo-title {
-        margin-bottom: 12px;
-        font-size: 20px;
-        font-weight: bold;
-      }
-      .logo-desc {
-        font-size: 16px;
-        opacity: 0.8;
-      }
-    }
-    .nav-item {
-      height: 100%;
-      .nav-title {
-        margin-bottom: 12px;
-        font-size: 18px;
-        font-weight: bold;
-      }
-      .nav-link {
-        color: #ffffff;
-        margin-bottom: 8px;
-        text-decoration: none;
-        font-size: 16px;
-        cursor: pointer;
-        &:hover {
-          color: #a7d5f5;
-        }
-      }
-    }
+    gap: 120px;
+    align-items: center;
   }
+
+  .footer-content {
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .footer-col {
+    font-size: 14px;
+    line-height: 22px;
+    color: rgba(255, 255, 255, 0.92);
+    text-align: center;
+    min-width: 220px;
+  }
+
+  .footer-brand {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
   .copyright {
     width: 100%;
-    padding: 12px 16px;
-    line-height: 22px;
-    font-size: 18px;
-    color: #ffffff;
+    padding: 16px 24px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.75);
     text-align: center;
-    background-color: #042132;
+    background-color: #0b283a;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   @media (max-width: 768px) {
     .main-container {
-      padding: 24px 16px 20px;
+      padding: 28px 20px;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .logo-container {
-      max-width: 100%;
-      text-align: center;
-    }
-    .nav-item {
-      align-items: center;
+      gap: 16px;
     }
   }
 }

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Visa Support Letter</title>
+    <link rel="stylesheet" href="./base.css" />
+  </head>
+  <body>
+    <div class="page">
+      <img class="logo" :src="logoUrl" alt="The Fetal Medicine Foundation" />
+      <div class="block" style="top: 18mm; right: 20mm; left: auto; width: 70mm; text-align: right;">
+        <div class="subtle">
+          The Fetal Medicine Foundation<br />
+          137 Harley Street, London W1G 6BG<br />
+          Tel: +44 20 7034 3070<br />
+          Fax: +44 20 7486 0294<br />
+          Email: education@fetalmedicine.org<br />
+          VAT # GB143 1180 52
+        </div>
+      </div>
+      <div class="blue-line" style="top: 44mm;"></div>
+
+      <div class="block" style="top: 60mm; font-size: 12px;">
+        <span class="field">{{ issueDate }}</span>
+      </div>
+
+      <div class="block center" style="top: 72mm; font-size: 12px; font-weight: 700;">
+        TO WHOM IT MAY CONCERN
+      </div>
+
+      <div class="block" style="top: 84mm; font-size: 12px; line-height: 1.6;">
+        <div>
+          RE: <span class="field">{{ attendeeName }}</span> - Registration for
+          "<span class="field">{{ congressTitle }}</span>"
+        </div>
+      </div>
+
+      <div class="block" style="top: 100mm; font-size: 12px; line-height: 1.5;">
+        <div>Name: <span class="field">{{ attendeeName }}</span></div>
+        <div>Date of birth: <span class="field">{{ dateOfBirth }}</span></div>
+        <div>Passport number: <span class="field">{{ passportNumber }}</span></div>
+        <div>Date of issue: <span class="field">{{ passportIssueDate }}</span></div>
+        <div>Country of issue: <span class="field">{{ passportCountry }}</span></div>
+      </div>
+
+      <div class="block" style="top: 134mm; font-size: 12px; line-height: 1.6;">
+        <p>
+          This letter is in support of the application of
+          <span class="field">{{ attendeeName }}</span> to be granted a visa for the
+          attendance of the "<span class="field">{{ congressTitle }}</span>", which will
+          be held from <span class="field">{{ congressDates }}</span> in
+          <span class="field">{{ locationCity }}, {{ locationCountry }}</span>.
+        </p>
+        <p>
+          We confirm that <span class="field">{{ attendeeName }}</span> has already
+          completed the registration fee of <span class="field">{{ amountPaid }}</span>
+          for this course.
+        </p>
+        <p>
+          The Fetal Medicine Foundation is a UK registered charity and is internationally
+          renowned for its educational programmes. All our congresses and courses are
+          attended by obstetricians, gynaecologists and colleagues in related disciplines
+          from all around the world. The forthcoming course will be attended by about
+          {{ attendeeCount }} delegates.
+        </p>
+        <p>
+          Please do not hesitate to contact me if you need further information regarding
+          the course or the registration of <span class="field">{{ attendeeName }}</span>.
+        </p>
+      </div>
+
+      <div class="block" style="top: 250mm; font-size: 12px;">
+        <div>Yours sincerely,</div>
+        <div style="margin-top: 10mm;">
+          <img :src="signatureUrl" alt="signature" style="height: 16mm;" />
+        </div>
+        <div class="signature">
+          {{ signatoryName }}<br />
+          {{ signatoryTitle }}<br />
+          The Fetal Medicine Foundation
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

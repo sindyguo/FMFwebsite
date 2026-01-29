@@ -3,387 +3,160 @@
     <div class="">
       <TopBanner height="520px" :listData="topData" />
     </div>
-    <!-- <section class="congress-hero">
-      <div class="congress-hero-bg"></div>
-      <div class="congress-hero-content main-container">
-        <div class="congress-hero-label">FMF World Congress</div>
-        <div class="congress-hero-title">{{ firstCarouseData.title || 'World Congress' }}</div>
-        <div class="congress-hero-meta">
-          <span>{{ formatFullDateRange(firstCarouseData.startTime, firstCarouseData.endTime) }}</span>
-          <span class="hero-dot"></span>
-          <span>{{ firstCarouseData.location || '' }}</span>
+    <section class="congress-main">
+      <div class="main-container">
+        <div class="congress-main-title">Join colleagues from around the world in Vienna</div>
+        <div class="congress-summary">
+          <div class="congress-summary-media">
+            <el-image
+              v-if="firstCarouseData.congressImageList && firstCarouseData.congressImageList[0]"
+              :src="firstCarouseData.congressImageList[0].url"
+              class="summary-image"
+              fit="cover"
+              alt=""
+            />
+            <div v-else class="summary-placeholder"></div>
+          </div>
+          <div class="congress-summary-details">
+            <div class="summary-item">
+              <div class="summary-icon">
+                <img src="@/assets/img/icon/icon_data.png" alt="" />
+              </div>
+              <div class="summary-text">
+                <div class="summary-label">Date</div>
+                <div class="summary-value">
+                  {{ formatFullDateRange(firstCarouseData.startTime, firstCarouseData.endTime) }}
+                </div>
+              </div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-icon">
+                <img src="@/assets/img/icon/icon_location.png" alt="" />
+              </div>
+              <div class="summary-text">
+                <div class="summary-label">Location</div>
+                <div class="summary-value">{{ firstCarouseData.location || "" }}</div>
+                <div class="summary-value">{{ firstCarouseData.address || "" }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="congress-about-card">
+          <div class="about-title">About the Congress</div>
+          <div class="about-desc">{{ firstCarouseData.congressIntroduction }}</div>
         </div>
       </div>
-    </section> -->
-    <div class="vcontainer">
-      <div class="vcontainer hcenter main-container congress-info">
-        <div class="vcontainer hcenter info-header">
-          <span class="info-title">FMF World Congress</span>
-          <span class="info-subTitle">{{ firstCarouseData.title }}</span>
+    </section>
+
+    <section class="congress-registration">
+      <div class="main-container">
+        <div class="registration-title">Registration</div>
+        <div class="registration-subtitle">
+          Secure your place at the {{ firstCarouseData.title }}
         </div>
-        <div class="worldcongress-fmf">
-          <el-carousel
-            v-if="firstCarouseData.congressImageList && firstCarouseData.congressImageList[0]"
-            arrow="never"
-            indicator-position="none"
-            class="carousel-container"
-            height="338px">
-            <el-carousel-item
-              v-for="(carouselItem, i) in (firstCarouseData.congressImageList || [])"
-              :key="i">
-              <el-image :src="carouselItem.url" class="carousel-img" alt="" />
-            </el-carousel-item>
-          </el-carousel>
-          <div v-else class="carousel-empty"></div>
-          <div class="fill vcontainer carousel-form" style="height: 100%">
-            <div class="hcontainer vcenter">
-              <el-image
-                :src="require('@/assets/img/icon/icon_data.png')"
-                class="carousel-icon"
-                alt=""
-              />
-              <div class="vcontainer flex-between">
-                <span class="carousel-label">Date</span>
-                <span class="carousel-value">{{
-                  formatFullDateRange(
-                    firstCarouseData.startTime,
-                    firstCarouseData.endTime
-                  )
-                }}</span>
+        <div class="registration-info">{{ firstCarouseData.registrationIntroduction }}</div>
+        <div class="registration-cards">
+          <div class="registration-card">
+            <div class="card-icon attendee">
+              <img src="@/assets/img/icon/icon_attendee_registration.png" alt="" />
+            </div>
+            <div class="card-title">Attendee Registration</div>
+            <div class="card-subtitle">Join us as a congress participant</div>
+            <div class="card-features">
+              <div class="card-feature">
+                <img src="@/assets/img/check-primary.png" alt="" />
+                <span>Full access to all sessions</span>
+              </div>
+              <div class="card-feature">
+                <img src="@/assets/img/check-primary.png" alt="" />
+                <span>Coffee breaks and lunches included</span>
+              </div>
+              <div class="card-feature">
+                <img src="@/assets/img/check-primary.png" alt="" />
+                <span>Certificate of Attendance and CME Accreditation</span>
+              </div>
+              <div class="card-feature">
+                <img src="@/assets/img/check-primary.png" alt="" />
+                <span>Networking opportunities</span>
               </div>
             </div>
-            <div class="hcontainer vcenter">
-              <el-image
-                :src="require('@/assets/img/icon/icon_location.png')"
-                class="carousel-icon"
-                alt=""
-              />
-              <div class="vcontainer flex-between">
-                <span class="carousel-label">Location</span>
-                <span class="carousel-value">{{
-                  firstCarouseData.location || ""
-                }}</span>
-                <span class="carousel-value">{{
-                  firstCarouseData.address || ""
-                }}</span>
-                
+            <div class="card-callout">
+              <div class="callout-main">
+                {{ firstCarouseData.currency == "GBP" ? "£" : "€" || "" }}{{ firstCarouseData.cost || "" }}
               </div>
+              <div class="callout-sub">Registration fee per person</div>
             </div>
-            <div class="hcontainer vcenter">
-              <el-image
-                :src="require('@/assets/img/icon/icon_fee.png')"
-                class="carousel-icon"
-                alt=""
-              />
-              <div class="vcontainer flex-between">
-                <span class="carousel-label">Registration Fee</span>
-                <span class="carousel-value"
-                  >{{ firstCarouseData.currency == "GBP" ? "£" : "€" || ""
-                  }}{{ firstCarouseData.cost || "" }}</span
-                >
-              </div>
-            </div>
-            <span class="carousel-link" :class="[(firstCarouseData.programmeList && firstCarouseData.programmeList.length > 0) ? 'haveFile' : 'noFile']" @click="handlePreview(firstCarouseData.programmeList)">Click here to view the programme 
-              <span class="el-icon-caret-right"></span>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="main-container congress-about">
-        <div class="about-title">About the Congress</div>
-        <span class="about-desc">{{
-          firstCarouseData.congressIntroduction
-        }}</span>
-      </div>
-      <div class="vcontainer hcenter congress-registration">
-        <div class="vcontainer main-container">
-          <span class="section-title">Registration</span>
-          <span class="section-subtitle">
-            Secure your place at the {{ firstCarouseData.title }}
-          </span>
-          <span class="registration-info">{{
-            firstCarouseData.registrationIntroduction
-          }}</span>
-          <div class="registration-options">
-            <div class="option-card attendee">
-              <div class="option-header">
-                <el-image
-                  :src="
-                    require('@/assets/img/icon/icon_attendee_registration.png')
-                  "
-                  class="option-icon"
-                  alt=""
-                />
-                <div class="option-title">Attendee Registration</div>
-                <div class="option-subtitle">
-                  Join us as a congress participant
-                </div>
-              </div>
-              <div class="option-body">
-                <div class="option-feature">
-                  <img
-                    src="@/assets/img/check-primary.png"
-                    class="option-feature-icon"
-                  />
-                  <span>Full access to all sessions</span>
-                </div>
-                <div class="option-feature">
-                  <img
-                    src="@/assets/img/check-primary.png"
-                    class="option-feature-icon"
-                  />
-                  <span>Coffee breaks and lunches included</span>
-                </div>
-                <div class="option-feature">
-                  <img
-                    src="@/assets/img/check-primary.png"
-                    class="option-feature-icon"
-                  />
-                  <span>Certificate of Attendance and CME Accreditation</span>
-                </div>
-                <div class="option-feature">
-                  <img
-                    src="@/assets/img/check-primary.png"
-                    class="option-feature-icon"
-                  />
-                  <span>Networking opportunities</span>
-                </div>
-
-                
-              </div>
-              <div class="vcontainer option-price">
-                <span
-                  >{{ firstCarouseData.currency == "GBP" ? "£" : "€" || ""
-                  }}{{ firstCarouseData.cost || "" }}<span>.00</span></span
-                >
-                <span>Registration fee per person</span>
-              </div>
-              <el-button
-                class="option-button attendee"
-                :disabled="isAttendeeDisable"
-                @click="goto('/congressSignUp?id=' + firstCarouseData.id, '/congressSignUp')">
-                Attendee Registration
-              </el-button>
-            </div>
-            <div class="option-card abstract">
-              <div class="option-header">
-                <el-image
-                  :src="
-                    require('@/assets/img/icon/icon_abstract_submission.png')
-                  "
-                  class="option-icon"
-                  alt=""
-                />
-                <div class="option-title">Abstract Submission</div>
-                <div class="option-subtitle">
-                  Present your research at the congress
-                </div>
-              </div>
-              <div class="option-body">
-                <div class="option-feature">
-                  <img
-                    src="@/assets/img/check-success.png"
-                    class="option-feature-icon"
-                  />
-                  <span>Submit your research abstract</span>
-                </div>
-                <div class="option-feature">
-                  <img
-                    src="@/assets/img/check-success.png"
-                    class="option-feature-icon"
-                  />
-                  <span>Opportunity for oral presentation</span>
-                </div>
-                <div class="option-feature">
-                  <img
-                    src="@/assets/img/check-success.png"
-                    class="option-feature-icon"
-                  />
-                  <span>E-poster published on FMF website</span>
-                </div>
-
-                <div class="option-feature">
-                  <img
-                    src="@/assets/img/check-success.png"
-                    class="option-feature-icon"
-                  />
-                  <span>Certificate of presentation</span>
-                </div>
-
-              </div>
-              <div class="vcontainer option-price">
-                <span>Submit your work</span>
-                <span>Share your research with experts</span>
-              </div>
-              <el-button
-                class="option-button abstract"
-                :disabled="isAbstractDisable"
-                @click="goto('/speech?id=' + firstCarouseData.id, '/speech')">
-                Abstract Submission
-              </el-button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="sponsors-section">
-        <div class="section-title">Sponsors and Exhibitors</div>
-        <div class="section-subtitle">We are grateful for the support of our sponsors who make this congress possible</div>
-        <div class="sponsors-list">
-          <div class="sponsor-category">
-            <span>Diamond Sponsors</span>
-            <div class="sponsor-row">
-              <div class="sponsor-item">
-                <img src="https://via.placeholder.com/150x50?text=GE+HealthCare" alt="GE HealthCare" />
-              </div>
-              <div class="sponsor-item">
-                <img src="https://via.placeholder.com/150x50?text=SAMSUNG" alt="SAMSUNG" />
-              </div>
-            </div>
-          </div>
-          <div class="sponsor-category">
-            <span>Gold Sponsors</span>
-            <div class="sponsor-row">
-              <div class="sponsor-item">
-                <img src="https://via.placeholder.com/150x50?text=CANON" alt="Canon Medical" />
-              </div>
-              <div class="sponsor-item">
-                <img src="https://via.placeholder.com/150x50?text=ThermoFisher" alt="Thermo Fisher Scientific" />
-              </div>
-              <div class="sponsor-item">
-                <img src="https://via.placeholder.com/150x50?text=Illumina" alt="Illumina" />
-              </div>
-              <div class="sponsor-item">
-                <img src="https://via.placeholder.com/150x50?text=DIAGNOLY" alt="Diagnoly" />
-              </div>
-            </div>
-          </div>
-          <div class="sponsor-category">
-            <span>Silver Sponsors</span>
-            <div class="sponsor-row">
-              <div class="sponsor-item">
-                <img src="https://via.placeholder.com/150x50?text=pregnolia" alt="Pregnolia" />
-              </div>
-              <div class="sponsor-item">
-                <img src="https://via.placeholder.com/150x50?text=revity" alt="ReVity" />
-              </div>
-              <div class="sponsor-item">
-                <img src="https://via.placeholder.com/150x50?text=origin-medical" alt="Origin Medical" />
-              </div>
-              <div class="sponsor-item">
-                <img src="https://via.placeholder.com/150x50?text=mindray" alt="Mindray" />
-              </div>
-            </div>
-          </div>
-          <div class="view-more">
-            <span>View More Sponsors →</span>
-          </div>
-        </div>
-      </div> -->
-
-      <div class="previous-congresses block">
-        <div class="vcontainer hcenter main-container">
-          <div class="section-title">Sponsors and Exhibitors</div>
-          <div class="section-subtitle">
-            We are grateful for the support of our sponsors who make this
-            congress possible
-          </div>
-
-          <div class="imgBox diamondSponsors">
-            <div class="topMark">
-              <div class="mark">Diamond Sponsors</div>
-              <div class="line line1"></div>
-            </div>
-            <div
-              class="congress-grid"
-              :class="{emptyBox: !firstCarouseData.diamonSponsorsList}">
-              <div
-                v-for="(item, index) in (firstCarouseData.diamonSponsorsList || [])"
-                :key="index"
-                class="hcontainer flex-between congress-item logoBox"
-              >
-                <img :src="item.companyLogo" alt="" />
-              </div>
-            </div>
-          </div>
-
-          <div class="imgBox goldSponsors">
-            <div class="topMark">
-              <div class="mark ">Gold Sponsors</div>
-              <div class="line line1"></div>
-            </div>
-            <div
-              class="congress-grid"
-              style="height: 114px"
-              :class="{emptyBox: !firstCarouseData.goldSponsorsList}">
-              <div
-                v-for="(item, index) in (firstCarouseData.goldSponsorsList || [])"
-                :key="index"
-                class="hcontainer flex-between congress-item logoBox"
-                style="height: 114px"
-              >
-                <img :src="item.companyLogo" alt="" />
-              </div>
-            </div>
-          </div>
-
-          <div class="imgBox silverSponsors">
-            <div class="topMark">
-              <div class="mark">Silver Sponsors</div>
-              <div class="line line1"></div>
-            </div>
-            <div
-              class="congress-grid"
-              style="height: 88px; margin-bottom: 32px"
-              :class="{emptyBox: !firstCarouseData.silverSponsorsList}">
-              <div
-                v-for="(item, index) in (firstCarouseData.silverSponsorsList || [])"
-                :key="index"
-                class="hcontainer flex-between congress-item logoBox"
-                style="height: 88px"
-              >
-                <img :src="item.companyLogo" alt="" />
-              </div>
-            </div>
-          </div>
-          <div class="view-more" @click="goto('/sponsor?id='+firstCarouseData.id, '/sponsor')">
-            <span>View More Sponsors  <span class="el-icon-caret-right"></span></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="previous-world-congresses previous-congresses">
-        <div class="vcontainer hcenter main-container">
-          <div class="section-title">Previous World Congresses</div>
-          <div class="section-subtitle">
-            Explore our rich history of international fetal medicine conferences
-          </div>
-          <div
-            class="congress-grid"
-            :class="{
-              emptyBox: !previousCongresses || previousCongresses.length == 0,
-            }"
-          >
-            <div
-              v-for="(congress, index) in (previousCongresses || [])"
-              :key="index"
-              class="hcontainer flex-between congress-item"
+            <el-button
+              class="card-button attendee"
+              :disabled="isAttendeeDisable"
+              @click="goto('/congressSignUp?id=' + firstCarouseData.id, '/congressSignUp')"
             >
-              <div class="vcontainer">
-                <span class="congress-year">{{ congress.year }}</span>
-                <span class="congress-city">{{ congress.city }}</span>
-                <span class="congress-country">{{ congress.country }}</span>
-                <span class="congress-link">View Abstracts <span class="el-icon-caret-right"></span></span>
-              </div>
-              <el-image
-                :src="require('@/assets/img/icon/icon_dw.png')"
-                class="congress-dw"
-                alt=""
-              />
+              Attendee Registration
+            </el-button>
+          </div>
+
+          <div class="registration-card">
+            <div class="card-icon abstract">
+              <img src="@/assets/img/icon/icon_abstract_submission.png" alt="" />
             </div>
+            <div class="card-title">Abstract Submission</div>
+            <div class="card-subtitle">Share your research with experts</div>
+            <div class="card-features">
+              <div class="card-feature">
+                <img src="@/assets/img/check-success.png" alt="" />
+                <span>Submit your research abstract</span>
+              </div>
+              <div class="card-feature">
+                <img src="@/assets/img/check-success.png" alt="" />
+                <span>Opportunity for oral presentation</span>
+              </div>
+              <div class="card-feature">
+                <img src="@/assets/img/check-success.png" alt="" />
+                <span>E-poster published on FMF website</span>
+              </div>
+              <div class="card-feature">
+                <img src="@/assets/img/check-success.png" alt="" />
+                <span>Certificate of presentation</span>
+              </div>
+            </div>
+            <div class="card-callout">
+              <div class="callout-main">Submit your work</div>
+              <div class="callout-sub">
+                Deadline {{ formatDeadline(firstCarouseData.abstractSubmissionEndTime) }}
+              </div>
+            </div>
+            <el-button
+              class="card-button abstract"
+              :disabled="isAbstractDisable"
+              @click="goto('/speech?id=' + firstCarouseData.id, '/speech')"
+            >
+              Abstract Submission
+            </el-button>
           </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <section class="previous-world-congresses">
+      <div class="main-container">
+        <div class="previous-title">Previous World Congresses</div>
+        <div class="previous-subtitle">
+          Explore our rich history of international fetal medicine conferences
+        </div>
+        <div class="previous-grid">
+          <div
+            v-for="(congress, index) in (previousCongresses || [])"
+            :key="index"
+            class="previous-card"
+          >
+            <div class="previous-year">{{ congress.year }}</div>
+            <div class="previous-city">{{ congress.city }}</div>
+            <div class="previous-country">{{ congress.country }}</div>
+            <div class="previous-link">View Abstracts <span class="el-icon-caret-right"></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -546,6 +319,26 @@ export default {
 
       return `${startFormatted} - ${endFormatted}`;
     },
+    formatDeadline(dateString) {
+      if (!dateString) return "";
+      const date = new Date(dateString);
+      if (Number.isNaN(date.getTime())) return "";
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+      return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    },
     getCompanyList(id) {
       this.$api
         .companyGet({
@@ -624,675 +417,296 @@ export default {
 
 <style lang="scss" scoped>
 .worldcongress {
-  background-color: #F5F7F9;
-  .congress-hero {
-    position: relative;
-    height: 220px;
-    background: linear-gradient(120deg, #0b4b8d, #0f5aa4 55%, #0b4b8d);
-    overflow: hidden;
-    margin-top: -6px;
-    .congress-hero-bg {
-      position: absolute;
-      inset: 0;
-      background: url("#{$imgUrl}/world_congress_top.png") center/cover no-repeat;
-      opacity: 0.18;
-    }
-    .congress-hero-content {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 100%;
-      color: #fff;
-    }
-    .congress-hero-label {
-      font-size: 14px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.7);
-    }
-    .congress-hero-title {
-      font-size: 36px;
-      font-weight: 700;
-      margin-top: 6px;
-    }
-    .congress-hero-meta {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.8);
-      .hero-dot {
-        width: 4px;
-        height: 4px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.6);
-      }
-    }
-  }
-  &-fmf {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    .carousel-empty {
-      flex-shrink: 0;
-      background: #eaf2fb;
-      border-radius: 18px;
-      width: 100%;
-      max-width: 600px;
-      height: 338px;
-      object-fit: contain;
-    }
-    .carousel-form {
-      width: 100%;
-      margin-left: 0;
-      background: #fff;
-      border-radius: 18px;
-      padding: 24px;
-      box-shadow: 0 12px 30px rgba(15, 42, 67, 0.08);
-      .carousel-icon {
-        width: 44px;
-        height: 44px;
-        margin-right: 12px;
-        margin-top: 16px;
-      }
-      .carousel-label {
-        font-weight: 600;
-        font-size: 16px;
-        color: #0e3045;
-        margin-top: 16px;
-      }
-      .carousel-value {
-        font-weight: 400;
-        font-size: 14px;
-        color: #6b7380;
-        margin-top: 8px;
-      }
-      .carousel-link {
-        margin-top: 24px;
-        font-weight: 600;
-        font-size: 14px;
-        color: #0f5aa4;
-        cursor: pointer;
-      }
-      .noFile{
-        color: #999;
-        cursor: no-drop;
-      }
-    }
-    
-    .carousel-container {
-      width: 100%;
-      max-width: 600px;
-      flex-shrink: 0;
-      border-radius: 18px;
-      overflow: hidden;
-      background: #fff;
-      box-shadow: 0 12px 30px rgba(15, 42, 67, 0.08);
-      .el-carousel__arrow {
-        background-color: rgba(0, 0, 0, 0.5);
-        border-radius: 50%;
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        font-size: 18px;
-      }
-      .el-carousel__indicator {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background-color: rgba(0, 0, 0, 0.3);
-        &.is-active {
-          background-color: #3b97ff;
-        }
-      }
-      .carousel-img {
-        max-width: 100%;
-        width: 100%;
-        height: 338px;
-        object-fit: cover;
-      }
-    }
-  }
+  background-color: #f5f7f9;
   .main-container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1100px;
     margin-left: auto;
     margin-right: auto;
     padding-left: 24px;
     padding-right: 24px;
     box-sizing: border-box;
-    padding-top: 56px;
-    margin-bottom: 40px;
+    padding-top: 48px;
+    padding-bottom: 64px;
   }
-  .congress-info {
-    .info-header {
-      font-size: 18px;
-      color: #8a9094;
-      text-align: center;
-      .info-title {
-        font-weight: bold;
-        font-size: 38px;
-        color: #0e3045;
-        margin-bottom: 16px;
-      }
-      .info-subTitle {
-        font-weight: 400;
-        font-size: 18px;
-        color: #0e3045;
-        margin-bottom: 32px;
-      }
-    }
-    
+  .congress-main {
+    background: #f5f7f9;
   }
-  .congress-about {
-    // height: 212px;
-    background-color: #ffffff;
-    border-radius: 18px;
-    padding: 32px 36px;
-    margin: 0 auto 56px;
-    box-shadow: 0 12px 30px rgba(15, 42, 67, 0.08);
+  .congress-main-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
     color: #0e3045;
-    .about-title {
-      font-weight: bold;
-      font-size: 24px;
-      color: #0e3045;
-      margin-bottom: 24px;
-      text-align: center;
-    }
-    .about-desc {
-      font-weight: 400;
-      font-size: 18px;
-      color: #4b5662;
-      line-height: 30px;
-      text-align: justify;
-    }
+    margin-bottom: 28px;
   }
-  .congress-registration {
-    width: 100%;
-    background: linear-gradient(135deg, #ffffff 0%, #f1f6fb 100%);
-    .section-title {
-      font-weight: bold;
-      font-size: 36px;
-      color: #0e3045;
-      margin-bottom: 16px;
-      text-align: center;
-    }
-    .section-subtitle {
-      font-weight: 400;
-      font-size: 16px;
-      color: #8a9094;
-      text-align: center;
-      margin-bottom: 32px;
-    }
-    .registration-info {
-      font-weight: 400;
-      font-size: 18px;
-      color: #4b5662;
-      line-height: 30px;
-      margin-bottom: 45px;
-      text-align: justify;
-    }
-    .registration-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      justify-items: stretch;
-      .option-card {
-        width: 100%;
-        background-color: white;
-        border-radius: 18px;
-        padding: 32px;
-        box-shadow: 0 12px 30px rgba(15, 42, 67, 0.08);
-        transition: transform 0.3s ease;
-        border: 1px solid #eef2f7;
-        text-align: center;
-        &:hover {
-          transform: translateY(-2px);
-        }
-        .option-header {
-          text-align: center;
-          margin-bottom: 20px;
-          .option-icon {
-            font-size: 24px;
-            color: #3b97ff;
-            margin-bottom: 16px;
-          }
-          .option-title {
-            font-weight: bold;
-            font-size: 20px;
-            color: #0e3045;
-            line-height: 28px;
-            text-align: center;
-            margin-bottom: 12px;
-          }
-          .option-subtitle {
-            font-weight: 400;
-            font-size: 14px;
-            color: #8a9094;
-            line-height: 28px;
-          }
-        }
-        .option-body {
-          margin-bottom: 32px;
-          .option-feature {
-            display: flex;
-            align-items: center;
-            margin-bottom: 18px;
-            justify-content: center;
-            text-align: center;
-            .option-feature-icon {
-              width: 20px;
-              height: 20px;
-              margin-right: 16px;
-            }
-            span {
-              font-weight: 400;
-              font-size: 14px;
-              color: #4b5662;
-              line-height: 22px;
-              text-align: center;
-            }
-          }
-        }
-        .option-price {
-          width: 100%;
-          padding: 18px;
-          background: #f1f6fb;
-          border-radius: 14px;
-          text-align: center;
-          margin-bottom: 48px;
-          span:first-child {
-            font-weight: bold;
-            font-size: 32px;
-            color: #0f5aa4;
-            text-align: center;
-            margin-bottom: 8px;
-            span {
-              font-weight: bold;
-              font-size: 16px;
-              color: #0f5aa4;
-            }
-          }
-          span:last-child {
-            font-weight: 400;
-            font-size: 14px;
-            color: #4b5662;
-            line-height: 22px;
-            text-align: center;
-          }
-        }
-        .option-button {
-          width: 100%;
-          height: 52px;
-          border-radius: 12px;
-          text-align: center;
-          font-weight: bold;
-          font-size: 16px;
-          color: #ffffff;
-          &.attendee {
-            background: #0f5aa4;
-            &:hover {
-              background: rgba($color: #0f5aa4, $alpha: 0.85);
-            }
-            &:active {
-              background: #0f5aa4;
-            }
-          }
-          &.abstract {
-            background: #1b8f6a;
-            &:hover {
-              background: rgba($color: #1b8f6a, $alpha: 0.85);
-            }
-            &:active {
-              background: #1b8f6a;
-            }
-          }
-        }
-      }
-      .attendee {
-        border: 1px solid #e0e0e0;
-      }
-      .abstract {
-        border: 1px solid #e0e0e0;
-      }
-    }
+  .congress-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 60%) minmax(0, 320px);
+    gap: 28px;
+    align-items: start;
+    margin-bottom: 28px;
   }
-  .sponsors-section {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    .section-title {
-      font-size: 24px;
-      font-weight: bold;
-      color: #0e3045;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    .section-subtitle {
-      font-size: 18px;
-      color: #8a9094;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .sponsors-list {
-      text-align: center;
-      .sponsor-category {
-        margin-bottom: 20px;
-        span {
-          font-size: 18px;
-          font-weight: bold;
-          color: #0e3045;
-          margin-bottom: 10px;
-          display: block;
-        }
-        .sponsor-row {
-          display: flex;
-          justify-content: center;
-          gap: 20px;
-          flex-wrap: wrap;
-          .sponsor-item {
-            flex: 1;
-            min-width: 150px;
-            padding: 10px;
-            img {
-              width: 100%;
-              height: auto;
-              max-height: 50px;
-            }
-          }
-        }
-      }
-    }
-  }
-  .previous-congresses {
-    background: linear-gradient(135deg, #ffffff 0%, #f1f6fb 100%);
-    .section-title {
-      font-weight: bold;
-      font-size: 36px;
-      color: #0e3045;
-      text-align: center;
-      font-style: normal;
-      margin-bottom: 10px;
-    }
-    .section-subtitle {
-      font-size: 16px;
-      color: #8a9094;
-      text-align: center;
-      margin-bottom: 24px;
-    }
-    .congress-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
-      gap: 16px;
-      margin-bottom: 56px;
-      &.emptyBox {
-        min-height: 200px;
-        background: #ffffff;
-      }
-      .congress-item {
-        background-color: #ffffff;
-        border: 1px solid #eef2f7;
-        padding: 14px;
-        border-radius: 12px;
-        box-shadow: 0 10px 22px rgba(15, 42, 67, 0.08);
-        text-align: center;
-      }
-    }
-    .view-more {
-      width: auto;
-      max-width: 100%;
-      display: inline-block;
-      padding: 10px 18px;
-      font-weight: 600;
-      font-size: 14px;
-      color: #0f5aa4;
-      text-align: center;
-      font-style: normal;
-      cursor: pointer;
-      margin: 0 auto;
-    }
-  }
-  .block {
-    background: #fff;
-  }
-  .previous-world-congresses {
-    .main-container {
-      padding-top: 32px;
-      margin-bottom: 0;
-    }
-    .section-title {
-    }
-    .section-subtitle {
-      font-weight: 400;
-      font-size: 16px;
-      color: #8a9094;
-      line-height: 24px;
-      text-align: center;
-      font-style: normal;
-      text-transform: none;
-    }
-    .congress-grid {
-      .congress-item {
-        padding: 18px 20px;
-        // height: 160px;
-        .congress-year {
-          font-size: 18px;
-          font-weight: bold;
-          color: #0f5aa4;
-          margin-bottom: 12px;
-        }
-        .congress-city {
-          font-size: 16px;
-          font-weight: bold;
-          color: #0e3045;
-          margin-bottom: 6px;
-        }
-        .congress-country {
-          font-size: 14px;
-          color: #8a9094;
-          margin-bottom: 24px;
-        }
-        .congress-link {
-          font-size: 14px;
-          color: #0f5aa4;
-          cursor: pointer;
-        }
-        .congress-dw {
-          width: 40px;
-          height: 40px;
-          margin-left: 10px;
-          object-fit: contain;
-        }
-      }
-    }
-  }
-
-  .imgBox {
+  .congress-summary-media {
+    background: #ffffff;
+    border-radius: 16px;
     overflow: hidden;
-    .logoBox {
-      position: relative;
-      width: 100%;
-      max-width: 288px;
-      height: 120px;
-      display: inline-block;
-      margin-right: 10px;
-      img {
-        position: absolute;
-        height: 60%;
-        max-width: 80%;
-        margin: auto;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        // height: 100%;
-      }
+    box-shadow: 0 12px 28px rgba(15, 42, 67, 0.08);
+  }
+  .summary-image {
+    width: 100%;
+    height: 260px;
+    display: block;
+  }
+  .summary-placeholder {
+    width: 100%;
+    height: 260px;
+    background: #e9f1f8;
+  }
+  .congress-summary-details {
+    display: grid;
+    gap: 18px;
+  }
+  .summary-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .summary-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #e9f4ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    img {
+      width: 22px;
+      height: 22px;
+      object-fit: contain;
     }
-    .congress-grid {
-      height: 120px;
-      display: block;
-      text-align: center;
-      overflow: hidden;
-      .congress-item {
-        overflow: hidden;
-      }
-    }
-    .topMark {
-      .mark {
-        font-weight: bold;
-        color: #0e3045;
-        font-size: 20px;
-        text-align: center;
-      }
+  }
+  .summary-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0e3045;
+    margin-bottom: 6px;
+  }
+  .summary-value {
+    font-size: 14px;
+    color: #5d6570;
+    line-height: 20px;
+  }
+  .congress-about-card {
+    background: #eef5fb;
+    border-radius: 12px;
+    padding: 24px 28px;
+    text-align: center;
+    box-shadow: 0 10px 22px rgba(15, 42, 67, 0.06);
+  }
+  .about-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0e3045;
+    margin-bottom: 12px;
+  }
+  .about-desc {
+    font-size: 14px;
+    color: #4b5662;
+    line-height: 22px;
+  }
 
-      .line {
-        width: 120px;
-        height: 3px;
-        background: linear-gradient(
-          45deg,
-          #ffffff 0%,
-          #32b3ff 55.24%,
-          #ffffff 100%
-        );
-        border-radius: 0px 0px 0px 0px;
-        margin: 10px auto;
-      }
-      .line2 {
-        background: linear-gradient(
-          45deg,
-          #fffdf9 0%,
-          #ffad32 55.24%,
-          #ffffff 100%
-        );
-      }
-      .line3 {
-        background: linear-gradient(
-          45deg,
-          #fffdf9 0%,
-          #c3c3c3 55.24%,
-          #ffffff 100%
-        );
-      }
+  .congress-registration {
+    background: linear-gradient(180deg, #f7fbff 0%, #f5f7f9 100%);
+  }
+  .registration-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #0e3045;
+    margin-bottom: 8px;
+  }
+  .registration-subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #6b7380;
+    margin-bottom: 16px;
+  }
+  .registration-info {
+    max-width: 860px;
+    margin: 0 auto 28px;
+    font-size: 13px;
+    color: #4b5662;
+    line-height: 22px;
+  }
+  .registration-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+  }
+  .registration-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 28px 26px 24px;
+    box-shadow: 0 14px 28px rgba(15, 42, 67, 0.08);
+    border: 1px solid #e6eef6;
+    text-align: center;
+  }
+  .card-icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e9f4ff;
+    img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
     }
-    &.diamondSponsors {
-      .mark {
-        font-size: 32px;
-      }
-      img {
-        height: 72px;
-      }
+    &.abstract {
+      background: #e9f8f1;
     }
-    &.goldSponsors {
-      .mark {
-        font-size: 24px;
-      }
-      img {
-        height: 56px;
-      }
+  }
+  .card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0e3045;
+    margin-bottom: 4px;
+  }
+  .card-subtitle {
+    font-size: 12px;
+    color: #7a848f;
+    margin-bottom: 16px;
+  }
+  .card-features {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 18px;
+    text-align: left;
+  }
+  .card-feature {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #4b5662;
+    img {
+      width: 16px;
+      height: 16px;
     }
-    &.silverSponsors {
-      .mark {
-        font-size: 20px;
-      }
-      img {
-        height: 40px;
-      }
+  }
+  .card-callout {
+    background: #eef7ff;
+    border-radius: 8px;
+    padding: 14px 12px;
+    margin-bottom: 18px;
+  }
+  .callout-main {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f5aa4;
+    margin-bottom: 6px;
+  }
+  .callout-sub {
+    font-size: 12px;
+    color: #5d6570;
+  }
+  .card-button {
+    width: 100%;
+    height: 44px;
+    border-radius: 8px;
+    font-weight: 600;
+    color: #ffffff;
+    &.attendee {
+      background: #0f5aa4;
+      border-color: #0f5aa4;
     }
+    &.abstract {
+      background: #0b8f6a;
+      border-color: #0b8f6a;
+    }
+  }
+
+  .previous-world-congresses {
+    background: #f5f7f9;
+  }
+  .previous-title {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 700;
+    color: #0e3045;
+    margin-bottom: 6px;
+  }
+  .previous-subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #7a848f;
+    margin-bottom: 22px;
+  }
+  .previous-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .previous-card {
+    background: #ffffff;
+    border: 1px solid #e4edf6;
+    border-radius: 6px;
+    padding: 12px 14px;
+    box-shadow: 0 6px 16px rgba(15, 42, 67, 0.06);
+  }
+  .previous-year {
+    font-size: 12px;
+    color: #0f5aa4;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .previous-city {
+    font-size: 13px;
+    font-weight: 700;
+    color: #0e3045;
+    margin-bottom: 2px;
+  }
+  .previous-country {
+    font-size: 12px;
+    color: #7a848f;
+    margin-bottom: 8px;
+  }
+  .previous-link {
+    font-size: 12px;
+    color: #0f5aa4;
+    font-weight: 600;
   }
 
   @media (max-width: 1024px) {
     .main-container {
-      padding-top: 32px;
       padding-left: 20px;
       padding-right: 20px;
     }
-    .worldcongress-fmf {
-      flex-direction: column;
-      align-items: center;
+    .registration-cards {
+      grid-template-columns: 1fr;
     }
-    .worldcongress-fmf .carousel-container,
-    .worldcongress-fmf .carousel-empty {
-      width: 100%;
-    }
-    .worldcongress-fmf .carousel-container .carousel-img {
-      width: 100%;
-      max-width: 100%;
-    }
-    .worldcongress-fmf .carousel-form {
-      padding: 20px;
-    }
-    .congress-about {
-      padding: 24px;
-    }
-    .congress-registration .registration-options {
-      flex-direction: column;
-    }
-    .congress-registration .registration-options .option-card {
-      min-width: 0;
+    .previous-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
   @media (max-width: 768px) {
-    .congress-hero {
-      height: 200px;
+    .congress-main-title {
+      font-size: 22px;
     }
-    .congress-hero .congress-hero-title {
-      font-size: 28px;
+    .congress-summary {
+      grid-template-columns: 1fr;
     }
-    .congress-hero .congress-hero-meta {
-      flex-wrap: wrap;
-      gap: 6px;
+    .summary-image,
+    .summary-placeholder {
+      height: 220px;
     }
-    .congress-info .info-header .info-title {
-      font-size: 28px;
-    }
-    .congress-info .info-header .info-subTitle {
-      font-size: 16px;
-    }
-    .congress-about .about-title {
-      font-size: 20px;
-    }
-    .congress-about .about-desc {
-      font-size: 16px;
-      line-height: 26px;
-    }
-    .congress-registration .section-title {
-      font-size: 26px;
-    }
-    .congress-registration .registration-info {
-      font-size: 16px;
-      line-height: 26px;
-    }
-    .worldcongress-fmf .carousel-form {
-      text-align: center;
-    }
-    .worldcongress-fmf .carousel-form .hcontainer {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-    .worldcongress-fmf .carousel-form .carousel-icon {
-      margin-right: 0;
-    }
-    .worldcongress-fmf .carousel-form .carousel-label,
-    .worldcongress-fmf .carousel-form .carousel-value {
-      text-align: center;
-    }
-    .congress-about .about-desc {
-      text-align: center;
-    }
-    .previous-world-congresses .congress-item {
-      text-align: center;
-    }
-    .previous-congresses .section-title {
-      font-size: 28px;
-    }
-    .previous-congresses .congress-grid {
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    .previous-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
   

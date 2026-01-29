@@ -1,5 +1,5 @@
 <template>
-  <div :class="['hcontainer vcenter flex-between header-container']">
+  <div :class="['hcontainer vcenter flex-between header-container', {'header-transparent': isTransparent}]">
     <div class="logo" title="The Fetal Medicine Foundation" @click="goto('/')">
       <img src="@/assets/img/logo.svg" alt="The Fetal Medicine Foundation">
     </div>
@@ -59,8 +59,7 @@
       <div class="outBtn" @click="logoutClick"><img src="@/assets/img/icon/icon_outin.png" alt=""></div>
     </div>
     <div class="auth-buttons" v-else>
-      <button class="login-btn" :style="{color: isTransparent ? '#FFFFFF' : '#036fc0'}" @click="goto('/login')">Login</button>
-      <button class="register-btn" @click="goto('/registration')">Registration</button>
+      <button class="login-btn" :style="{color: isTransparent ? '#FFFFFF' : '#036fc0'}" @click="goto('/login')">Login/Register</button>
     </div>
     <el-drawer
       :visible.sync="isMobileMenuOpen"
@@ -130,8 +129,7 @@
             <button class="mobile-auth-btn" type="button" @click="logoutClick">Logout</button>
           </div>
           <div v-else class="mobile-auth-actions">
-            <button class="mobile-auth-btn outline" type="button" @click="goto('/login')">Login</button>
-            <button class="mobile-auth-btn" type="button" @click="goto('/registration')">Registration</button>
+            <button class="mobile-auth-btn outline" type="button" @click="goto('/login')">Login/Register</button>
           </div>
         </div>
       </div>
@@ -206,6 +204,12 @@
       },
       getMenuIconClass(name) {
         const label = (name || '').toLowerCase()
+        if (label.includes('fmf') && label.includes('lecture')) {
+          return 'icon-lecture'
+        }
+        if (label.includes('twin') && label.includes('pregnan')) {
+          return 'icon-twin'
+        }
         if (label.includes('cardiac') && label.includes('scan')) {
           return 'icon-probe'
         }
@@ -275,10 +279,52 @@
         }
 
         const self = this
+        if (selectedItem.item.id === 'fmf-world-congress') {
+          return
+        }
+        if (selectedItem.item.id === 'fmf-supported-course') {
+          self.changeActiveId(key)
+          self.$router.push('/fmf-supported-course')
+          return
+        }
+        if ((selectedItem.item.categoryName || '').toLowerCase() === 'research') {
+          self.changeActiveId(key)
+          self.$router.push('/research')
+          return
+        }
+        if (selectedItem.item.id === 'support-developing') {
+          self.changeActiveId(key)
+          self.$router.push('/look-for-life')
+          return
+        }
+        if (selectedItem.item.id === 'support-developed') {
+          self.changeActiveId(key)
+          self.$router.push('/look-for-life-developed')
+          return
+        }
         if (selectedItem.item.categoryName === 'Courses & Congress' ||
           (selectedItem.parent && selectedItem.parent.categoryName === 'Courses & Congress')) {
+          return
+        }
+        if ((selectedItem.item.categoryName || '').toLowerCase() === 'fmf fellowships') {
           self.changeActiveId(key)
-          self.$router.push('/congress')
+          self.$router.push('/fellowships')
+          return
+        }
+        if ((selectedItem.item.categoryName || '').toLowerCase() === 'look for life') {
+          self.changeActiveId(key)
+          self.$router.push('/look-for-life')
+          return
+        }
+        if ((selectedItem.item.categoryName || '').toLowerCase() === 'calculators') {
+          self.changeActiveId(key)
+          self.$router.push('/calculators')
+          return
+        }
+        if ((selectedItem.item.categoryName || '').toLowerCase() === 'fmf certification' ||
+          selectedItem.item.id === 'fmf-certification') {
+          self.changeActiveId(key)
+          self.$router.push('/fmf-certification')
           return
         }
         if (selectedItem.item.categoryName === 'Education' || selectedItem.item.categoryName === 'Online Courses') {
@@ -316,7 +362,27 @@
       websiteNavigationFn() {
         this.$api.websiteNavigation().then(resp => {
           if ((resp.code === 200 || resp.code === 0) && Array.isArray(resp.data)) {
-            this.listData = resp.data
+            const data = resp.data
+            const target = data.find((item) => item?.categoryName === 'Courses & Congress')
+            if (target) {
+              target.childrenList = [
+                { id: 'fmf-world-congress', categoryName: 'FMF World Congress' },
+                { id: 'fmf-advances-course', categoryName: 'FMF Advances Course' },
+                { id: 'fmf-supported-course', categoryName: 'FMF Supported Course' }
+              ]
+            }
+            const lookForLife = data.find((item) => item?.categoryName === 'Look for Life')
+            if (lookForLife) {
+              lookForLife.childrenList = [
+                { id: 'support-developing', categoryName: 'Support in developing countries' },
+                { id: 'support-developed', categoryName: 'Support in developed countries' }
+              ]
+            }
+            const hasCertification = data.some((item) => (item?.categoryName || '').toLowerCase() === 'fmf certification')
+            if (!hasCertification) {
+              data.push({ id: 'fmf-certification', categoryName: 'FMF Certification' })
+            }
+            this.listData = data
           } else {
             this.listData = []
           }
@@ -454,7 +520,7 @@
     .logo {
       // background-image: url('#{$iconUrl}/icon_logo_white.png');
       img{
-        filter: brightness(0) invert(1);
+        filter: none;
       }
     }
     .login-btn, .username {
@@ -465,7 +531,7 @@
       color: #ffffff;
     }
     .home-icon {
-      color: #ffffff;
+      color: #036fc0;
     }
     .outBtn img {
       filter: brightness(20);
@@ -635,9 +701,9 @@
     }
   }
   .submenu-wrapper {
-    width: 700px;
+    width: 360px;
     max-width: calc(100vw - 24px);
-    min-width: 560px;
+    min-width: 280px;
     padding: 8px;
     border-radius: 14px;
     background-color: #ffffff;
@@ -645,7 +711,7 @@
     .el-menu {
       background-color: transparent !important;
       display: grid;
-      grid-template-columns: repeat(2, minmax(300px, 1fr));
+      grid-template-columns: 1fr;
       align-content: start;
       gap: 10px;
       padding: 12px;
@@ -704,10 +770,10 @@
       height: 28px;
       flex: 0 0 28px;
       border-radius: 8px;
-      background-color: transparent;
+      background-color: #f1f6fb;
       background-position: center;
       background-repeat: no-repeat;
-      background-size: contain;
+      background-size: cover;
     }
     .icon-dot {
       background-image: radial-gradient(circle at 50% 50%, #2b6cb0 0 5px, transparent 6px);
@@ -741,6 +807,20 @@
     }
     .icon-pressure {
       background-image: url("~@/assets/img/online_course_icons/icon_pressure.png");
+    }
+    .icon-lecture {
+      background-image: url("~@/assets/img/menu_lecture.jpeg");
+    }
+    .icon-twin {
+      background-image: url("~@/assets/img/menu_twin_pregnancy.jpeg");
+    }
+  }
+
+  .submenu-wrapper.online-courses-menu {
+    width: 700px;
+    min-width: 560px;
+    .el-menu {
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
     }
   }
   
@@ -794,13 +874,13 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 18px;
-      height: 18px;
+      width: 36px;
+      height: 36px;
       color: #036fc0;
     }
     .home-icon svg {
-      width: 14px;
-      height: 14px;
+      width: 28px;
+      height: 28px;
       fill: currentColor;
     }
   }

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Registration Confirmation</title>
+    <link rel="stylesheet" href="./base.css" />
+  </head>
+  <body>
+    <div class="page">
+      <img class="logo" :src="logoUrl" alt="The Fetal Medicine Foundation" />
+      <div class="blue-line" style="top: 38mm;"></div>
+
+      <div class="block center heading" style="top: 60mm; font-size: 16px;">
+        Registration Confirmation
+      </div>
+
+      <div class="block" style="top: 72mm; font-size: 12px;">
+        <span class="field">{{ issueDate }}</span>
+      </div>
+
+      <div class="block" style="top: 84mm; font-size: 12px; line-height: 1.6;">
+        <p>
+          Dear <span class="field">{{ attendeeTitle }} {{ attendeeName }}</span>,
+        </p>
+        <p>
+          Thank you for completing the registration for the
+          <span class="field">{{ congressTitle }}</span>, which will be held from
+          <span class="field">{{ congressDates }}</span> in
+          <span class="field">{{ locationCity }}, {{ locationCountry }}</span>.
+        </p>
+        <p>
+          Your payment of <span class="field">{{ amountPaid }}</span> has been accepted
+          <span class="field">Invoice #: {{ invoiceNumber }}</span>.
+        </p>
+        <p>
+          The Fetal Medicine Foundation is a UK registered charity and is internationally
+          renowned for its educational programmes.
+        </p>
+        <p>
+          Yours sincerely,
+        </p>
+        <p>The Fetal Medicine Foundation</p>
+      </div>
+
+      <div class="blue-line" style="top: 270mm;"></div>
+      <div class="footer">
+        The Fetal Medicine Foundation, 137 Harley Street, London W1G 6BG<br />
+        Tel: +44 20 7034 3070, Fax: +44 20 7486 0294, Email: education@fetalmedicine.org
+      </div>
+    </div>
+  </body>
+</html>

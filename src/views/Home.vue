@@ -1,104 +1,142 @@
 <template>
-  <div class="vcontainer home-page">
-    <div style="flex-shrink: 0;">
+  <div class="home-page">
+    <div style="flex-shrink: 0;" class="banner-wrapper">
       <TopBanner /> 
     </div>
-    <!-- <section class="home-hero">
-      <div class="home-hero-bg"></div>
-      <div class="home-hero-inner main-container">
-        <div class="home-hero-title">FMF Online Learning</div>
-        <div class="home-hero-subtitle">
-          Browse courses, congress updates, and clinical tools in one place.
-        </div>
-      </div>
-    </section> -->
-    <div class="hcontainer main-container">
-      <div class="home-left-card">
-        <div class="vcontainer left-container">
-          <el-popover
-            v-for="(item, index) in leftListData" 
-            :key="index"
-            v-model="item.popVisible"
-            placement="right"
-            :visible-arrow="false"
-            popper-class="custom-popover"
-            trigger="hover">
-            <div class="vcontainer left-sel-container" v-show="item.showPop">
-              <span class="left-sel-title">{{ item.title }}</span>
-              <div v-if="!item.children || item.children.length == 0" class="left-empty">暂无数据</div>
-              <span
-                v-else
-                v-for="subItem in (item.children ||[])"
-                :key="subItem.categoryName"
-                class="left-sel-item"
-                @click="leftItemClick(item, subItem)">
-                {{ subItem.categoryName }}
-              </span>
-            </div>
-            <div slot="reference" :class="`hcontainer vcenter left-item left-item-${index+1}`" @click="itemClick(item)">
-              <div class="left-item-icon-wrap">
-                <el-image :src="item.icon" class="left-item-icon" alt="" />
-              </div>
-              <div class="vcontainer">
-                <span class="left-item-title">{{ item.categoryName }}</span>
-                <span class="left-item-desc">{{ item.title }}</span>
-              </div>
-            </div>
-          </el-popover>
-        </div>
-      </div>
-      <div class="fill vcontainer right-container">
-        <el-carousel 
-          arrow="never"
-          height="400px"
-          indicator-position="none"
-          class="carousel-container">
-          <el-carousel-item v-for="(carouselItem, index) in carouselListData" :key="index">
-            <div class="vcontainer carousel-item-container">
-              <span class="carousel-title" @click="handleDetail(carouselItem)">{{ carouselItem.title }}</span>
-              <div class="fill hcontainer">
-                <div class="fill vcontainer">
-                  <div class="hcontainer vcenter" style="margin-top: 16px;">
-                    <el-image :src="require('@/assets/img/icon/icon_date.png')" class="carousel-icon" alt="" />
-                    <div class="vcontainer flex-between link-span">
-                      <span class="carousel-label">Date</span>
-                      <span class="carousel-value">{{ formatFullDateRange(carouselItem.startTime, carouselItem.endTime) }}</span>
+
+    <div class="main-container">
+      <div class="home-layout">
+        <!-- Left Navigation -->
+        <aside class="left-sidebar">
+          <div class="sidebar-card">
+            <h3 class="sidebar-title">Explore</h3>
+            <div class="nav-list">
+              <el-popover
+                v-for="(item, index) in leftListData" 
+                :key="index"
+                v-model="item.popVisible"
+                placement="right-start" 
+                :visible-arrow="false"
+                trigger="hover"
+                popper-class="modern-popover"
+                :offset="10">
+                
+                <!-- Popover Content -->
+                <div class="popover-content">
+                  <div class="popover-header">
+                    <span>{{ item.title }}</span>
+                  </div>
+                  <div class="popover-body">
+                    <div v-if="!item.children || item.children.length == 0" class="empty-state">
+                      No data available
+                    </div>
+                    <div
+                      v-else
+                      v-for="subItem in (item.children ||[])"
+                      :key="subItem.categoryName"
+                      class="popover-item"
+                      @click="leftItemClick(item, subItem)">
+                      <div class="popover-item-dot"></div>
+                      <span>{{ subItem.categoryName }}</span>
                     </div>
                   </div>
-                  <div class="hcontainer vcenter" style="margin-top: 36px;">
-                    <el-image :src="require('@/assets/img/icon/icon_location1.png')" class="carousel-icon" alt="" />
-                    <div class="vcontainer flex-between link-span">
-                      <span class="carousel-label">Location</span>
-                      <span class="carousel-value">{{ carouselItem.location || '' }}</span>
-                      <span class="carousel-value">{{ carouselItem.address || '' }}</span>
-                    </div>
-                  </div>
-                  <!-- <div class="hcontainer vcenter" style="margin-top: 16px;">
-                    <el-image :src="require('@/assets/img/icon/icon_address.png')" class="carousel-icon" alt="" />
-                    <div class="vcontainer flex-between link-span">
-                      <span class="carousel-label">Address</span>
-                      <span class="carousel-value">{{ carouselItem.address || '' }}</span>
-                    </div>
-                  </div> -->
                 </div>
-              </div>
-              <el-image :src="require('@/assets/img/vienna_home.png')" class="carousel-img" alt="" />
+
+                <!-- Trigger -->
+                <div slot="reference" :class="['nav-item', `nav-item-${index}`]" @click="itemClick(item)">
+                  <div class="nav-item-icon-box">
+                    <el-image :src="item.icon" class="nav-item-icon" alt="" />
+                  </div>
+                  <div class="nav-item-info">
+                    <span class="nav-item-title">{{ item.categoryName }}</span>
+                    <span class="nav-item-desc">{{ item.title }}</span>
+                  </div>
+                  <i class="el-icon-arrow-right nav-arrow"></i>
+                </div>
+              </el-popover>
             </div>
-          </el-carousel-item>
-        </el-carousel>
-        <div class="vcontainer research-container" @click="goto('https://www.fetalmedicine.org/fmf-fellowships')">
-          <span class="research-title cursor" style="margin-bottom: 18px;">Some features are currently under development and will be released in due course. Thank you for your patience.</span>
-          <div v-for="(research, index) in researchList" :key="index"
-            class="hcontainer vcenter research-item" style="font-weight: normal;"> 
-            <!-- <el-image :src="research.icon" class="research-icon" alt="" /> -->
-            <span class="link-span" style="
-              font-size: 18px;
-              color: #036FC0;">
-                <p>During the transition, the previous website will remain fully operational. Users may continue to log in with their existing credentials and download their licence.</p>
-                <p>Any functions not yet available on the new website can be accessed via the previous website.</p>
-              </span>
           </div>
-        </div>
+        </aside>
+
+        <!-- Right Content -->
+        <main class="right-content">
+          <!-- Main Carousel / Featured -->
+          <div class="featured-section">
+            <div class="section-header">
+              <h2>Upcoming Events</h2>
+              <div class="header-line"></div>
+            </div>
+            
+            <el-carousel 
+              arrow="hover"
+              height="420px"
+              indicator-position="outside"
+              class="modern-carousel">
+              <el-carousel-item v-for="(carouselItem, index) in carouselListData" :key="index">
+                <div class="carousel-card" @click="handleDetail(carouselItem)">
+                  <div class="carousel-content">
+                    <div class="carousel-tag">Featured</div>
+                    <h2 class="carousel-title" :title="carouselItem.title">{{ carouselItem.title }}</h2>
+                    
+                    <div class="carousel-details">
+                      <div class="detail-row">
+                        <div class="icon-box">
+                          <i class="el-icon-date"></i>
+                        </div>
+                        <div class="detail-text">
+                          <span class="label">Date</span>
+                          <span class="value">{{ formatFullDateRange(carouselItem.startTime, carouselItem.endTime) }}</span>
+                        </div>
+                      </div>
+                      
+                      <div class="detail-row">
+                        <div class="icon-box">
+                          <i class="el-icon-location-outline"></i>
+                        </div>
+                        <div class="detail-text">
+                          <span class="label">Location</span>
+                          <span class="value">{{ carouselItem.location || 'Online' }}</span>
+                          <span class="sub-value" v-if="carouselItem.address">{{ carouselItem.address }}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="carousel-action">
+                      <span>View Details</span>
+                      <i class="el-icon-right"></i>
+                    </div>
+                  </div>
+                  
+                  <div class="carousel-image-wrapper">
+                    <div class="carousel-image-bg"></div>
+                    <el-image :src="require('@/assets/img/vienna_home.png')" class="carousel-img" fit="cover" alt="" />
+                  </div>
+                </div>
+              </el-carousel-item>
+            </el-carousel>
+          </div>
+
+          <!-- Announcement / Research -->
+          <div class="info-section">
+             <div class="info-card" @click="goto('https://www.fetalmedicine.org/fmf-fellowships')">
+               <div class="info-icon">
+                 <i class="el-icon-info"></i>
+               </div>
+               <div class="info-content">
+                 <h4 class="info-title">System Update</h4>
+                 <p class="info-text">
+                   Some features are currently under development. The previous website remains fully operational during this transition.
+                 </p>
+                 <p class="info-subtext">
+                   You can continue to log in with existing credentials to access licenses and other legacy features.
+                 </p>
+               </div>
+               <div class="info-action">
+                 <i class="el-icon-link"></i>
+               </div>
+             </div>
+          </div>
+        </main>
       </div>
     </div>
   </div>
@@ -130,13 +168,6 @@
             icon: require('@/assets/img/icon/icon_cal.png'),
             categoryName: 'Calculators',
             title: 'Calculator Tools',
-            // children: [
-            //   { categoryName: 'First Trimester Screening', path: '/' },
-            //   { categoryName: 'Fetal Growth Assessment', path: '/' },
-            //   { categoryName: 'Preeclampsia Risk', path: '/' },
-            //   { categoryName: 'Gestational Age', path: '/' },
-            //   { categoryName: 'All Calculators', path: '/' }
-            // ]
           }, {
             popVisible: false,
             showPop: false,
@@ -144,41 +175,39 @@
             icon: require('@/assets/img/icon/icon_software.png'),
             categoryName: 'Software',
             title: 'FMF Software',
-            // children: [
-            //   { categoryName: 'FMF Software Download', path: '/' },
-            //   { categoryName: 'Software Documentation', path: '/' },
-            //   { categoryName: 'User Manual', path: '/' },
-            //   { categoryName: 'Technical Support', path: '/' }
-            // ]
+          }, {
+            popVisible: false,
+            showPop: true,
+            icon: require('@/assets/img/icon/icon_research.png'),
+            categoryName: 'Look for Life',
+            title: 'Support in developing countries',
+            children: [
+              {
+                categoryName: 'Support in developing countries',
+                routePath: '/look-for-life'
+              },
+              {
+                categoryName: 'Support in developed countries',
+                routePath: '/look-for-life-developed'
+              }
+            ]
           }
         ],
-        carouselListData: [
-          // {
-          //   title: '23rd World Congress in Fetal Medicine',
-          //   img: require('@/assets/img/img_congress.png'),
-          //   date: '28th June - 2nd July 2026',
-          //   location: 'Austria Center Vienna',
-          //   address: 'Bruno-Kreisky-Platz 1, 1220 Wien, Austria'
-          // },
-        ],
+        carouselListData: [],
         researchList: [
           { icon: require('@/assets/img/icon/icon_research.png'),
             text: ' '
           },
-          // {
-          //   icon: require('@/assets/img/icon/icon_completed.png'),
-          //   text: 'Completed Randomized Trials'
-          // },
-          // {
-          //   icon: require('@/assets/img/icon/icon_ongoing.png'),
-          //   text: 'Ongoing Randomized Trials'
-          // }
         ]
       }
     },
     methods: {
       itemClick(e) {
-        if(e.linkUrl){
+        if (e.routePath) {
+          this.$router.push(e.routePath)
+          return
+        }
+        if (e.linkUrl) {
           window.open(e.linkUrl)
         }
       },
@@ -190,15 +219,6 @@
         const reqData = {
           categoryName: categoryName
         }
-        // const resp = await this.$api.websiteNavigation(reqData).catch(err => err)
-        // if ((resp.code === 200 || resp.code === 0) &&
-        //   Array.isArray(resp.data) && resp.data[0] &&
-        //   Array.isArray(resp.data[0].childrenList)) {
-        //   return resp.data[0].childrenList
-        // } else {
-        //   return []
-        // }
-
         const resp = await this.$api.websiteCourseNavigation(reqData).catch(err => err)
         if ((resp.code === 200 || resp.code === 0) &&
           Array.isArray(resp.data) && resp.data[0] &&
@@ -207,111 +227,53 @@
         } else {
           return []
         }
-
       },
       initListData() {
         this.websiteNavigationFn('Education').then(listData => {
           this.leftListData[0].children = listData;
         })
       },
-      formatDate(dateString) {
-      if (!dateString) return "";
+      handleDetail(row) {
+        this.changeActiveId('/congress')
+        this.$router.push(`/congress?categoryName=${row.title}`)
+      },
 
-      const date = new Date(dateString);
-      const day = date.getDate();
-      const month = date.toLocaleString("default", { month: "long" });
-      // const year = date.getFullYear();
-
-      // Get the day with ordinal suffix (st, nd, rd, th)
-      const getOrdinalSuffix = (day) => {
-        if (day > 3 && day < 21) return "th";
-        switch (day % 10) {
-          case 1:
-            return "st";
-          case 2:
-            return "nd";
-          case 3:
-            return "rd";
-          default:
-            return "th";
-        }
-      };
-
-      return `${day}${getOrdinalSuffix(day)} ${month}`;
-    },
-
-    handleDetail(row) {
-      this.changeActiveId('/congress')
-      this.$router.push(`/congress?categoryName=${row.title}`)
-    },
-
-    formatFullDateRange(startString, endString) {
-      if (!startString || !endString) return "";
-
-      const startDate = new Date(startString);
-      const endDate = new Date(endString);
-
-      // Define English month names explicitly
-      const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-
-      const startDay = startDate.getDate();
-      const startMonth = months[startDate.getMonth()];
-      const endDay = endDate.getDate();
-      const endMonth = months[endDate.getMonth()];
-      const year = endDate.getFullYear();
-
-      const getOrdinalSuffix = (day) => {
-        if (day > 3 && day < 21) return "th";
-        switch (day % 10) {
-          case 1:
-            return "st";
-          case 2:
-            return "nd";
-          case 3:
-            return "rd";
-          default:
-            return "th";
-        }
-      };
-
-      const startFormatted = `${startDay}${getOrdinalSuffix(
-        startDay
-      )} ${startMonth}`;
-      const endFormatted = `${endDay}${getOrdinalSuffix(
-        endDay
-      )} ${endMonth} ${year}`;
-
-      return `${startFormatted} - ${endFormatted}`;
-    },
+      formatFullDateRange(startString, endString) {
+        if (!startString || !endString) return "";
+        const startDate = new Date(startString);
+        const endDate = new Date(endString);
+        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        const startDay = startDate.getDate();
+        const startMonth = months[startDate.getMonth()];
+        const endDay = endDate.getDate();
+        const endMonth = months[endDate.getMonth()];
+        const year = endDate.getFullYear();
+        const getOrdinalSuffix = (day) => {
+          if (day > 3 && day < 21) return "th";
+          switch (day % 10) {
+            case 1: return "st"; case 2: return "nd"; case 3: return "rd"; default: return "th";
+          }
+        };
+        const startFormatted = `${startDay}${getOrdinalSuffix(startDay)} ${startMonth}`;
+        const endFormatted = `${endDay}${getOrdinalSuffix(endDay)} ${endMonth} ${year}`;
+        return `${startFormatted} - ${endFormatted}`;
+      },
       leftItemClick(item, subItem) {
         item.popVisible = false;
         const self = this
+        if (subItem.routePath) {
+          self.$router.push(subItem.routePath)
+          return
+        }
         self.$utils.checkLoginAndContinue(() => {
           self.changeActiveId('/courseDetail')
           self.$router.push('/courseDetail?categoryName=' + subItem.categoryName)
         })
       },
       getCongressList() {
-        this.$api
-        .websiteCongressList({
-          page: 1,
-          pageSize: 1,
-          publishStatus: 1,
+        this.$api.websiteCongressList({
+          page: 1, pageSize: 1, publishStatus: 1,
         }).then(res => {
-          console.log('websiteCongressList:', res)
           this.carouselListData = res.data.list
         })
       },
@@ -325,347 +287,459 @@
 
 <style lang="scss" scoped>
   .home-page {
-    background-color: #F5F7F9;
-    .main-container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 32px 24px 48px;
-      gap: 24px;
-      flex-wrap: wrap;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-    .home-hero {
+    min-height: 100vh;
+    background-color: var(--bg-body);
+    padding-bottom: 60px;
+    
+    .banner-wrapper {
       position: relative;
-      height: 220px;
-      background: linear-gradient(120deg, #0b4b8d, #0f5aa4 55%, #0b4b8d);
-      overflow: hidden;
-      .home-hero-bg {
-        position: absolute;
-        inset: 0;
-        background: url("#{$imgUrl}/home_top.jpg") center/cover no-repeat;
-        opacity: 0.18;
-      }
-      .home-hero-inner {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 100%;
-        color: #fff;
-      }
-      .home-hero-title {
-        font-size: 40px;
-        font-weight: 700;
-        letter-spacing: 0.5px;
-      }
-      .home-hero-subtitle {
-        margin-top: 8px;
-        font-size: 16px;
-        max-width: 640px;
-        color: rgba(255, 255, 255, 0.85);
-      }
+      z-index: 10;
+      box-shadow: var(--shadow-md);
     }
-    .home-left-card {
-      width: 100%;
-      max-width: 320px;
-      flex: 1 1 260px;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 12px 30px rgba(15, 42, 67, 0.08);
-      padding: 18px;
-      height: fit-content;
-    }
-    .left-container {
-      gap: 12px;
-    }
-    .left-item {
-      width: 100%;
-      padding: 12px;
-      border-radius: 14px;
-      background: #f3f7fb;
-      color: #0e3045;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      border: 1px solid #e6edf5;
-      &:hover {
-        transform: translateY(-1px);
-        background: #eaf2fb;
-        border-color: #d8e6f5;
-      }
-    }
-    .left-item-1,
-    .left-item-2,
-    .left-item-3 {
-      background: #f3f7fb;
-    }
-    .left-item-icon-wrap {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #0f5aa4, #1d78d6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .left-item-icon {
-      width: 22px;
-      height: 22px;
-      filter: brightness(0) invert(1);
-    }
-    .left-item-title {
-      font-size: 16px;
-      font-weight: 700;
-    }
-    .left-item-desc {
-      font-size: 12px;
-      color: #6b7380;
-      margin-top: 2px;
-    }
-    .left-empty {
-      text-align: center;
-      line-height: 40px;
-      color: #8a9094;
-    }
-    .right-container {
-      flex: 2 1 520px;
-      min-width: 0;
-      gap: 20px;
-      .carousel-container {
-        margin-bottom: 0;
-        border-radius: 18px;
-        background-color: #fff;
-        box-shadow: 0 12px 30px rgba(15, 42, 67, 0.08);
-        border: 1px solid #eef2f7;
-        .el-carousel__arrow {
-          background-color: rgba(15, 42, 67, 0.7);
-        }
-        .el-carousel__indicator {
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background-color: rgba(0, 0, 0, 0.2);
-          &.is-active {
-            background-color: #0f5aa4;
-          }
-        }
-        .carousel-item-container {
-          position: relative;
-          height: 100%;
-          padding: 36px 24px;
-          cursor: pointer;
-          .carousel-title {
-            font-weight: 700;
-            font-size: 30px;
-            color: #0f5aa4;
-            line-height: 42px;
-          }
-          .carousel-icon {
-            width: 44px;
-            height: 44px;
-            vertical-align: middle;
-            margin-right: 12px;
-          }
-          .carousel-label {
-            font-weight: 600;
-            font-size: 16px;
-            color: #0E3045;
-            margin-bottom: 6px;
-          }
-          .carousel-value {
-            font-weight: 400;
-            font-size: 14px;
-            color: #6b7380;
-          }
-          .carousel-img {
-            position: absolute;
-            top: 50%;
-            right: 24px;
-            transform: translateY(-50%);
-            min-width: 140px;
-            width: 220px;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 6px solid #f3f7fb;
-          }
-        }
-      }
-      .research-container {
-        padding: 24px;
-        border-radius: 18px;
-        background-color: #ffffff;
-        border: 1px solid #eef2f7;
-        box-shadow: 0 12px 30px rgba(15, 42, 67, 0.08);
-        text-align: left;
-        .research-title {
-          font-weight: 700;
-          font-size: 18px;
-          color: #0f5aa4;
-          line-height: 26px;
-        }
-        .research-item {
-          font-weight: 400;
-          font-size: 16px;
-          color: #0E3045;
-          text-align: left;
-          margin-bottom: 16px;
-          cursor: pointer;
-          .research-icon {
-            width: 32px;
-            height: 32px;
-            margin-right: 14px;
-          }
-        }
-      }
-    }
+  }
 
-    .link-span {
-      line-height: 26px;
-      justify-content: center;
-      gap: 4px;
-      align-items: flex-start;
-      p {
-        margin-bottom: 15px;
-      }
-    }
+  .main-container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    position: relative;
+    z-index: 20;
+  }
 
+  .home-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 32px;
+    align-items: start;
+    
     @media (max-width: 1024px) {
-      .main-container {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 28px 20px 40px;
-      }
-      .home-left-card {
-        width: 100%;
-        max-width: 100%;
-      }
-      .right-container {
-        width: 100%;
-      }
-      .right-container .carousel-container {
-        height: auto;
-      }
-      .right-container .carousel-item-container {
-        padding: 28px 20px;
-      }
-      .right-container .carousel-item-container .carousel-title {
-        font-size: 24px;
-        line-height: 34px;
-      }
-      .right-container .carousel-item-container .carousel-img {
-        position: static;
-        margin: 20px auto 0;
-        width: 180px;
-        height: 180px;
-        transform: none;
-      }
+      grid-template-columns: 1fr;
+      gap: 24px;
     }
+  }
 
-    @media (max-width: 768px) {
-      .main-container {
-        padding: 20px 16px 32px;
-      }
-      .home-left-card,
-      .right-container .carousel-item-container,
-      .research-container {
-        text-align: center;
-      }
-      .home-left-card {
-        padding: 14px;
-      }
-      .left-item {
-        padding: 10px;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-      .left-item .vcontainer {
-        align-items: center;
-      }
-      .left-item-title {
-        font-size: 15px;
-      }
-      .right-container .carousel-item-container {
-        padding: 20px 16px;
-      }
-      .right-container .carousel-item-container .carousel-icon {
-        width: 36px;
-        height: 36px;
-      }
-      .right-container .carousel-item-container .carousel-title {
-        font-size: 20px;
-        line-height: 30px;
-      }
-      .right-container .carousel-item-container .carousel-img {
-        width: 160px;
-        height: 160px;
-        transform: none;
-      }
-      .research-container {
-        padding: 18px;
-      }
-      .research-container .research-title {
-        font-size: 16px;
-      }
-    }
+  /* Left Sidebar */
+  .left-sidebar {
+    position: sticky;
+    top: 24px;
+  }
 
-    @media (max-width: 480px) {
-      .left-item {
-        align-items: flex-start;
+  .sidebar-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: 24px;
+    border: 1px solid var(--border-light);
+  }
+
+  .sidebar-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    padding-left: 8px;
+    border-left: 4px solid var(--color-accent);
+  }
+
+  .nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    background: var(--bg-body);
+    transition: var(--transition-base);
+    cursor: pointer;
+    border: 1px solid transparent;
+
+    &:hover {
+      background: #F0F9FF; /* Very light blue */
+      border-color: #BAE6FD;
+      transform: translateX(4px);
+      
+      .nav-item-icon-box {
+        background: var(--color-accent);
+        .nav-item-icon {
+          filter: brightness(0) invert(1);
+        }
       }
-      .left-item-desc {
-        line-height: 1.3;
-      }
-      .right-container .carousel-item-container {
-        padding: 18px 14px;
-      }
-      .right-container .carousel-item-container .carousel-title {
-        font-size: 18px;
-        line-height: 26px;
-      }
-      .right-container .carousel-item-container .carousel-img {
-        width: 140px;
-        height: 140px;
-        transform: none;
-      }
-      .research-container {
-        padding: 16px;
-      }
-      .link-span {
-        font-size: 14px;
-        line-height: 22px;
+      .nav-arrow {
+        opacity: 1;
+        transform: translateX(0);
+        color: var(--color-accent);
       }
     }
   }
-</style>
-<style lang="scss">
-  .custom-popover {
-    background-color: #ffffff;
-    box-shadow: 0px 18px 40px 1px rgba(14,48,69,0.12);
+
+  .nav-item-icon-box {
+    width: 48px;
+    height: 48px;
     border-radius: 12px;
-    font-size: 14px;
-    padding: 0;
-    .left-sel-title {
-      text-align: center;
-      height: 48px;
-      line-height: 48px;
-      background: linear-gradient(135deg, #0f5aa4, #1d78d6);
-      border-radius: 12px 12px 0px 0px;
-      color: #ffffff;
+    background: #E0F2FE; /* Sky 100 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    transition: var(--transition-base);
+    
+    .nav-item-icon {
+      width: 24px;
+      height: 24px;
+      /* Adjust icon color via filter */
+      filter: brightness(0) saturate(100%) invert(43%) sepia(96%) saturate(1832%) hue-rotate(185deg) brightness(96%) contrast(96%);
+      transition: var(--transition-base);
     }
-    .left-sel-item {
-      padding: 10px 16px;
-      color: #0E3045;
-      cursor: pointer;
-      &:hover {
-        color: #0f5aa4;
-        background: #f1f6fb;
+  }
+  
+  .nav-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    
+    .nav-item-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    
+    .nav-item-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+  }
+
+  .nav-arrow {
+    font-size: 16px;
+    color: var(--text-light);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: var(--transition-base);
+  }
+
+  /* Right Content */
+  .right-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    
+    h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+      white-space: nowrap;
+    }
+    
+    .header-line {
+      height: 1px;
+      flex: 1;
+      background: var(--border-color);
+    }
+  }
+
+  /* Carousel */
+  .modern-carousel {
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    background: var(--bg-card);
+  }
+
+  .carousel-card {
+    display: flex;
+    height: 100%;
+    cursor: pointer;
+    background: #fff;
+    
+    @media (max-width: 768px) {
+      flex-direction: column-reverse;
+    }
+  }
+
+  .carousel-content {
+    flex: 3;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(to right, #ffffff 90%, rgba(255,255,255,0));
+  }
+
+  .carousel-tag {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #EFF6FF;
+    color: var(--color-accent);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+
+  .carousel-title {
+    font-size: 28px;
+    line-height: 1.3;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 24px;
+    /* Removed line-clamp to show full title */
+  }
+
+  .carousel-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .detail-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    
+    .icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #F8FAFC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent);
+      font-size: 20px;
+      border: 1px solid var(--border-light);
+    }
+    
+    .detail-text {
+      display: flex;
+      flex-direction: column;
+      
+      .label {
+        font-size: 12px;
+        color: var(--text-light);
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 2px;
       }
+      .value {
+        font-size: 16px;
+        color: var(--text-regular);
+        font-weight: 500;
+      }
+      .sub-value {
+        font-size: 14px;
+        color: var(--text-secondary);
+        margin-top: 2px;
+      }
+    }
+  }
+
+  .carousel-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    color: var(--color-accent);
+    font-weight: 600;
+    transition: var(--transition-base);
+    
+    span { border-bottom: 2px solid transparent; transition: inherit; }
+    
+    &:hover {
+      color: var(--color-accent-hover);
+      span { border-bottom-color: var(--color-accent-hover); }
+      i { transform: translateX(4px); }
+    }
+  }
+
+  .carousel-image-wrapper {
+    flex: 2;
+    position: relative;
+    overflow: hidden;
+    min-width: 300px;
+    
+    .carousel-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 6s ease;
+    }
+
+    &:hover .carousel-img {
+      transform: scale(1.05);
+    }
+  }
+
+  /* Info/Research Section */
+  .info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .info-card {
+    background: #FFFBF0; /* Warm sticky note bg */
+    border: 1px solid #FEF3C7;
+    border-radius: var(--radius-md);
+    padding: 24px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: var(--transition-base);
+    
+    &:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    
+    .info-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #FEF3C7;
+      color: #F59E0B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    
+    .info-content {
+      flex: 1;
+      
+      .info-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #92400E; /* Dark amber */
+        margin-bottom: 8px;
+      }
+      .info-text {
+        font-size: 14px;
+        color: #B45309;
+        line-height: 1.5;
+        margin-bottom: 8px;
+      }
+      .info-subtext {
+        font-size: 13px;
+        color: #D97706;
+      }
+    }
+    
+    .info-action {
+      color: #D97706;
+      font-size: 18px;
+    }
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .main-container {
+      padding: 24px 16px;
+    }
+    
+    .modern-carousel {
+      height: auto !important;
+      
+      .carousel-card {
+        height: auto;
+      }
+      .carousel-image-wrapper {
+        height: 200px;
+        flex: none;
+      }
+    }
+    
+    .carousel-content {
+      padding: 24px;
+    }
+    
+    .carousel-title {
+      font-size: 24px;
+    }
+  }
+</style>
+
+<style lang="scss">
+  /* Global overrides for popover to match new theme */
+  .modern-popover.el-popover {
+    padding: 0;
+    border-radius: 16px;
+    border: none;
+    box-shadow: var(--shadow-xl);
+    
+    .popover-header {
+      padding: 16px 20px;
+      background: #F8FAFC;
+      border-bottom: 1px solid #E2E8F0;
+      border-radius: 16px 16px 0 0;
+      
+      span {
+        font-weight: 700;
+        color: var(--text-main);
+        font-size: 15px;
+      }
+    }
+    
+    .popover-body {
+      padding: 8px;
+      background: #fff;
+      border-radius: 0 0 16px 16px;
+    }
+    
+    .popover-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--text-regular);
+      font-size: 14px;
+      transition: all 0.2s;
+      
+      .popover-item-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #CBD5E1;
+        margin-right: 12px;
+        transition: all 0.2s;
+      }
+      
+      &:hover {
+        background: #F0F9FF;
+        color: var(--color-accent);
+        
+        .popover-item-dot {
+          background: var(--color-accent);
+          transform: scale(1.5);
+        }
+      }
+    }
+    
+    .empty-state {
+      padding: 20px;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 13px;
     }
   }
 </style>
