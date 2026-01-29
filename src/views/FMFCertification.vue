@@ -33,12 +33,34 @@
           <button class="cert-modal-close" type="button" @click="closeModal">Close</button>
         </div>
         <div class="cert-modal-body">
-          <iframe
-            class="cert-modal-frame"
-            :src="selectedCertification.mapUrl"
-            title="FMF Certification Map"
-            loading="lazy">
-          </iframe>
+          <div class="map-layout">
+            <div class="map-panel">
+              <div v-if="isMapLoading" class="map-loading">Loading map data...</div>
+              <div v-else ref="certMap" class="cert-map"></div>
+            </div>
+            <div class="list-panel">
+              <div class="list-title">
+                <span>{{ selectedCountryLabel }}</span>
+                <span v-if="selectedCountryCount !== null" class="list-count">{{ selectedCountryCount }}</span>
+              </div>
+              <div class="list-subtitle">
+                Click a country to view the list of certified practitioners.
+              </div>
+              <div v-if="isCountryLoading" class="list-loading">Loading practitioners...</div>
+              <div v-else class="list-content">
+                <div
+                  v-for="person in selectedCountryPeople"
+                  :key="person.id + person.name"
+                  class="person-row">
+                  <span class="person-name">{{ person.name }}</span>
+                  <span class="person-id">{{ person.id }}</span>
+                </div>
+                <div v-if="!selectedCountryPeople.length" class="empty-state">
+                  Select a country to see its certified practitioners.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -47,6 +69,8 @@
 
 <script>
   import TopBanner from '@/components/TopBanner.vue'
+  import jsVectorMap from 'jsvectormap'
+  import 'jsvectormap/dist/maps/world.js'
 
   export default {
     name: 'FMFCertificationPage',
@@ -57,48 +81,147 @@
       const certifications = [
         {
           name: 'Nuchal translucency scan',
-          mapUrl: 'https://fetalmedicine.org/lists/map/certified/NT'
+          slug: 'NT'
         },
         {
           name: 'Preeclampsia screening',
-          mapUrl: 'https://fetalmedicine.org/lists/map/certified/Ut'
+          slug: 'Ut'
         },
         {
           name: 'Cervical assessment',
-          mapUrl: 'https://fetalmedicine.org/lists/map/certified/cervical-assessment'
+          slug: 'cervical-assessment'
         },
         {
           name: 'Fetal abnormalities',
-          mapUrl: 'https://fetalmedicine.org/lists/map/certified/fetal-abnormalities'
+          slug: 'fetal-abnormalities'
         },
         {
           name: 'Fetal echocardiography',
-          mapUrl: 'https://fetalmedicine.org/lists/map/certified/fetal-echocardiography'
+          slug: 'fetal-echocardiography'
         },
         {
           name: 'Doppler ultrasound',
-          mapUrl: 'https://fetalmedicine.org/lists/map/certified/fetal-doppler-ultrasound'
+          slug: 'fetal-doppler-ultrasound'
         }
       ]
 
       return {
         topBannerList: [{
-          img: require('@/assets/img/world_congress_top.png'),
+          img: require('@/assets/img/fmf_certification_header.jpeg'),
           title: 'FMF Certification',
           desc: 'International certification and accredited practitioners'
         }],
         certifications,
         selectedCertification: certifications[0],
-        isModalOpen: false
+        isModalOpen: false,
+        isMapLoading: false,
+        mapInstance: null,
+        mapCounts: {},
+        selectedCountryLabel: 'No country selected',
+        selectedCountryCount: null,
+        selectedCountryPeople: [],
+        isCountryLoading: false
       }
     },
     methods: {
-      openMap(item) {
+      async openMap(item) {
         this.selectedCertification = item
         this.isModalOpen = true
+        this.selectedCountryLabel = 'No country selected'
+        this.selectedCountryCount = null
+        this.selectedCountryPeople = []
+        this.isCountryLoading = false
+        await this.$nextTick()
+        await this.loadMapData()
       },
       closeModal() {
         this.isModalOpen = false
+        if (this.mapInstance) {
+          this.mapInstance.destroy()
+          this.mapInstance = null
+        }
+      },
+      async loadMapData() {
+        this.isMapLoading = true
+        const slug = this.selectedCertification.slug
+        try {
+          const resp = await fetch(`/data/fmf-certifications/${slug}_counts.json`, { cache: 'force-cache' })
+          const data = await resp.json()
+          this.mapCounts = data.counts || {}
+          this.$nextTick(() => {
+            this.initMap()
+          })
+        } catch (err) {
+          this.mapCounts = {}
+        } finally {
+          this.isMapLoading = false
+        }
+      },
+      initMap() {
+        if (this.mapInstance) {
+          this.mapInstance.destroy()
+          this.mapInstance = null
+        }
+        if (!this.$refs.certMap) {
+          return
+        }
+        const values = this.mapCounts
+        this.mapInstance = new jsVectorMap({
+          selector: this.$refs.certMap,
+          map: 'world',
+          backgroundColor: '#f4f7fb',
+          zoomOnScroll: true,
+          zoomMax: 6,
+          zoomMin: 1,
+          regionStyle: {
+            initial: {
+              fill: '#dfe7ef'
+            },
+            hover: {
+              fill: '#7db7ee'
+            }
+          },
+          series: {
+            regions: [{
+              values,
+              scale: ['#dbeafe', '#036fc0'],
+              normalizeFunction: 'polynomial'
+            }]
+          },
+          onRegionTooltipShow: (event, tooltip, code) => {
+            const count = values[code]
+            if (count) {
+              tooltip.text(`${tooltip.text()} (${count})`)
+            }
+          },
+          onRegionClick: (event, code) => {
+            this.loadCountryList(code)
+          }
+        })
+      },
+      async loadCountryList(code) {
+        const count = this.mapCounts[code]
+        if (!count) {
+          this.selectedCountryLabel = 'No data for selected country'
+          this.selectedCountryCount = null
+          this.selectedCountryPeople = []
+          return
+        }
+        this.isCountryLoading = true
+        const slug = this.selectedCertification.slug
+        try {
+          const resp = await fetch(`/data/fmf-certifications/${slug}/${code}.json`, { cache: 'force-cache' })
+          const data = await resp.json()
+          this.selectedCountryLabel = data.country || code
+          this.selectedCountryCount = data.count || null
+          this.selectedCountryPeople = data.people || []
+        } catch (err) {
+          this.selectedCountryLabel = 'Unable to load country data'
+          this.selectedCountryCount = null
+          this.selectedCountryPeople = []
+        } finally {
+          this.isCountryLoading = false
+        }
       }
     }
   }
@@ -180,11 +303,6 @@
     color: #036fc0;
   }
 
-  .map-note {
-    font-size: 14px;
-    color: #5b6672;
-  }
-
   .cert-modal {
     position: fixed;
     inset: 0;
@@ -232,12 +350,85 @@
 
   .cert-modal-body {
     height: min(84vh, 820px);
+    padding: 16px 20px 20px;
+    background: #f7fbff;
   }
 
-  .cert-modal-frame {
-    width: 100%;
+  .map-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr);
+    gap: 18px;
     height: 100%;
-    border: none;
+  }
+
+  .map-panel,
+  .list-panel {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #e6eef5;
+    padding: 14px;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cert-map {
+    flex: 1;
+    min-height: 420px;
+  }
+
+  .map-loading,
+  .list-loading {
+    font-size: 15px;
+    color: #5b6672;
+  }
+
+  .list-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0e3045;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .list-count {
+    font-size: 13px;
+    color: #036fc0;
+    font-weight: 700;
+  }
+
+  .list-subtitle {
+    font-size: 13px;
+    color: #6a7682;
+    margin: 6px 0 12px;
+  }
+
+  .list-content {
+    overflow-y: auto;
+    padding-right: 6px;
+  }
+
+  .person-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid #edf2f7;
+    padding: 8px 0;
+    font-size: 13px;
+    color: #42505c;
+  }
+
+  .person-id {
+    color: #7a8795;
+    flex-shrink: 0;
+  }
+
+  .empty-state {
+    font-size: 13px;
+    color: #7a8795;
+    padding: 10px 0;
   }
 
   .certification-page ::v-deep .top-banner-content .desc {
@@ -245,6 +436,11 @@
     text-align-last: center;
     max-width: 520px;
     margin: 0 auto;
+  }
+
+  .certification-page ::v-deep .top-banner-content {
+    align-items: center;
+    text-align: center;
   }
 
   @media (max-width: 1024px) {
@@ -260,5 +456,12 @@
     .cert-modal-body {
       height: min(76vh, 680px);
     }
+    .map-layout {
+      grid-template-columns: 1fr;
+    }
   }
+</style>
+
+<style lang="scss">
+@import "jsvectormap/dist/jsvectormap.min.css";
 </style>
