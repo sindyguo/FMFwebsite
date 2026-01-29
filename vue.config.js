@@ -1,21 +1,19 @@
 const { defineConfig } = require('@vue/cli-service')
+const { version } = require('./package.json')
 
-const { version } = require('./package.json');
-
-module.exports = {
-  chainWebpack: config => {
-    // 生成manifest.json文件
-    config.plugin('define').tap(args => {
-      args[0]['process.env'].APP_VERSION = JSON.stringify(version);
-      args[0]['process.env'].BUILD_TIME = JSON.stringify(new Date().toISOString());
-      return args;
-    });
-  }
-};
+const isVercel = process.env.VERCEL === '1' || !!process.env.VERCEL_ENV
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: '/website/',
+  publicPath: isVercel ? '/' : '/website/',
+  chainWebpack: config => {
+    // 生成manifest.json文件
+    config.plugin('define').tap(args => {
+      args[0]['process.env'].APP_VERSION = JSON.stringify(version)
+      args[0]['process.env'].BUILD_TIME = JSON.stringify(new Date().toISOString())
+      return args
+    })
+  },
   devServer: {
     port: 8080,
     open: true,
