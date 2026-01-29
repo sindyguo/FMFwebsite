@@ -85,12 +85,12 @@
     data() {
       return {
         topBannerList: [{
-          img: require('@/assets/img/look_for_life_header.png'),
+          img: require('@/assets/img/look_for_life_header.jpg'),
           title: 'Look for Life',
           desc: 'Support in developing countries'
         }],
         images: {
-          hero: require('@/assets/img/look_for_life_hero.png')
+          hero: require('@/assets/img/look_for_life_hero.jpg')
         },
         countries: [
           'Rwanda',
