@@ -274,7 +274,13 @@
         this.$api.websiteCongressList({
           page: 1, pageSize: 1, publishStatus: 1,
         }).then(res => {
-          this.carouselListData = res.data.list
+          if (res && res.data && Array.isArray(res.data.list)) {
+            this.carouselListData = res.data.list
+          } else {
+            this.carouselListData = []
+          }
+        }).catch(() => {
+          this.carouselListData = []
         })
       },
     },

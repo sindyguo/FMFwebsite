@@ -382,6 +382,12 @@
             if (!hasCertification) {
               data.push({ id: 'fmf-certification', categoryName: 'FMF Certification' })
             }
+            const onlineIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'online courses')
+            const certIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'fmf certification')
+            if (certIndex > -1 && onlineIndex > -1 && certIndex > onlineIndex) {
+              const [certItem] = data.splice(certIndex, 1)
+              data.splice(onlineIndex, 0, certItem)
+            }
             this.listData = data
           } else {
             this.listData = []
