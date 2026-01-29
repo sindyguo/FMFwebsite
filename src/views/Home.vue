@@ -109,7 +109,7 @@
                   
                   <div class="carousel-image-wrapper">
                     <div class="carousel-image-bg"></div>
-                    <el-image :src="require('@/assets/img/vienna_home.jpg')" class="carousel-img" fit="cover" alt="" />
+                    <el-image :src="require('@/assets/img/vienna_home.png')" class="carousel-img" fit="cover" alt="" />
                   </div>
                 </div>
               </el-carousel-item>

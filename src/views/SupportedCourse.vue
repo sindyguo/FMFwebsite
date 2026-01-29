@@ -17,10 +17,10 @@
       <div class="section">
         <div class="hero-images">
           <div class="hero-image-card">
-            <img src="@/assets/img/bsfm2026_slide1.jpg" alt="BSFM 2026 slide 1" />
+            <img src="@/assets/img/bsfm2026_slide1.png" alt="BSFM 2026 slide 1" />
           </div>
           <div class="hero-image-card">
-            <img src="@/assets/img/bsfm2026_slide2.jpg" alt="BSFM 2026 slide 2" />
+            <img src="@/assets/img/bsfm2026_slide2.png" alt="BSFM 2026 slide 2" />
           </div>
         </div>
         <div class="info-grid">
