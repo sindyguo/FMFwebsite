@@ -1,11 +1,9 @@
 const { defineConfig } = require('@vue/cli-service')
 const { version } = require('./package.json')
 
-const isVercel = process.env.VERCEL === '1' || !!process.env.VERCEL_ENV
-
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: isVercel ? '/' : '/website/',
+  publicPath: '/website/',
   chainWebpack: config => {
     // 生成manifest.json文件
     config.plugin('define').tap(args => {
