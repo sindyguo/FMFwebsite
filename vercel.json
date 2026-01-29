@@ -3,6 +3,7 @@
     { "source": "/", "destination": "/website/", "permanent": false }
   ],
   "rewrites": [
+    { "source": "/website/:path*", "destination": "/:path*" },
     { "source": "/website/(.*)", "destination": "/index.html" }
   ]
 }
