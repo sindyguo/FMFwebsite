@@ -1,7 +1,7 @@
 <template>
   <div class="vcontainer worldcongress">
-    <div class="">
-      <TopBanner height="520px" :listData="topData" />
+    <div class="congress-hero">
+      <TopBanner height="320px" :listData="topData" />
     </div>
     <section class="congress-main">
       <div class="main-container">
@@ -417,153 +417,163 @@ export default {
 
 <style lang="scss" scoped>
 .worldcongress {
-  background-color: #f5f7f9;
+  background-color: #ffffff;
   .main-container {
     width: 100%;
-    max-width: 1100px;
+    max-width: 1180px;
     margin-left: auto;
     margin-right: auto;
     padding-left: 24px;
     padding-right: 24px;
     box-sizing: border-box;
-    padding-top: 48px;
+    padding-top: 36px;
     padding-bottom: 64px;
   }
-  .congress-main {
+  .congress-hero {
     background: #f5f7f9;
+  }
+  .congress-main {
+    background: #ffffff;
   }
   .congress-main-title {
     text-align: center;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 700;
-    color: #0e3045;
-    margin-bottom: 28px;
+    color: #0b5ea8;
+    margin-bottom: 20px;
   }
   .congress-summary {
     display: grid;
-    grid-template-columns: minmax(0, 60%) minmax(0, 320px);
-    gap: 28px;
+    grid-template-columns: minmax(0, 520px) minmax(0, 1fr);
+    gap: 24px;
     align-items: start;
-    margin-bottom: 28px;
+    margin: 0 auto 22px;
+    max-width: 920px;
   }
   .congress-summary-media {
     background: #ffffff;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 12px 28px rgba(15, 42, 67, 0.08);
+    box-shadow: 0 10px 22px rgba(15, 42, 67, 0.08);
   }
   .summary-image {
     width: 100%;
-    height: 260px;
+    height: 280px;
     display: block;
   }
   .summary-placeholder {
     width: 100%;
-    height: 260px;
-    background: #e9f1f8;
+    height: 280px;
+    background: #eaf2f9;
   }
   .congress-summary-details {
     display: grid;
-    gap: 18px;
+    gap: 16px;
+    align-content: start;
   }
   .summary-item {
     display: flex;
-    gap: 14px;
+    gap: 12px;
     align-items: flex-start;
   }
   .summary-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background: #e9f4ff;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #e6f2ff;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     img {
-      width: 22px;
-      height: 22px;
+      width: 18px;
+      height: 18px;
       object-fit: contain;
     }
   }
   .summary-label {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     color: #0e3045;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   .summary-value {
-    font-size: 14px;
+    font-size: 13px;
     color: #5d6570;
-    line-height: 20px;
+    line-height: 18px;
   }
   .congress-about-card {
-    background: #eef5fb;
-    border-radius: 12px;
-    padding: 24px 28px;
+    background: #eaf4ff;
+    border-radius: 10px;
+    padding: 20px 26px;
     text-align: center;
-    box-shadow: 0 10px 22px rgba(15, 42, 67, 0.06);
+    box-shadow: 0 8px 18px rgba(15, 42, 67, 0.06);
+    max-width: 920px;
+    margin: 0 auto;
   }
   .about-title {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
     color: #0e3045;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .about-desc {
-    font-size: 14px;
+    font-size: 13px;
     color: #4b5662;
-    line-height: 22px;
+    line-height: 20px;
   }
 
   .congress-registration {
-    background: linear-gradient(180deg, #f7fbff 0%, #f5f7f9 100%);
+    background: linear-gradient(180deg, #f7fbff 0%, #ffffff 100%);
   }
   .registration-title {
     text-align: center;
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 700;
-    color: #0e3045;
+    color: #0b5ea8;
     margin-bottom: 8px;
   }
   .registration-subtitle {
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     color: #6b7380;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
   .registration-info {
-    max-width: 860px;
-    margin: 0 auto 28px;
-    font-size: 13px;
+    max-width: 900px;
+    margin: 0 auto 24px;
+    font-size: 12px;
     color: #4b5662;
-    line-height: 22px;
+    line-height: 20px;
+    text-align: center;
   }
   .registration-cards {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px;
+    gap: 18px;
+    max-width: 920px;
+    margin: 0 auto;
   }
   .registration-card {
     background: #ffffff;
-    border-radius: 10px;
-    padding: 28px 26px 24px;
-    box-shadow: 0 14px 28px rgba(15, 42, 67, 0.08);
-    border: 1px solid #e6eef6;
+    border-radius: 8px;
+    padding: 22px 22px 20px;
+    box-shadow: 0 10px 20px rgba(15, 42, 67, 0.08);
+    border: 1px solid #e8f0f8;
     text-align: center;
   }
   .card-icon {
-    width: 54px;
-    height: 54px;
-    margin: 0 auto 12px;
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 10px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #e9f4ff;
     img {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       object-fit: contain;
     }
     &.abstract {
@@ -579,18 +589,18 @@ export default {
   .card-subtitle {
     font-size: 12px;
     color: #7a848f;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
   .card-features {
     display: grid;
-    gap: 10px;
-    margin-bottom: 18px;
+    gap: 8px;
+    margin-bottom: 14px;
     text-align: left;
   }
   .card-feature {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     font-size: 12px;
     color: #4b5662;
     img {
@@ -601,25 +611,26 @@ export default {
   .card-callout {
     background: #eef7ff;
     border-radius: 8px;
-    padding: 14px 12px;
-    margin-bottom: 18px;
+    padding: 12px 10px;
+    margin-bottom: 16px;
   }
   .callout-main {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 700;
     color: #0f5aa4;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   .callout-sub {
-    font-size: 12px;
+    font-size: 11px;
     color: #5d6570;
   }
   .card-button {
     width: 100%;
-    height: 44px;
+    height: 38px;
     border-radius: 8px;
     font-weight: 600;
     color: #ffffff;
+    font-size: 12px;
     &.attendee {
       background: #0f5aa4;
       border-color: #0f5aa4;
@@ -631,52 +642,54 @@ export default {
   }
 
   .previous-world-congresses {
-    background: #f5f7f9;
+    background: #f7fbff;
   }
   .previous-title {
     text-align: center;
-    font-size: 26px;
+    font-size: 20px;
     font-weight: 700;
-    color: #0e3045;
+    color: #0b5ea8;
     margin-bottom: 6px;
   }
   .previous-subtitle {
     text-align: center;
-    font-size: 13px;
+    font-size: 12px;
     color: #7a848f;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
   }
   .previous-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
+    max-width: 920px;
+    margin: 0 auto;
   }
   .previous-card {
     background: #ffffff;
-    border: 1px solid #e4edf6;
-    border-radius: 6px;
-    padding: 12px 14px;
-    box-shadow: 0 6px 16px rgba(15, 42, 67, 0.06);
+    border: 1px solid #e6f1fb;
+    border-radius: 4px;
+    padding: 10px 12px;
+    box-shadow: none;
   }
   .previous-year {
-    font-size: 12px;
+    font-size: 11px;
     color: #0f5aa4;
     font-weight: 700;
     margin-bottom: 6px;
   }
   .previous-city {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     color: #0e3045;
     margin-bottom: 2px;
   }
   .previous-country {
-    font-size: 12px;
+    font-size: 11px;
     color: #7a848f;
     margin-bottom: 8px;
   }
   .previous-link {
-    font-size: 12px;
+    font-size: 11px;
     color: #0f5aa4;
     font-weight: 600;
   }
