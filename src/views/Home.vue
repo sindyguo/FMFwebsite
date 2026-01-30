@@ -175,22 +175,6 @@
             icon: require('@/assets/img/icon/icon_software.png'),
             categoryName: 'Software',
             title: 'FMF Software',
-          }, {
-            popVisible: false,
-            showPop: true,
-            icon: require('@/assets/img/icon/icon_research.png'),
-            categoryName: 'Look for Life',
-            title: 'Support in developing countries',
-            children: [
-              {
-                categoryName: 'Support in developing countries',
-                routePath: '/look-for-life'
-              },
-              {
-                categoryName: 'Support in developed countries',
-                routePath: '/look-for-life-developed'
-              }
-            ]
           }
         ],
         carouselListData: [],
