@@ -173,6 +173,8 @@
     font-size: 20px;
     line-height: 30px;
     color: #465a67;
+    text-align: justify;
+    text-align-last: left;
   }
 
   .hero-image {

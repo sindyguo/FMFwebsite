@@ -685,7 +685,7 @@
   .upcoming-title {
     font-size: 18px;
     font-weight: 700;
-    color: var(--text-main);
+    color: var(--color-accent);
   }
 
   .upcoming-subtitle {
