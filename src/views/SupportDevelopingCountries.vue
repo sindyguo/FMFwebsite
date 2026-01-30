@@ -4,7 +4,7 @@
     <div class="vcontainer hcenter main-container look-for-life-content">
       <div class="hero-card">
         <div class="hero-text">
-          <div class="hero-title">Support in developing countries</div>
+          <div class="hero-title">FMF Look for Life program</div>
           <div class="hero-desc">
             Ultrasound can significantly improve outcomes for mothers and babies, but access is still largely limited
             to developed countries or wealthier populations in developing countries. Look for Life focuses on training
@@ -18,32 +18,28 @@
       </div>
 
       <div class="section">
-        <div class="section-title">Background</div>
-        <div class="section-desc">
-          The World Health Organization reports that more than 500,000 women die each year from complications of pregnancy
-          and childbirth, with over 99% occurring in less developed or developing countries. Look for Life improves
-          care for high-risk pregnancies through structured training and center development.
-        </div>
-        <div class="stat-grid">
-          <div class="stat-card">
-            <div class="stat-num">500k+</div>
-            <div class="stat-label">Women dying each year from pregnancy/childbirth complications</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num">99%+</div>
-            <div class="stat-label">Occur in less developed or developing countries</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-num">2 years</div>
-            <div class="stat-label">Fetal medicine fellowship training in London</div>
-          </div>
-        </div>
+        <div class="section-title background-title">Background</div>
+        <ul class="background-list">
+          <li>
+            The World Health Organization reports:
+            <ul>
+              <li>
+                More than <span class="highlight-blue">500,000 women die</span> each year from complications of pregnancy and childbirth.
+              </li>
+              <li>
+                More than <span class="highlight-blue">99% of death</span> occur in less developed or developing countries.
+              </li>
+            </ul>
+          </li>
+          <li>
+            Look for Life aims to improve care through center development and structured training.
+          </li>
+        </ul>
       </div>
 
       <div class="section action-section">
-        <div class="section-title">Program actions</div>
+        <div class="section-title blue-title">FMF program actions</div>
         <div class="action-grid">
-          <div class="action-item">Train local healthcare professionals in obstetric ultrasound</div>
           <div class="action-item">Establish specialist fetal medicine centers for high-risk care</div>
           <div class="action-item">Provide high-quality ultrasound equipment and center support</div>
           <div class="action-item">Send expert teams for teaching and hands-on guidance</div>
@@ -52,7 +48,7 @@
       </div>
 
       <div class="section">
-        <div class="section-title">Supported countries and regions</div>
+        <div class="section-title blue-title">Supported countries and regions</div>
         <div class="country-tags">
           <span v-for="country in countries" :key="country" class="country-tag">
             {{ country }}
@@ -61,7 +57,7 @@
       </div>
 
       <div class="section">
-        <div class="section-title">Field photos</div>
+        <div class="section-title blue-title">Field photos</div>
         <div class="gallery-grid">
           <div v-for="item in gallery" :key="item.src" class="gallery-item">
             <el-image :src="item.src" fit="cover" :alt="item.alt" class="gallery-image" />
@@ -85,9 +81,8 @@
     data() {
       return {
         topBannerList: [{
-          img: require('@/assets/img/look_for_life_header.png'),
-          title: 'Look for Life',
-          desc: 'Support in developing countries'
+          img: require('@/assets/img/headers/look-for-life-header.jpeg'),
+          title: 'Support in developing countries'
         }],
         images: {
           hero: require('@/assets/img/look_for_life_hero.png')
@@ -201,6 +196,40 @@
     margin-bottom: 12px;
   }
 
+  .background-title {
+    color: #036FC0;
+  }
+
+  .blue-title {
+    color: #036FC0;
+  }
+
+  .background-list {
+    margin: 0;
+    padding-left: 20px;
+    color: #4a5b67;
+    font-size: 16px;
+    line-height: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    ul {
+      margin-top: 8px;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      list-style: circle;
+    }
+  }
+
+  .highlight-blue {
+    color: #036FC0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
   .section-desc {
     font-size: 16px;
     line-height: 26px;
@@ -249,7 +278,7 @@
     border-radius: 10px;
     background: #f3f8fd;
     color: #0e3045;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .country-tags {

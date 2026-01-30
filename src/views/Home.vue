@@ -49,7 +49,6 @@
                   </div>
                   <div class="nav-item-info">
                     <span class="nav-item-title">{{ item.categoryName }}</span>
-                    <span class="nav-item-desc">{{ item.title }}</span>
                   </div>
                   <i class="el-icon-arrow-right nav-arrow"></i>
                 </div>
@@ -62,11 +61,6 @@
         <main class="right-content">
           <!-- Main Carousel / Featured -->
           <div class="featured-section">
-            <div class="section-header">
-              <h2>Upcoming Events</h2>
-              <div class="header-line"></div>
-            </div>
-            
             <el-carousel 
               arrow="hover"
               height="420px"
@@ -116,8 +110,62 @@
             </el-carousel>
           </div>
 
-          <!-- Announcement / Research -->
-          <div class="info-section">
+          <div class="upcoming-section">
+            <div class="section-header">
+              <h2>Upcoming Events</h2>
+              <div class="header-line"></div>
+            </div>
+
+            <div class="upcoming-grid">
+              <div class="upcoming-card">
+                <h3 class="upcoming-title">Next FMF lecture</h3>
+                <div class="upcoming-meta">
+                  <span class="upcoming-meta-label">Topic</span>
+                  <span class="upcoming-meta-text">Cholestasis in pregnancy by Catherine Williamson.</span>
+                </div>
+                <div class="upcoming-meta">
+                  <span class="upcoming-meta-label">Date</span>
+                  <span class="upcoming-meta-text">20th February at 13:30</span>
+                </div>
+              </div>
+
+              <div class="upcoming-card">
+                <div class="upcoming-title">New FMF Supported Webinar Series</div>
+                <div class="upcoming-subtitle">Research Training Program in Obstetrics, Maternal-Fetal Medicine and Reproductive Health.</div>
+                <p class="upcoming-text">
+                  This free-of-charge course is organised by <strong>The Fetal Medicine Foundation Asia Pacific</strong> and is supported by the <strong>FMF.</strong>
+                </p>
+                <p class="upcoming-text">
+                  <strong>First lecture - Thursday 26 February 2026</strong>
+                  <a
+                    class="upcoming-link"
+                    href="https://news.fetalmedicine.org/l/nf150IUqqCfSF3uQNp9PZg/IrpEyQzDCxooAUy0rIsvAQ/20wbHD763GZeYXhX67J8920QzA"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    Click here to register
+                  </a>
+                </p>
+                <p class="upcoming-text">
+                  <strong>Each webinar lasts for 60-90 minutes and will be held on the last Thursday of each month at 10 am GMT (6 pm HKT, 9 pm AEDT, 11 am CET).</strong>
+                </p>
+                <ul class="upcoming-list">
+                  <li>The course offers a structured program of training from basic to advanced research skills, data analysis and statistics and ensures that participants gain both theoretical knowledge and practical application.</li>
+                  <li>The curriculum is tailored to meet the needs of healthcare professionals and individuals aspiring to pursue medical research. By combining interactive learning, expert guidance, and practical exercises, the program aims to strengthen research capacity and foster innovation in obstetrics and maternal-fetal medicine.</li>
+                </ul>
+                <p class="upcoming-text">
+                  <strong>Faculty:</strong> Liona Poon, Jon Hyett, Daniel Rolnik, Ben Mol, Fabricio Da Silva Costa, Long Nguyen-Hoang, Piya Chaemsaithong, Clarissa Velayo, Constance Chen, Valeria Rolle, Mar Gil
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- News -->
+          <div class="news-section">
+            <div class="section-header">
+              <h2>News</h2>
+              <div class="header-line"></div>
+            </div>
              <div class="info-card" @click="goto('https://www.fetalmedicine.org/fmf-fellowships')">
                <div class="info-icon">
                  <i class="el-icon-info"></i>
@@ -173,8 +221,8 @@
             showPop: false,
             linkUrl: 'https://fmf.refractionx.com/download?direct=true',
             icon: require('@/assets/img/icon/icon_software.png'),
-            categoryName: 'Software',
-            title: 'FMF Software',
+            categoryName: 'FMF software',
+            title: 'FMF software',
           }
         ],
         carouselListData: [],
@@ -379,8 +427,8 @@
     transition: var(--transition-base);
     
     .nav-item-icon {
-      width: 24px;
-      height: 24px;
+      width: 36px;
+      height: 36px;
       /* Adjust icon color via filter */
       filter: brightness(0) saturate(100%) invert(43%) sepia(96%) saturate(1832%) hue-rotate(185deg) brightness(96%) contrast(96%);
       transition: var(--transition-base);
@@ -391,17 +439,12 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    justify-content: center;
     
     .nav-item-title {
       font-size: 16px;
       font-weight: 600;
       color: var(--text-main);
-    }
-    
-    .nav-item-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
     }
   }
 
@@ -577,11 +620,90 @@
     }
   }
 
-  /* Info/Research Section */
-  .info-section {
+  .upcoming-section {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
+  }
+
+  .upcoming-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .upcoming-card {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .upcoming-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+
+  .upcoming-subtitle {
+    font-size: 15px;
+    color: var(--text-regular);
+  }
+
+  .upcoming-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .upcoming-meta-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+
+  .upcoming-meta-text {
+    font-size: 15px;
+    color: var(--text-regular);
+  }
+
+  .upcoming-lead {
+    font-size: 15px;
+    color: var(--text-main);
+  }
+
+  .upcoming-text {
+    font-size: 14px;
+    color: var(--text-regular);
+    line-height: 1.6;
+  }
+
+  .upcoming-link {
+    margin-left: 8px;
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .upcoming-list {
+    padding-left: 18px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    color: var(--text-regular);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* News Section */
+  .news-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
   .info-card {

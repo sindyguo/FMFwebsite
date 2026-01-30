@@ -13,24 +13,21 @@
 
     <section class="course-library">
       <div class="main-container">
-        <div class="course-search-row">
-          <el-input
-            v-model="searchQuery"
-            placeholder="Search courses..."
-            clearable
-            prefix-icon="el-icon-search"
-            class="course-search-input"
-          ></el-input>
-        </div>
-        <div class="course-category-row">
-          <button
-            v-for="option in categoryOptions"
-            :key="option.id"
-            :class="['course-chip', selectedCategory === option.id ? 'is-active' : '']"
-            @click="setCategory(option.id)"
-          >
-            {{ option.label }}
-          </button>
+        <div class="course-completion-section">
+          <div class="course-completion-title">
+            Healthcare professionals who have completed theoretical courses
+          </div>
+          <div class="course-completion-list">
+            <button
+              v-for="course in listData"
+              :key="course.id || course.categoryName"
+              class="completion-chip"
+              type="button"
+              @click="openCompletionMap(course)"
+            >
+              {{ course.categoryName }}
+            </button>
+          </div>
         </div>
         <div class="course-results">
           <div class="course-results-title">{{ selectedCategoryLabel }}</div>
@@ -98,12 +95,51 @@
       </div>
     </section>
 
+    <div v-if="isCompletionModalOpen" class="completion-modal" @click.self="closeCompletionModal">
+      <div class="completion-modal-card">
+        <div class="completion-modal-header">
+          <div class="completion-modal-title">{{ selectedCompletionCourse.name }}</div>
+          <button class="completion-modal-close" type="button" @click="closeCompletionModal">Close</button>
+        </div>
+        <div class="completion-modal-body">
+          <div class="completion-map-layout">
+            <div class="completion-map-panel">
+              <div v-if="isCompletionMapLoading" class="completion-map-loading">Loading map data...</div>
+              <div v-else ref="completionMap" class="completion-map"></div>
+            </div>
+            <div class="completion-list-panel">
+              <div class="completion-list-title">
+                <span>{{ completionCountryLabel }}</span>
+                <span v-if="completionCountryCount !== null" class="completion-list-count">{{ completionCountryCount }}</span>
+              </div>
+              <div class="completion-list-subtitle">
+                Click a country to view the list of course completers.
+              </div>
+              <div v-if="isCompletionCountryLoading" class="completion-list-loading">Loading completers...</div>
+              <div v-else class="completion-list-content">
+                <div
+                  v-for="person in completionCountryPeople"
+                  :key="person.id + person.name"
+                  class="completion-person-row">
+                  <span class="completion-person-name">{{ person.name }}</span>
+                  <span class="completion-person-id">{{ person.id }}</span>
+                </div>
+                <div v-if="!completionCountryPeople.length" class="completion-empty-state">
+                  Select a country to see its course completers.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
   import BabyScanHeader from '@/components/BabyScanHeader.vue'
+  import * as echarts from 'echarts'
 
   export default {
     name: 'CoursePage',
@@ -233,7 +269,18 @@
             moduleCount: 11,
             sort: 13
           }
-        ]
+        ],
+        selectedCompletionCourse: { name: 'Course completers', slug: '' },
+        isCompletionModalOpen: false,
+        isCompletionMapLoading: false,
+        completionChartInstance: null,
+        completionNameToCode: {},
+        completionMapCounts: {},
+        completionCountryLabel: 'No country selected',
+        completionCountryCount: null,
+        completionCountryPeople: [],
+        isCompletionCountryLoading: false,
+        completionWorldMap: null
       }
     },
     computed: {
@@ -332,6 +379,186 @@
         }).catch(err => {
           console.log('err:', err)
         })
+      },
+      async openCompletionMap(course) {
+        const slug = (course?.categoryName || '')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/(^-|-$)/g, '')
+        this.selectedCompletionCourse = {
+          name: course.categoryName || 'Course completers',
+          slug
+        }
+        this.isCompletionModalOpen = true
+        this.completionCountryLabel = 'No country selected'
+        this.completionCountryCount = null
+        this.completionCountryPeople = []
+        this.isCompletionCountryLoading = false
+        await this.$nextTick()
+        await this.loadCompletionMapData()
+      },
+      closeCompletionModal() {
+        this.isCompletionModalOpen = false
+        if (this.completionChartInstance) {
+          this.completionChartInstance.dispose()
+          this.completionChartInstance = null
+        }
+        window.removeEventListener('resize', this.resizeCompletionMap)
+      },
+      async loadCompletionMapData() {
+        this.isCompletionMapLoading = true
+        const slug = this.selectedCompletionCourse.slug
+        try {
+          const resp = await fetch(`/data/fmf-course-completions/${slug}_counts.json`, { cache: 'force-cache' })
+          const data = await resp.json()
+          this.completionMapCounts = data.counts || {}
+        } catch (err) {
+          this.completionMapCounts = {}
+        } finally {
+          this.isCompletionMapLoading = false
+          this.$nextTick(() => {
+            this.initCompletionMap()
+          })
+        }
+      },
+      async initCompletionMap() {
+        if (!this.$refs.completionMap) {
+          return
+        }
+        if (this.completionChartInstance) {
+          this.completionChartInstance.dispose()
+          this.completionChartInstance = null
+        }
+        const worldJson = await this.loadCompletionWorldMap()
+        echarts.registerMap('world', worldJson)
+
+        const formatter = new Intl.DisplayNames(['en'], { type: 'region' })
+        const values = this.completionMapCounts
+        const nameToCode = {}
+        const mapData = Object.keys(values).map((code) => {
+          let name = code
+          if (code && code.length === 2 && formatter) {
+            name = formatter.of(code) || code
+          }
+          nameToCode[name] = code
+          return { name, value: values[code] }
+        })
+        this.completionNameToCode = nameToCode
+
+        this.completionChartInstance = echarts.init(this.$refs.completionMap)
+        this.completionChartInstance.setOption({
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'item',
+            backgroundColor: 'rgba(255,255,255,0.95)',
+            borderColor: '#2E73BE',
+            padding: [10, 15],
+            textStyle: { color: '#455a64' },
+            extraCssText: 'box-shadow: 0 4px 20px rgba(46, 115, 190, 0.15); border-radius: 8px; backdrop-filter: blur(4px);',
+            formatter: (p) => (p.value ? `<b>${p.name}</b><br/><span style="color:#2E73BE; font-size:18px; font-weight:bold;">${p.value}</span> Completed` : p.name)
+          },
+          visualMap: {
+            left: 40,
+            bottom: 40,
+            min: 0,
+            max: Math.max(5, ...Object.values(values)),
+            inRange: {
+              color: ['#EBF5F7', '#C0D8E6', '#93B8D4', '#5F93C2', '#2E73BE']
+            },
+            text: ['High', 'Low'],
+            textStyle: { color: '#5F93C2' },
+            outOfRange: { color: '#ffffff' }
+          },
+          series: [{
+            type: 'map',
+            map: 'world',
+            roam: true,
+            zoom: 1.2,
+            itemStyle: {
+              areaColor: '#ffffff',
+              borderColor: '#C0D8E6',
+              borderWidth: 1,
+              shadowColor: 'rgba(95, 147, 194, 0.15)',
+              shadowBlur: 10,
+              shadowOffsetY: 4
+            },
+            emphasis: {
+              label: { show: false },
+              itemStyle: {
+                areaColor: '#C8ACD6',
+                shadowBlur: 25,
+                shadowColor: 'rgba(200, 172, 214, 0.6)',
+                shadowOffsetX: 6,
+                shadowOffsetY: 8
+              }
+            },
+            select: {
+              itemStyle: {
+                areaColor: '#C8ACD6',
+                shadowBlur: 0,
+                shadowColor: 'transparent'
+              }
+            },
+            data: mapData
+          }]
+        })
+
+        this.completionChartInstance.on('click', (params) => {
+          if (params.componentType !== 'series') return
+          const code = this.completionNameToCode[params.name] || params.name
+          this.loadCompletionCountryList(code, params.name)
+        })
+        this.completionChartInstance.getZr().on('click', (event) => {
+          if (!event.target) {
+            this.completionCountryLabel = 'No country selected'
+            this.completionCountryCount = null
+            this.completionCountryPeople = []
+          }
+        })
+        window.addEventListener('resize', this.resizeCompletionMap)
+      },
+      resizeCompletionMap() {
+        if (this.completionChartInstance) {
+          this.completionChartInstance.resize()
+        }
+      },
+      async loadCompletionWorldMap() {
+        if (this.completionWorldMap) {
+          return this.completionWorldMap
+        }
+        const resp = await fetch('https://raw.githubusercontent.com/apache/echarts-examples/gh-pages/public/data/asset/geo/world.json')
+        const data = await resp.json()
+        this.completionWorldMap = data
+        return data
+      },
+      async loadCompletionCountryList(code, name) {
+        const count = this.completionMapCounts[code] ?? this.completionMapCounts[name]
+        if (!count) {
+          this.completionCountryLabel = 'No data for selected country'
+          this.completionCountryCount = null
+          this.completionCountryPeople = []
+          return
+        }
+        this.isCompletionCountryLoading = true
+        const slug = this.selectedCompletionCourse.slug
+        const countryKey = code && code.length <= 3 ? code : this.slugifyCountryName(name || code)
+        try {
+          const resp = await fetch(`/data/fmf-course-completions/${slug}/${countryKey}.json`, { cache: 'force-cache' })
+          const data = await resp.json()
+          this.completionCountryLabel = data.country || name || code
+          this.completionCountryCount = data.count || null
+          this.completionCountryPeople = data.people || []
+        } catch (err) {
+          this.completionCountryLabel = 'Unable to load country data'
+          this.completionCountryCount = null
+          this.completionCountryPeople = []
+        } finally {
+          this.isCompletionCountryLoading = false
+        }
+      },
+      slugifyCountryName(value) {
+        if (!value) return ''
+        return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
       }
     },
     mounted() {
@@ -418,6 +645,41 @@
       color: #ffffff;
       border-color: #0f5aa4;
       box-shadow: 0 10px 20px rgba(15, 90, 164, 0.2);
+    }
+    .course-completion-section {
+      margin-bottom: 24px;
+      padding: 18px 20px;
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1px solid #e6eef5;
+      box-shadow: 0 8px 24px rgba(14, 48, 69, 0.08);
+    }
+    .course-completion-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0e3045;
+      margin-bottom: 14px;
+    }
+    .course-completion-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .completion-chip {
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid #d7e2ee;
+      background: #f7fbff;
+      color: #0e3045;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .completion-chip:hover {
+      border-color: #036fc0;
+      color: #036fc0;
+      background: #eef6ff;
     }
     .course-results {
       margin-bottom: 18px;
@@ -579,6 +841,149 @@
       margin-top: 16px;
     }
 
+    .completion-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 24px;
+    }
+
+    .completion-modal-card {
+      width: min(1800px, 98vw);
+      max-height: 98vh;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .completion-modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #e6eef5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: #f8fbff;
+    }
+
+    .completion-modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0e3045;
+    }
+
+    .completion-modal-close {
+      border: none;
+      background: #036fc0;
+      color: #ffffff;
+      border-radius: 999px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .completion-modal-body {
+      padding: 20px 24px 24px;
+      overflow: auto;
+    }
+
+    .completion-map-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 20px;
+    }
+
+    .completion-map-panel,
+    .completion-list-panel {
+      background: #ffffff;
+      border: 1px solid #e6eef5;
+      border-radius: 14px;
+      padding: 20px;
+      min-height: 560px;
+    }
+
+    .completion-map {
+      width: 100%;
+      height: 560px;
+      border-radius: 12px;
+    }
+
+    .completion-map-loading,
+    .completion-list-loading {
+      color: #6b7380;
+      font-size: 14px;
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    .completion-list-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #0e3045;
+      margin-bottom: 6px;
+    }
+
+    .completion-list-count {
+      background: #e6f1ff;
+      color: #036fc0;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+
+    .completion-list-subtitle {
+      font-size: 13px;
+      color: #6b7380;
+      margin-bottom: 12px;
+    }
+
+    .completion-list-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 480px;
+      overflow: auto;
+    }
+
+    .completion-person-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+      color: #4a5b67;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed #e6eef5;
+    }
+
+    .completion-person-name {
+      font-weight: 600;
+      color: #0e3045;
+    }
+
+    .completion-person-id {
+      color: #6b7380;
+      font-size: 12px;
+    }
+
+    .completion-empty-state {
+      color: #8a9aa6;
+      font-size: 13px;
+      text-align: center;
+      padding: 20px 0;
+    }
+
     @media (max-width: 1024px) {
       .course-grid {
         grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -597,6 +1002,16 @@
       }
       .course-search-row {
         max-width: 100%;
+      }
+      .completion-map-layout {
+        grid-template-columns: 1fr;
+      }
+      .completion-map-panel,
+      .completion-list-panel {
+        min-height: unset;
+      }
+      .completion-map {
+        height: 300px;
       }
     }
   }

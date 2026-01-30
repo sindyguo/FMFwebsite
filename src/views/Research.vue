@@ -138,16 +138,6 @@
         </div>
       </div>
 
-      <div class="section">
-        <div class="section-title">Our publications</div>
-        <div class="section-desc">
-          Explore the latest research publications from the FMF, including peer-reviewed articles, reviews and
-          randomized trials.
-        </div>
-        <button class="primary-link" @click="gotoPublications">
-          View research publications
-        </button>
-      </div>
     </div>
   </div>
 </template>
@@ -163,9 +153,9 @@
     data() {
       return {
         topBannerList: [{
-          img: require('@/assets/img/research_header.jpeg'),
-          title: 'Research',
-          desc: 'Ongoing and completed randomized trials, plus publications'
+          img: require('@/assets/img/headers/research-header.jpeg'),
+          title: 'Randomized trials',
+          desc: ''
         }]
       }
     },
@@ -183,6 +173,16 @@
     padding-bottom: 48px;
     font-family: 'Helvetica', Arial, sans-serif;
     font-size: 18px;
+  }
+
+  ::v-deep .top-banner .top-banner-content {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
+  ::v-deep .top-banner .top-banner-content .title {
+    margin: 0;
   }
 
   .research-content {
@@ -224,7 +224,7 @@
   .subsection-title {
     font-size: 20px;
     font-weight: 600;
-    color: #0f5aa4;
+    color: #036FC0;
     margin-bottom: 12px;
   }
 
@@ -257,7 +257,7 @@
 
   .primary-link {
     margin-top: 14px;
-    background: #0f5aa4;
+    background: #036FC0;
     color: #ffffff;
     border: none;
     padding: 10px 18px;

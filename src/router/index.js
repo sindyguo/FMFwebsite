@@ -201,15 +201,6 @@ const routes = [
         }
       },
       {
-        path: '/fmf-certification',
-        name: 'FMFCertification',
-        component: () => import(/* webpackChunkName: 'FMFCertification' */ '../views/FMFCertification.vue'),
-        meta: {
-          title: 'FMF Certification',
-          requiresAuth: false
-        }
-      },
-      {
         path: '/calculators',
         name: 'Calculators',
         component: () => import(/* webpackChunkName: 'Calculators' */ '../views/Calculators.vue'),

@@ -2,28 +2,34 @@
   <div class="vcontainer support-developed">
     <TopBanner height="260px" :listData="topBannerList" />
     <div class="vcontainer hcenter main-container support-developed-content">
-      <div class="section">
-        <div class="section-title">Support in developed countries</div>
-        <div class="section-desc">
-          Look for Life also supports specialist fetal medicine centers in developed countries. The projects below
-          highlight targeted investment in facilities, equipment, and training.
+      <div class="section split-section">
+        <div class="split-text">
+          <div class="section-title">Southend hospital, UK</div>
+          <div class="section-desc">
+            The Fetal Medicine Foundation has made a major donation for the development and equipment of a specialist
+            fetal medicine centre at
+            <a class="section-link" href="https://www.mse.nhs.uk" target="_blank" rel="noopener">Southend University Hospital</a>.
+          </div>
+          <div class="section-desc">
+            The new centre, which opened in 2015, aims to provide a high level of care for pregnant women and their
+            unborn babies. The new centre is actively involved in research into pregnancy complications and in the
+            training of doctors in fetal medicine. The doctors working in the unit are rotating into the fetal medicine
+            unit at King's College Hospital, London.
+          </div>
+        </div>
+        <div class="split-carousel">
+          <el-carousel height="320px" indicator-position="outside" arrow="hover" class="support-carousel">
+            <el-carousel-item v-for="(img, idx) in carouselImages" :key="idx">
+              <el-image :src="img" fit="cover" class="carousel-image" alt="Support in developed countries" />
+            </el-carousel-item>
+          </el-carousel>
         </div>
       </div>
 
-      <div class="project-grid">
-        <div v-for="project in projects" :key="project.title" class="project-card">
-          <div class="project-image">
-            <el-image :src="project.image" fit="cover" :alt="project.title" />
-          </div>
-          <div class="project-header">
-            <div class="project-title">{{ project.title }}</div>
-            <div class="project-location">{{ project.location }}</div>
-          </div>
-          <div class="project-body">
-            <p v-for="(line, index) in project.details" :key="index" class="project-text">
-              {{ line }}
-            </p>
-          </div>
+      <div class="section note-section">
+        <div class="section-desc">
+          The FMF has also donated high quality ultrasound machines to Atticon University Hospital, Athens, Greece, and
+          Makarios Hospital for Women and Children, Nicosia, Cyprus.
         </div>
       </div>
     </div>
@@ -41,31 +47,12 @@
     data() {
       return {
         topBannerList: [{
-          img: require('@/assets/img/look_for_life_developed_header.jpeg'),
-          title: 'Look for Life',
-          desc: 'Support in developed countries'
+          img: require('@/assets/img/headers/look-for-life-header.jpeg'),
+          title: 'Support in developed countries'
         }],
-        projects: [
-          {
-            title: 'Southend University Hospital',
-            location: 'Essex, United Kingdom',
-            image: 'https://fetalmedicine.org/var/uploads/File/0/0/s/o/u/southend_400_001.JPG',
-            details: [
-              'The FMF made a major donation to develop and equip a specialist fetal medicine centre at Southend University Hospital.',
-              'The centre opened in 2015 and provides specialist fetal medicine care for the region.',
-              'Doctors are involved in research into pregnancy complications and contribute to training.',
-              'Doctors also rotate for six months in the fetal medicine unit at King\'s College Hospital, London.'
-            ]
-          },
-          {
-            title: 'Attikon University Hospital',
-            location: 'Athens, Greece',
-            image: require('@/assets/img/attiko2_2.jpg'),
-            details: [
-              'The FMF donated a high-quality ultrasound machine to Attikon University Hospital.',
-              'Attikon participated in a multicentre European study showing low-dose aspirin for high-risk women is highly effective in preventing preeclampsia.'
-            ]
-          }
+        carouselImages: [
+          require('@/assets/img/support-developed/southend_400_001.jpg'),
+          require('@/assets/img/support-developed/southend_400_003-2.jpg')
         ]
       }
     }
@@ -107,79 +94,38 @@
     color: #4a5b67;
   }
 
-  .project-grid {
+  .section-link {
+    color: #036fc0;
+    font-weight: 600;
+  }
+
+  .split-section {
     display: grid;
-    gap: 20px;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    align-items: center;
   }
 
-  .project-card {
-    background: #ffffff;
+  .support-carousel {
     border-radius: 12px;
-    padding: 22px;
-    box-shadow: 0 6px 18px rgba(14, 48, 69, 0.06);
-    border: 1px solid #e6eef5;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    box-sizing: border-box;
-  }
-
-  .project-image {
-    width: 100%;
-    height: 220px;
-    border-radius: 10px;
     overflow: hidden;
-    background: #ffffff;
+    box-shadow: 0 6px 18px rgba(14, 48, 69, 0.12);
+    background: #f6f9fc;
   }
 
-  .project-image ::v-deep .el-image {
+  .carousel-image {
     width: 100%;
     height: 100%;
-    border-radius: 10px;
-    overflow: hidden;
   }
 
-  .project-image ::v-deep .el-image__inner {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 10px;
-    background-color: #ffffff;
+  .note-section {
+    padding: 20px 24px;
   }
 
-  .project-header {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 0;
-  }
-
-  .project-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: #0e3045;
-  }
-
-  .project-location {
-    font-size: 14px;
-    color: #6c7a86;
-  }
-
-  .project-body {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 0;
-  }
-
-  .project-text {
-    margin: 0;
-    font-size: 16px;
-    line-height: 26px;
-    color: #4a5b67;
-    text-align: justify;
-    text-align-last: left;
+  @media (max-width: 900px) {
+    .split-section {
+      grid-template-columns: 1fr;
+    }
   }
 
   ::v-deep .top-banner .top-banner-content {
