@@ -188,7 +188,7 @@
         topBannerList: [{
           img: require('@/assets/img/fmf_fellowships_header.jpeg'),
           title: 'FMF Fellowships',
-          desc: 'Training and research opportunities'
+          desc: ''
         }],
         diplomaKnowledge: [
           {
@@ -267,6 +267,16 @@
     padding-bottom: 48px;
     font-family: 'Helvetica', Arial, sans-serif;
     font-size: 16px;
+  }
+
+  ::v-deep .top-banner .top-banner-content {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
+  ::v-deep .top-banner .top-banner-content .title {
+    margin: 0;
   }
 
   .fellowships-content {

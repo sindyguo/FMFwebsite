@@ -5,9 +5,8 @@
       <div class="section">
         <div class="section-header">
           <div class="section-heading">
-            <div class="section-title">Research publications</div>
             <div class="section-desc">
-              Publications list from the FMF research publications archive.
+              Title
             </div>
           </div>
           <div class="filters">
@@ -74,9 +73,9 @@
     data() {
       return {
         topBannerList: [{
-          img: require('@/assets/img/research_header.jpeg'),
-          title: 'Our publications',
-          desc: 'Research publications from the FMF'
+          img: require('@/assets/img/headers/research-header.jpeg'),
+          title: 'Research publications',
+          desc: ''
         }],
         yearFilter: 'All',
         keyword: '',
@@ -239,6 +238,16 @@
     padding-bottom: 48px;
     font-family: 'Helvetica', Arial, sans-serif;
     font-size: 16px;
+  }
+
+  .research-publications ::v-deep .top-banner .top-banner-content {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .research-publications ::v-deep .top-banner .top-banner-content .title {
+    margin: 0;
   }
 
   .publications-content {

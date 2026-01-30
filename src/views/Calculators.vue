@@ -108,7 +108,7 @@
         topBannerList: [{
           img: require('@/assets/img/calculators_header.jpeg'),
           title: 'Calculators',
-          desc: 'Risk assessment tools and audit calculators'
+          desc: ''
         }],
         categories,
         selectedCalculator: categories[0].items[0],
@@ -133,6 +133,16 @@
     padding-bottom: 48px;
     font-family: 'Helvetica', Arial, sans-serif;
     font-size: 18px;
+  }
+
+  ::v-deep .top-banner .top-banner-content {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
+
+  ::v-deep .top-banner .top-banner-content .title {
+    margin: 0;
   }
 
   .calculators-content {

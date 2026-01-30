@@ -292,6 +292,16 @@
           self.$router.push('/research')
           return
         }
+        if (selectedItem.item.id === 'research-randomized-trials') {
+          self.changeActiveId(key)
+          self.$router.push('/research')
+          return
+        }
+        if (selectedItem.item.id === 'research-publications') {
+          self.changeActiveId(key)
+          self.$router.push('/research-publications')
+          return
+        }
         if (selectedItem.item.id === 'support-developing') {
           self.changeActiveId(key)
           self.$router.push('/look-for-life')
@@ -319,12 +329,6 @@
         if ((selectedItem.item.categoryName || '').toLowerCase() === 'calculators') {
           self.changeActiveId(key)
           self.$router.push('/calculators')
-          return
-        }
-        if ((selectedItem.item.categoryName || '').toLowerCase() === 'fmf certification' ||
-          selectedItem.item.id === 'fmf-certification') {
-          self.changeActiveId(key)
-          self.$router.push('/fmf-certification')
           return
         }
         if (selectedItem.item.categoryName === 'Education' || selectedItem.item.categoryName === 'Online Courses') {
@@ -378,15 +382,18 @@
                 { id: 'support-developed', categoryName: 'Support in developed countries' }
               ]
             }
-            const hasCertification = data.some((item) => (item?.categoryName || '').toLowerCase() === 'fmf certification')
-            if (!hasCertification) {
-              data.push({ id: 'fmf-certification', categoryName: 'FMF Certification' })
+            const researchItem = data.find((item) => (item?.categoryName || '').toLowerCase() === 'research')
+            if (researchItem) {
+              researchItem.childrenList = [
+                { id: 'research-randomized-trials', categoryName: 'Randomized trials' },
+                { id: 'research-publications', categoryName: 'Research publications' }
+              ]
             }
+            const coursesIndex = data.findIndex((item) => item?.categoryName === 'Courses & Congress')
             const onlineIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'online courses')
-            const certIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'fmf certification')
-            if (certIndex > -1 && onlineIndex > -1 && certIndex > onlineIndex) {
-              const [certItem] = data.splice(certIndex, 1)
-              data.splice(onlineIndex, 0, certItem)
+            if (coursesIndex > -1 && onlineIndex > -1 && onlineIndex !== coursesIndex + 1) {
+              const [onlineItem] = data.splice(onlineIndex, 1)
+              data.splice(coursesIndex + 1, 0, onlineItem)
             }
             this.listData = data
           } else {
