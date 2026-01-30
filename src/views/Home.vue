@@ -11,48 +11,86 @@
           <div class="sidebar-card">
             <h3 class="sidebar-title">Explore</h3>
             <div class="nav-list">
-              <el-popover
-                v-for="(item, index) in leftListData" 
-                :key="index"
-                v-model="item.popVisible"
-                placement="right-start" 
-                :visible-arrow="false"
-                trigger="hover"
-                popper-class="modern-popover"
-                :offset="10">
-                
-                <!-- Popover Content -->
-                <div class="popover-content">
-                  <div class="popover-header">
-                    <span>{{ item.title }}</span>
-                  </div>
-                  <div class="popover-body">
-                    <div v-if="!item.children || item.children.length == 0" class="empty-state">
-                      No data available
+              <template v-for="(item, index) in leftListData">
+                <el-popover
+                  v-if="item.showPop"
+                  :key="`popover-${index}`"
+                  v-model="item.popVisible"
+                  placement="right-start" 
+                  :visible-arrow="false"
+                  trigger="hover"
+                  popper-class="modern-popover"
+                  :offset="10">
+                  
+                  <!-- Popover Content -->
+                  <div class="popover-content">
+                    <div class="popover-header">
+                      <span>{{ item.title }}</span>
                     </div>
-                    <div
-                      v-else
-                      v-for="subItem in (item.children ||[])"
-                      :key="subItem.categoryName"
-                      class="popover-item"
-                      @click="leftItemClick(item, subItem)">
-                      <div class="popover-item-dot"></div>
-                      <span>{{ subItem.categoryName }}</span>
+                    <div class="popover-body">
+                      <div v-if="!item.children || item.children.length == 0" class="empty-state">
+                        No data available
+                      </div>
+                      <div
+                        v-else
+                        v-for="subItem in (item.children ||[])"
+                        :key="subItem.categoryName"
+                        class="popover-item"
+                        @click="leftItemClick(item, subItem)">
+                        <div class="popover-item-dot"></div>
+                        <span>{{ subItem.categoryName }}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <!-- Trigger -->
-                <div slot="reference" :class="['nav-item', `nav-item-${index}`]" @click="itemClick(item)">
+                  <!-- Trigger -->
+                  <div slot="reference" :class="['nav-item', `nav-item-${index}`]" @click="itemClick(item)">
+                    <div class="nav-item-icon-box">
+                      <svg v-if="index === 0" class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4.5 5.5c0-1.1.9-2 2-2h6a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3h-6a2 2 0 0 0-2 2z" />
+                        <path d="M19.5 5.5c0-1.1-.9-2-2-2h-6a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h6a2 2 0 0 1 2 2z" />
+                      </svg>
+                      <svg v-else-if="index === 1" class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="4" y="3.5" width="16" height="17" rx="2" />
+                        <path d="M8 8h8M8 12h3m2 0h3M8 16h3m2 0h3" />
+                      </svg>
+                      <svg v-else class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3.5" y="4" width="17" height="12" rx="2" />
+                        <path d="M8 20h8M10 16v4M14 16v4" />
+                      </svg>
+                    </div>
+                    <div class="nav-item-info">
+                      <span class="nav-item-title">{{ item.categoryName }}</span>
+                    </div>
+                    <i class="el-icon-arrow-right nav-arrow"></i>
+                  </div>
+                </el-popover>
+
+                <div
+                  v-else
+                  :key="`item-${index}`"
+                  :class="['nav-item', `nav-item-${index}`]"
+                  @click="itemClick(item)">
                   <div class="nav-item-icon-box">
-                    <el-image :src="item.icon" class="nav-item-icon" alt="" />
+                    <svg v-if="index === 0" class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M4.5 5.5c0-1.1.9-2 2-2h6a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3h-6a2 2 0 0 0-2 2z" />
+                      <path d="M19.5 5.5c0-1.1-.9-2-2-2h-6a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h6a2 2 0 0 1 2 2z" />
+                    </svg>
+                    <svg v-else-if="index === 1" class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <rect x="4" y="3.5" width="16" height="17" rx="2" />
+                      <path d="M8 8h8M8 12h3m2 0h3M8 16h3m2 0h3" />
+                    </svg>
+                    <svg v-else class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <rect x="3.5" y="4" width="17" height="12" rx="2" />
+                      <path d="M8 20h8M10 16v4M14 16v4" />
+                    </svg>
                   </div>
                   <div class="nav-item-info">
                     <span class="nav-item-title">{{ item.categoryName }}</span>
                   </div>
                   <i class="el-icon-arrow-right nav-arrow"></i>
                 </div>
-              </el-popover>
+              </template>
             </div>
           </div>
         </aside>
@@ -204,23 +242,22 @@
         leftListData: [
           {
             popVisible: false,
-            showPop: true,
-            icon: require('@/assets/img/icon/icon_course.png'),
+            showPop: false,
             categoryName: 'Online Courses',
             title: 'Course List',
+            routePath: '/course?categoryName=Online Courses',
             children: []
           }, {
             popVisible: false,
             showPop: false,
             linkUrl: 'https://www.fetalmedicine.org',
-            icon: require('@/assets/img/icon/icon_cal.png'),
             categoryName: 'Calculators',
             title: 'Calculator Tools',
+            routePath: '/calculators'
           }, {
             popVisible: false,
             showPop: false,
             linkUrl: 'https://fmf.refractionx.com/download?direct=true',
-            icon: require('@/assets/img/icon/icon_software.png'),
             categoryName: 'FMF software',
             title: 'FMF software',
           }
@@ -392,7 +429,7 @@
     padding: 16px;
     border-radius: var(--radius-md);
     background: var(--bg-body);
-    transition: var(--transition-base);
+    transition: all 0.12s ease;
     cursor: pointer;
     border: 1px solid transparent;
 
@@ -403,9 +440,7 @@
       
       .nav-item-icon-box {
         background: var(--color-accent);
-        .nav-item-icon {
-          filter: brightness(0) invert(1);
-        }
+        color: #ffffff;
       }
       .nav-arrow {
         opacity: 1;
@@ -424,14 +459,18 @@
     align-items: center;
     justify-content: center;
     margin-right: 16px;
-    transition: var(--transition-base);
+    transition: all 0.12s ease;
+    color: var(--color-accent);
     
     .nav-item-icon {
       width: 36px;
       height: 36px;
-      /* Adjust icon color via filter */
-      filter: brightness(0) saturate(100%) invert(43%) sepia(96%) saturate(1832%) hue-rotate(185deg) brightness(96%) contrast(96%);
-      transition: var(--transition-base);
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: all 0.12s ease;
     }
   }
   
@@ -453,7 +492,7 @@
     color: var(--text-light);
     opacity: 0;
     transform: translateX(-10px);
-    transition: var(--transition-base);
+    transition: all 0.12s ease;
   }
 
   /* Right Content */
