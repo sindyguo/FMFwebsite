@@ -138,8 +138,8 @@
   }
 
   ::v-deep .top-banner .top-banner-bg {
-    background-size: contain;
-    background-color: #0f3247;
+    background-size: cover;
+    background-color: transparent;
   }
 
   ::v-deep .top-banner .top-banner-content .title {
