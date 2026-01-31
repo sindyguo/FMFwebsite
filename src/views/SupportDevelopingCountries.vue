@@ -11,6 +11,10 @@
             local healthcare professionals in ultrasound and establishing specialist fetal medicine centers to reduce
             maternal and perinatal mortality.
           </div>
+          <router-link class="hero-link" to="/look-for-life-developed">
+            <span class="hero-link-text">Click here to view FMF Look for Life program in developed countries</span>
+            <i class="el-icon-right" aria-hidden="true"></i>
+          </router-link>
         </div>
         <div class="hero-image">
           <el-image :src="images.hero" fit="cover" alt="Look for Life" />
@@ -27,7 +31,7 @@
                 More than <span class="highlight-blue">500,000 women die</span> each year from complications of pregnancy and childbirth.
               </li>
               <li>
-                More than <span class="highlight-blue">99% of death</span> occur in less developed or developing countries.
+                More than <span class="highlight-blue">99% of deaths</span> occur in less developed or developing countries.
               </li>
             </ul>
           </li>
@@ -152,6 +156,8 @@
   .hero-text {
     flex: 1 1 320px;
     min-width: 260px;
+    display: flex;
+    flex-direction: column;
   }
 
   .hero-eyebrow {
@@ -175,6 +181,25 @@
     color: #465a67;
     text-align: justify;
     text-align-last: left;
+  }
+
+  .hero-link {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0a6ecb;
+    text-decoration: none;
+  }
+
+  .hero-link-text {
+    text-decoration: underline;
+  }
+
+  .hero-link:hover {
+    color: #085aa6;
   }
 
   .hero-image {

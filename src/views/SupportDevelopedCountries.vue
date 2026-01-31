@@ -4,7 +4,7 @@
     <div class="vcontainer hcenter main-container support-developed-content">
       <div class="section split-section">
         <div class="split-text">
-          <div class="section-title">Southend hospital, UK</div>
+          <div class="section-title">Southend University Hospital, UK</div>
           <div class="section-desc">
             The Fetal Medicine Foundation has made a major donation for the development and equipment of a specialist
             fetal medicine centre at
@@ -28,7 +28,8 @@
 
       <div class="section note-section">
         <div class="section-desc">
-          The FMF has also donated high quality ultrasound machines to Atticon University Hospital, Athens, Greece, and
+          The FMF has also donated high quality ultrasound machines to
+          <a class="section-link" href="https://attikonhospital.gov.gr" target="_blank" rel="noopener">Atticon University Hospital</a>, Athens, Greece, and
           Makarios Hospital for Women and Children, Nicosia, Cyprus.
         </div>
       </div>
