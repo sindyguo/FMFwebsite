@@ -53,7 +53,9 @@
         }],
         carouselImages: [
           require('@/assets/img/support-developed/southend_400_001.jpg'),
-          require('@/assets/img/support-developed/southend_400_003-2.jpg')
+          require('@/assets/img/support-developed/southend_400_003-2.jpg'),
+          require('@/assets/img/support-developed/7d5f8dda-6b18-4076-a1d1-bc70156fedfe.jpg'),
+          require('@/assets/img/support-developed/aa4d419a-e1b1-4e36-84e2-3b080108de1c.jpg')
         ]
       }
     }
