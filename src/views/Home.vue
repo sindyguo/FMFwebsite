@@ -107,7 +107,6 @@
               <el-carousel-item v-for="(carouselItem, index) in carouselListData" :key="index">
                 <div class="carousel-card" @click="handleDetail(carouselItem)">
                   <div class="carousel-content">
-                    <div class="carousel-tag">Featured</div>
                     <h2 class="carousel-title" :title="carouselItem.title">{{ carouselItem.title }}</h2>
                     
                     <div class="carousel-details">
@@ -158,12 +157,12 @@
               <div class="upcoming-card">
                 <h3 class="upcoming-title">Next FMF lecture</h3>
                 <div class="upcoming-meta">
-                  <span class="upcoming-meta-label">Topic</span>
-                  <span class="upcoming-meta-text">Cholestasis in pregnancy by Catherine Williamson.</span>
+                  <span class="upcoming-meta-text upcoming-topic">Cholestasis in pregnancy by Professor Catherine Williamson</span>
                 </div>
-                <div class="upcoming-meta">
+                <div class="upcoming-meta upcoming-meta-inline">
                   <span class="upcoming-meta-label">Date</span>
-                  <span class="upcoming-meta-text">20th February at 13:30</span>
+                  <span class="upcoming-meta-text">20th February at 13:30-14:30</span>
+                  <a class="upcoming-link" href="#" target="_blank" rel="noopener">Click here to register</a>
                 </div>
               </div>
 
@@ -204,23 +203,45 @@
               <h2>News</h2>
               <div class="header-line"></div>
             </div>
-             <div class="info-card" @click="goto('https://www.fetalmedicine.org/fmf-fellowships')">
-               <div class="info-icon">
-                 <i class="el-icon-info"></i>
-               </div>
-               <div class="info-content">
-                 <h4 class="info-title">System Update</h4>
-                 <p class="info-text">
-                   Some features are currently under development. The previous website remains fully operational during this transition.
-                 </p>
-                 <p class="info-subtext">
-                   You can continue to log in with existing credentials to access licenses and other legacy features.
-                 </p>
-               </div>
-               <div class="info-action">
-                 <i class="el-icon-link"></i>
-               </div>
-             </div>
+            <div class="news-grid">
+              <div class="upcoming-card news-card">
+                <div class="upcoming-title">FMF Supported Trial Published</div>
+                <p class="upcoming-text">
+                  The results of a FMF supported trial has recently been published in the Lancet.
+                </p>
+                <p class="upcoming-text">
+                  The study showed that planned early-term birth based on risk stratification for pre-eclampsia at 36 weeks' gestation reduced the incidence of pre-eclampsia by 30%, without increasing emergency caesarean section or neonatal care unit admission.
+                </p>
+                <p class="upcoming-text">
+                  Goadsby J, Syngelaki A, Magee LA, von Dadelszen P, Akolekar R, Webster S, Wright A, Wright D, Nicolaides KH. Scheduled birth at term for the prevention of pre-eclampsia (PREVENT-PE): an open-label randomised controlled trial. Lancet. 2026;407:67-77.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notice -->
+          <div class="news-section notice-section">
+            <div class="section-header">
+              <h2>Notice</h2>
+              <div class="header-line"></div>
+            </div>
+            <div class="info-card" @click="goto('https://www.fetalmedicine.org/fmf-fellowships')">
+              <div class="info-icon">
+                <i class="el-icon-info"></i>
+              </div>
+              <div class="info-content">
+                <h4 class="info-title">System Update</h4>
+                <p class="info-text">
+                  Some features are currently under development. The previous website remains fully operational during this transition.
+                </p>
+                <p class="info-subtext">
+                  You can continue to log in with existing credentials to access licenses and other legacy features.
+                </p>
+              </div>
+              <div class="info-action">
+                <i class="el-icon-link"></i>
+              </div>
+            </div>
           </div>
         </main>
       </div>
@@ -662,7 +683,11 @@
   .upcoming-section {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 32px;
+    
+    .section-header {
+      margin-bottom: 0;
+    }
   }
 
   .upcoming-grid {
@@ -699,6 +724,14 @@
     gap: 4px;
   }
 
+  .upcoming-meta-inline {
+    flex-direction: row;
+    align-items: baseline;
+    flex-wrap: wrap;
+    column-gap: 8px;
+    row-gap: 4px;
+  }
+
   .upcoming-meta-label {
     font-size: 15px;
     font-weight: 700;
@@ -708,6 +741,11 @@
   .upcoming-meta-text {
     font-size: 15px;
     color: var(--text-regular);
+  }
+
+  .upcoming-topic {
+    font-weight: 700;
+    color: var(--text-main);
   }
 
   .upcoming-lead {
@@ -725,6 +763,7 @@
     margin-left: 8px;
     color: var(--color-accent);
     font-weight: 600;
+    font-size: 14px;
   }
 
   .upcoming-list {
@@ -742,7 +781,21 @@
   .news-section {
     display: flex;
     flex-direction: column;
+    gap: 32px;
+    
+    .section-header {
+      margin-bottom: 0;
+    }
+  }
+
+  .news-grid {
+    display: flex;
+    flex-direction: column;
     gap: 20px;
+  }
+
+  .news-card {
+    gap: 10px;
   }
 
   .info-card {
