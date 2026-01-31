@@ -151,18 +151,13 @@ const routes = [
         name: 'SupportDevelopingCountries',
         component: () => import(/* webpackChunkName: 'SupportDevelopingCountries' */ '../views/SupportDevelopingCountries.vue'),
         meta: {
-          title: 'Support in developing countries',
+          title: 'Look for Life',
           requiresAuth: false
         }
       },
       {
         path: '/look-for-life-developed',
-        name: 'SupportDevelopedCountries',
-        component: () => import(/* webpackChunkName: 'SupportDevelopedCountries' */ '../views/SupportDevelopedCountries.vue'),
-        meta: {
-          title: 'Support in developed countries',
-          requiresAuth: false
-        }
+        redirect: '/look-for-life'
       },
       {
         path: '/congressSignUp',

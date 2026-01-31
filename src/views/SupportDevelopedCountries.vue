@@ -16,6 +16,10 @@
             training of doctors in fetal medicine. The doctors working in the unit are rotating into the fetal medicine
             unit at King's College Hospital, London.
           </div>
+          <router-link class="hero-link" to="/look-for-life">
+            <span class="hero-link-text">Click here to view FMF Look for Life program in developing countries</span>
+            <i class="el-icon-right" aria-hidden="true"></i>
+          </router-link>
         </div>
         <div class="split-carousel">
           <el-carousel height="320px" indicator-position="outside" arrow="hover" class="support-carousel">
@@ -30,7 +34,7 @@
         <div class="section-desc">
           The FMF has also donated high quality ultrasound machines to
           <a class="section-link" href="https://attikonhospital.gov.gr" target="_blank" rel="noopener">Atticon University Hospital</a>, Athens, Greece, and
-          Makarios Hospital for Women and Children, Nicosia, Cyprus.
+          <a class="section-link" href="https://www.shso.org.cy/en/greeting/nosokomeio-archiepiskopou-makareiou-iii/" target="_blank" rel="noopener">Makarios Hospital for Women and Children</a>, Nicosia, Cyprus.
         </div>
       </div>
     </div>
@@ -49,12 +53,12 @@
       return {
         topBannerList: [{
           img: require('@/assets/img/headers/look-for-life-header.jpeg'),
-          title: 'Support in developed countries'
+          title: 'Look for Life'
         }],
         carouselImages: [
           require('@/assets/img/support-developed/southend_400_001.jpg'),
-          require('@/assets/img/support-developed/southend_400_003-2.jpg'),
-          require('@/assets/img/support-developed/7d5f8dda-6b18-4076-a1d1-bc70156fedfe.jpg'),
+          require('@/assets/img/support-developed/southend_400_003-2.png'),
+          require('@/assets/img/support-developed/7d5f8dda-6b18-4076-a1d1-bc70156fedfe.png'),
           require('@/assets/img/support-developed/aa4d419a-e1b1-4e36-84e2-3b080108de1c.jpg')
         ]
       }
@@ -95,6 +99,33 @@
     font-size: 16px;
     line-height: 26px;
     color: #4a5b67;
+    text-align: justify;
+    text-align-last: left;
+  }
+
+  .split-text {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .hero-link {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0a6ecb;
+    text-decoration: none;
+  }
+
+  .hero-link-text {
+    text-decoration: underline;
+  }
+
+  .hero-link:hover {
+    color: #085aa6;
   }
 
   .section-link {
@@ -106,7 +137,7 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     gap: 24px;
-    align-items: center;
+    align-items: stretch;
   }
 
   .support-carousel {
@@ -148,6 +179,7 @@
   ::v-deep .top-banner .top-banner-content .title {
     letter-spacing: 0.3px;
     font-family: 'Helvetica', Arial, sans-serif;
+    text-shadow: 0 2px 6px rgba(6, 32, 68, 0.7), 0 0 2px rgba(6, 32, 68, 0.9);
   }
 
   ::v-deep .top-banner .top-banner-content .desc {

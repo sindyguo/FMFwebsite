@@ -3,10 +3,6 @@
     <TopBanner height="260px" :listData="topBannerList" />
     <div class="vcontainer hcenter main-container calculators-content">
       <div class="section">
-        <div class="section-title">Calculators</div>
-        <div class="section-desc">
-          Select a calculator to open the embedded tool.
-        </div>
         <div class="category-grid">
           <div
             v-for="category in categories"
@@ -60,47 +56,24 @@
         {
           title: 'Prediction of risk',
           items: [
-            { name: 'Preeclampsia', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=preeclampsia' },
-            { name: 'Small for Gestational Age', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=sga' },
             { name: 'Trisomies', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=trisomies' },
-            { name: 'Gestational diabetes mellitus', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=gdm' },
-            { name: 'Miscarriage', url: 'https://fetalmedicine.org/research/assess/miscarriage' },
-            { name: 'Stillbirth', url: 'https://fetalmedicine.org/research/assess/stillbirth' },
-            { name: 'Macrosomia', url: 'https://fetalmedicine.org/research/assess/macrosomia' },
-            { name: 'Preterm birth (History)', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=pretermHistory' },
-            { name: 'Preterm birth (Cervix)', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=pretermCervix' }
+            { name: 'Preeclampsia', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=preeclampsia' },
+            { name: 'Small for gestational age', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=sga' },
+            { name: 'Gestational diabetes', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=gdm' },
+            { name: 'Preterm birth - history', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=pretermHistory' },
+            { name: 'Preterm birth - cervical length', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=pretermCervix' }
           ]
         },
         {
           title: 'Assessment / management',
           items: [
-            { name: 'Management: Fetal anemia', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=fetalanemia' },
-            { name: 'Pregnancy dating', url: 'https://fetalmedicine.org/research/assess/pregnancy-dating' },
-            { name: 'Fetal growth assessment', url: 'https://fetalmedicine.org/research/assess/fetal-growth-assessment' },
-            { name: 'Birth weight', url: 'https://fetalmedicine.org/research/assess/birth-weight' },
-            { name: 'Fetal Doppler', url: 'https://fetalmedicine.org/research/assess/fetal-doppler' },
-            { name: 'Uterine PI', url: 'https://fetalmedicine.org/research/assess/uterine-pi' },
-            { name: 'Nuchal translucency', url: 'https://fetalmedicine.org/research/assess/nuchal-translucency' }
-          ]
-        },
-        {
-          title: 'Performance audits',
-          items: [
-            { name: 'Mean arterial pressure', url: 'https://fetalmedicine.org/research/assess/map' },
-            { name: 'Uterine artery PI', url: 'https://fetalmedicine.org/research/assess/uterine-artery-pi' },
-            { name: 'Nuchal translucency', url: 'https://fetalmedicine.org/research/assess/nuchal-translucency' },
-            { name: 'Ductus venosus PIV', url: 'https://fetalmedicine.org/research/assess/ductus-venosus-piv' },
-            { name: 'sFlt-1', url: 'https://fetalmedicine.org/research/assess/sflt1' },
-            { name: 'PlGF', url: 'https://fetalmedicine.org/research/assess/plgf' },
-            { name: 'PAPP-A', url: 'https://fetalmedicine.org/research/assess/papp-a' },
-            { name: 'Free beta hCG', url: 'https://fetalmedicine.org/research/assess/free-beta-hcg' }
-          ]
-        },
-        {
-          title: 'Research tools',
-          items: [
-            { name: 'MoM calculator', url: 'https://fetalmedicine.org/research/assess/moms-calculation' },
-            { name: 'Batch preeclampsia risks', url: 'https://fetalmedicine.org/research/assess/batch-preeclampsia-risks' }
+            { name: 'Pregnancy dating', url: 'https://www.fetalmedicine.org/research/pregnancyDating' },
+            { name: 'Nuchal translucency', url: 'https://www.fetalmedicine.org/research/assess/nt' },
+            { name: 'Fetal growth', url: 'https://www.fetalmedicine.org/research/assess/growth' },
+            { name: 'Birth weight', url: 'https://www.fetalmedicine.org/research/assess/bw' },
+            { name: 'Fetal doppler', url: 'https://www.fetalmedicine.org/research/doppler' },
+            { name: 'Uterine artery PI', url: 'https://www.fetalmedicine.org/research/utpi' },
+            { name: 'Fetal anemia', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=fetalanemia' }
           ]
         }
       ]
@@ -143,6 +116,7 @@
 
   ::v-deep .top-banner .top-banner-content .title {
     margin: 0;
+    text-shadow: 0 2px 6px rgba(6, 32, 68, 0.7), 0 0 2px rgba(6, 32, 68, 0.9);
   }
 
   .calculators-content {
@@ -174,8 +148,10 @@
 
   .category-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(220px, 1fr));
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
     gap: 16px;
+    max-width: 860px;
+    margin: 0 auto;
   }
 
   .category-card {

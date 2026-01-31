@@ -4,17 +4,21 @@
     <div class="vcontainer hcenter main-container look-for-life-content">
       <div class="hero-card">
         <div class="hero-text">
-          <div class="hero-title">FMF Look for Life program</div>
+          <div class="hero-title">FMF Look for Life programme</div>
           <div class="hero-desc">
-            Ultrasound can significantly improve outcomes for mothers and babies, but access is still largely limited
-            to developed countries or wealthier populations in developing countries. Look for Life focuses on training
-            local healthcare professionals in ultrasound and establishing specialist fetal medicine centers to reduce
-            maternal and perinatal mortality.
+            <p>
+              Ultrasound has the potential to substantially improve outcomes for mothers and babies. However, access to
+              high quality ultrasound services remains largely limited to high-income countries or to more affluent
+              populations within low- and middle-income countries.
+            </p>
+            <p>
+              The FMF Look for Life Programme addresses this inequality by strengthening local capacity in maternal and
+              fetal healthcare. The programme focuses on training healthcare professionals in ultrasound and supporting
+              the development of specialist fetal medicine centres, enabling the delivery of high-level care for
+              pregnant women and their unborn babies. The ultimate goal is to reduce maternal and perinatal morbidity
+              and mortality through early detection, accurate diagnosis, and appropriate clinical management.
+            </p>
           </div>
-          <router-link class="hero-link" to="/look-for-life-developed">
-            <span class="hero-link-text">Click here to view FMF Look for Life program in developed countries</span>
-            <i class="el-icon-right" aria-hidden="true"></i>
-          </router-link>
         </div>
         <div class="hero-image">
           <el-image :src="images.hero" fit="cover" alt="Look for Life" />
@@ -22,51 +26,62 @@
       </div>
 
       <div class="section">
-        <div class="section-title background-title">Background</div>
-        <ul class="background-list">
-          <li>
-            The World Health Organization reports:
-            <ul>
-              <li>
-                More than <span class="highlight-blue">500,000 women die</span> each year from complications of pregnancy and childbirth.
-              </li>
-              <li>
-                More than <span class="highlight-blue">99% of deaths</span> occur in less developed or developing countries.
-              </li>
-            </ul>
-          </li>
-          <li>
-            Look for Life aims to improve care through center development and structured training.
-          </li>
-        </ul>
-      </div>
-
-      <div class="section action-section">
-        <div class="section-title blue-title">FMF program actions</div>
-        <div class="action-grid">
-          <div class="action-item">Establish specialist fetal medicine centers for high-risk care</div>
-          <div class="action-item">Provide high-quality ultrasound equipment and center support</div>
-          <div class="action-item">Send expert teams for teaching and hands-on guidance</div>
-          <div class="action-item">Offer two-year fetal medicine fellowship training in London</div>
+        <div class="section-title blue-title">Centre development</div>
+        <div class="section-desc">
+          The FMF has supported the establishment of specialist fetal medicine centres within university hospitals in the
+          capital cities of <span class="highlight-blue">Albania, Armenia, Ethiopia, Kosovo, Moldova, North Macedonia, Rwanda, and Zimbabwe</span>.
         </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title blue-title">Supported countries and regions</div>
-        <div class="country-tags">
-          <span v-for="country in countries" :key="country" class="country-tag">
-            {{ country }}
-          </span>
+        <div class="section-desc">
+          These centres are equipped with high-quality ultrasound machines and IT infrastructure, and are supported by
+          FMF expert teams who provide structured training, on-site teaching, and hands-on clinical guidance.
         </div>
-      </div>
-
-      <div class="section">
-        <div class="section-title blue-title">Field photos</div>
-        <div class="gallery-grid">
-          <div v-for="item in gallery" :key="item.src" class="gallery-item">
-            <el-image :src="item.src" fit="cover" :alt="item.alt" class="gallery-image" />
-            <div class="gallery-caption">{{ item.caption }}</div>
+        <div class="section-desc">
+          This approach ensures sustainable skills transfer and the long-term development of local expertise.
+        </div>
+        <div class="section-desc">
+          In addition, the FMF has made a major investment in the development and equipping of a specialist fetal
+          medicine centre at
+          <a class="inline-link" href="https://www.mse.nhs.uk" target="_blank" rel="noopener">Southend University Hospital</a>,
+          Southend-on-Sea, UK. The
+          centre is actively engaged in research into pregnancy complications and in the training of doctors in fetal
+          medicine. Clinicians based at Southend undertake specialist training rotations at the fetal medicine unit at
+          King’s College Hospital, London, supporting knowledge exchange and the development of advanced clinical
+          skills.
+        </div>
+        <div class="section-subtitle">Centres' photo gallery</div>
+        <div class="gallery-marquee" ref="galleryMarquee">
+          <div class="gallery-track">
+            <div v-for="(item, idx) in galleryLoop" :key="`${item.src}-${idx}`" class="gallery-item">
+              <el-image :src="item.src" fit="cover" :alt="item.alt" class="gallery-image" />
+              <div class="gallery-caption">{{ item.caption }}</div>
+            </div>
           </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title blue-title">Donation of ultrasound machines</div>
+        <div class="section-desc">
+          The FMF has donated high quality ultrasound machines to
+          <a class="inline-link" href="https://attikonhospital.gov.gr" target="_blank" rel="noopener">Atticon University Hospital</a>,
+          Athens, Greece, and
+          <a class="inline-link" href="https://www.shso.org.cy/en/greeting/nosokomeio-archiepiskopou-makareiou-iii/" target="_blank" rel="noopener">
+            Makarios III Hospital for Women and Children
+          </a>,
+          Nicosia, Cyprus.
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title blue-title">Training fellowships</div>
+        <div class="section-desc">
+          Through its international fellowship and training programmes, the FMF has supported the advanced training of
+          over 1,000 healthcare professionals from around the world through FMF-funded fellowships and educational grants,
+          helping to strengthen maternal and perinatal care globally.
+        </div>
+        <div class="section-desc">
+          Each year, the FMF also hosts more than 500 clinical observers from multiple countries, reinforcing its role as
+          a global centre for education, skills transfer, and international collaboration in fetal medicine.
         </div>
       </div>
 
@@ -86,7 +101,7 @@
       return {
         topBannerList: [{
           img: require('@/assets/img/headers/look-for-life-header.jpeg'),
-          title: 'Support in developing countries'
+          title: ''
         }],
         images: {
           hero: require('@/assets/img/look_for_life_hero.png')
@@ -102,6 +117,21 @@
           'Kosovo'
         ],
         gallery: [
+          {
+            src: require('@/assets/img/look_for_life/southend_400_001.jpg'),
+            alt: 'Southend University Hospital',
+            caption: 'Southend University Hospital'
+          },
+          {
+            src: require('@/assets/img/look_for_life/southend_400_003-2.jpg'),
+            alt: 'Southend University Hospital',
+            caption: 'Southend University Hospital'
+          },
+          {
+            src: require('@/assets/img/look_for_life/aa4d419a-e1b1-4e36-84e2-3b080108de1c.jpg'),
+            alt: 'Southend University Hospital',
+            caption: 'Southend University Hospital'
+          },
           {
             src: 'https://fetalmedicine.org/var/uploads/File/0/0/a/r/m/armenia.jpg',
             alt: 'Armenia',
@@ -123,6 +153,56 @@
             caption: 'Albania'
           }
         ]
+      }
+    },
+    computed: {
+      galleryLoop() {
+        return [...this.gallery, ...this.gallery]
+      }
+    },
+    mounted() {
+      this.$nextTick(() => {
+        const container = this.$refs.galleryMarquee
+        if (!container) return
+
+        const updateItemWidth = () => {
+          const gap = 16
+          const width = container.clientWidth
+          const perRow = width < 600 ? 1 : (width < 900 ? 2 : 4)
+          const itemWidth = Math.max(160, (width - gap * (perRow - 1)) / perRow)
+          container.style.setProperty('--gallery-item-width', `${itemWidth}px`)
+          this.galleryStep = itemWidth + gap
+        }
+
+        updateItemWidth()
+        this.onGalleryResize = updateItemWidth
+        window.addEventListener('resize', this.onGalleryResize)
+
+        const firstItem = container.querySelector('.gallery-item')
+        if (!firstItem) return
+        if (!this.galleryStep) {
+          this.galleryStep = firstItem.offsetWidth + 16
+        }
+        this.galleryTimer = setInterval(() => {
+          const halfWidth = container.scrollWidth / 2
+          if (container.scrollLeft >= halfWidth) {
+            container.scrollLeft = 0
+          }
+          container.scrollTo({
+            left: container.scrollLeft + this.galleryStep,
+            behavior: 'smooth'
+          })
+        }, 2500)
+      })
+    },
+    beforeDestroy() {
+      if (this.galleryTimer) {
+        clearInterval(this.galleryTimer)
+        this.galleryTimer = null
+      }
+      if (this.onGalleryResize) {
+        window.removeEventListener('resize', this.onGalleryResize)
+        this.onGalleryResize = null
       }
     }
   }
@@ -176,30 +256,19 @@
   }
 
   .hero-desc {
-    font-size: 20px;
-    line-height: 30px;
+    font-size: 16px;
+    line-height: 26px;
     color: #465a67;
     text-align: justify;
     text-align-last: left;
   }
 
-  .hero-link {
-    margin-top: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #0a6ecb;
-    text-decoration: none;
+  .hero-desc p {
+    margin: 0 0 12px;
   }
 
-  .hero-link-text {
-    text-decoration: underline;
-  }
-
-  .hero-link:hover {
-    color: #085aa6;
+  .hero-desc p:last-child {
+    margin-bottom: 0;
   }
 
   .hero-image {
@@ -223,38 +292,15 @@
     margin-bottom: 12px;
   }
 
-  .background-title {
-    color: #036FC0;
-  }
-
   .blue-title {
     color: #036FC0;
   }
 
-  .background-list {
-    margin: 0;
-    padding-left: 20px;
-    color: #4a5b67;
+  .section-subtitle {
+    margin: 16px 0 10px;
     font-size: 16px;
-    line-height: 26px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    ul {
-      margin-top: 8px;
-      padding-left: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      list-style: circle;
-    }
-  }
-
-  .highlight-blue {
-    color: #036FC0;
-    font-size: 18px;
     font-weight: 600;
+    color: #0e3045;
   }
 
   .section-desc {
@@ -263,104 +309,73 @@
     color: #4a5b67;
   }
 
-  .stat-grid {
-    display: grid;
-    gap: 16px;
-    margin-top: 18px;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  }
-
-  .stat-card {
-    padding: 16px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #f0f6ff 0%, #ffffff 100%);
-    border: 1px solid #e6eef5;
-  }
-
-  .stat-num {
-    font-size: 22px;
-    font-weight: bold;
+  .inline-link {
     color: #036fc0;
-    margin-bottom: 6px;
+    font-weight: 600;
+    text-decoration: underline;
   }
 
-  .stat-label {
-    font-size: 14px;
-    line-height: 20px;
-    color: #5b6b77;
-  }
-
-  .action-section {
-    background: linear-gradient(135deg, #f7fcff 0%, #ffffff 100%);
-  }
-
-  .action-grid {
-    display: grid;
-    gap: 12px;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-
-  .action-item {
-    padding: 12px 14px;
-    border-radius: 10px;
-    background: #f3f8fd;
-    color: #0e3045;
-    font-size: 16px;
-  }
-
-  .country-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .country-tag {
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: #eef6ff;
+  .highlight-blue {
     color: #036fc0;
-    font-size: 16px;
-  }
-
-  .gallery-grid {
-    display: grid;
-    gap: 16px;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-
-  .gallery-item {
-    border-radius: 12px;
-    overflow: hidden;
-    background: #f7fbff;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .gallery-caption {
-    padding: 10px 12px;
-    font-size: 16px;
-    line-height: 22px;
-    color: #4a5b67;
-    text-align: center;
-    min-height: 20px;
-  }
-
-  .source-note {
-    font-size: 16px;
-    color: #8a9aa6;
-    text-align: center;
-    padding-bottom: 12px;
+    font-weight: 600;
   }
 
   .gallery-image {
     width: 100%;
     height: 220px;
+    border-radius: 12px;
+    overflow: hidden;
   }
 
   ::v-deep .gallery-image .el-image__inner {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  .gallery-marquee {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .gallery-track {
+    display: flex;
+    gap: 16px;
+    width: max-content;
+  }
+
+  .gallery-item {
+    flex: 0 0 var(--gallery-item-width, 220px);
+    max-width: var(--gallery-item-width, 220px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gallery-caption {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #036fc0;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .gallery-item {
+      flex: 0 0 var(--gallery-item-width, 220px);
+      max-width: var(--gallery-item-width, 220px);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .gallery-item {
+      flex: 0 0 var(--gallery-item-width, 220px);
+      max-width: var(--gallery-item-width, 220px);
+    }
+  }
+
+  .carousel-image {
+    width: 100%;
+    height: 100%;
   }
 
   ::v-deep .top-banner .top-banner-content {
@@ -375,6 +390,7 @@
   ::v-deep .top-banner .top-banner-content .title {
     letter-spacing: 0.3px;
     font-family: 'Helvetica', Arial, sans-serif;
+    text-shadow: 0 2px 6px rgba(6, 32, 68, 0.7), 0 0 2px rgba(6, 32, 68, 0.9);
   }
 
   ::v-deep .top-banner .top-banner-content .desc {

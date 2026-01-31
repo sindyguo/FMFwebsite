@@ -302,16 +302,6 @@
           self.$router.push('/research-publications')
           return
         }
-        if (selectedItem.item.id === 'support-developing') {
-          self.changeActiveId(key)
-          self.$router.push('/look-for-life')
-          return
-        }
-        if (selectedItem.item.id === 'support-developed') {
-          self.changeActiveId(key)
-          self.$router.push('/look-for-life-developed')
-          return
-        }
         if (selectedItem.item.categoryName === 'Courses & Congress' ||
           (selectedItem.parent && selectedItem.parent.categoryName === 'Courses & Congress')) {
           return
@@ -377,10 +367,7 @@
             }
             const lookForLife = data.find((item) => item?.categoryName === 'Look for Life')
             if (lookForLife) {
-              lookForLife.childrenList = [
-                { id: 'support-developing', categoryName: 'Support in developing countries' },
-                { id: 'support-developed', categoryName: 'Support in developed countries' }
-              ]
+              delete lookForLife.childrenList
             }
             const researchItem = data.find((item) => (item?.categoryName || '').toLowerCase() === 'research')
             if (researchItem) {

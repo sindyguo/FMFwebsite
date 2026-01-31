@@ -154,7 +154,7 @@
       return {
         topBannerList: [{
           img: require('@/assets/img/headers/research-header.jpeg'),
-          title: 'Randomized trials',
+          title: '',
           desc: ''
         }]
       }
@@ -183,6 +183,7 @@
 
   ::v-deep .top-banner .top-banner-content .title {
     margin: 0;
+    text-shadow: 0 2px 6px rgba(6, 32, 68, 0.7), 0 0 2px rgba(6, 32, 68, 0.9);
   }
 
   .research-content {

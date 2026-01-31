@@ -3,24 +3,20 @@
     <TopBanner height="260px" :listData="topBannerList" />
     <div class="vcontainer hcenter main-container supported-course-content">
       <div class="section">
-        <div class="section-title">Baltic Symposium on Fetal and Maternal Medicine (BSFMM2026)</div>
-        <div class="section-desc">
-          The Fetal Medicine Foundation, in collaboration with Vilnius University, the Lithuanian Society of
-          Obstetricians and Gynecologists, and King’s College London, brings together leading experts in fetal and
-          maternal medicine. The Symposium is intended for obstetrician‑gynecologists, neonatologists, family and
-          internal medicine physicians, pediatric cardiologists, pediatric neurologists, medical doctors, midwives,
-          nurses, residents, and students. The official language of the Symposium is English. Simultaneous translation
-          will not be provided.
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="hero-images">
-          <div class="hero-image-card">
-            <img src="@/assets/img/bsfm2026_slide1.png" alt="BSFM 2026 slide 1" />
+        <div class="hero-split">
+          <div class="hero-copy">
+            <div class="section-title section-title-accent">Baltic Symposium on Fetal and Maternal Medicine (BSFMM2026)</div>
+            <div class="section-desc">
+              The Fetal Medicine Foundation, in collaboration with Vilnius University, the Lithuanian Society of
+              Obstetricians and Gynecologists, and King’s College London, brings together leading experts in fetal and
+              maternal medicine. The Symposium is intended for obstetrician‑gynecologists, neonatologists, family and
+              internal medicine physicians, pediatric cardiologists, pediatric neurologists, medical doctors, midwives,
+              nurses, residents, and students. The official language of the Symposium is English. Simultaneous translation
+              will not be provided.
+            </div>
           </div>
           <div class="hero-image-card">
-            <img src="@/assets/img/bsfm2026_slide2.png" alt="BSFM 2026 slide 2" />
+            <img src="@/assets/img/bsfm2026_slide1.png" alt="BSFM 2026" />
           </div>
         </div>
         <div class="info-grid">
@@ -133,13 +129,10 @@
         <div class="section-title">Keynote speakers</div>
         <div class="speaker-grid">
           <div v-for="speaker in speakers" :key="speaker.name" class="speaker-card">
+            <img v-if="speaker.photo" class="speaker-avatar" :src="speaker.photo" :alt="speaker.name" />
             <div class="speaker-name">{{ speaker.name }}</div>
             <div class="speaker-title">{{ speaker.title }}</div>
           </div>
-        </div>
-        <div class="section-desc speaker-note">
-          Keynote speakers · Fetal Medicine Foundation in collaboration with Vilnius University and Lithuanian Society
-          of Obstetricians and Gynaecologists
         </div>
       </div>
     </div>
@@ -159,7 +152,7 @@
         topBannerList: [{
           img: require('@/assets/img/bsfm2026_header.jpg'),
           title: 'FMF Supported Course',
-          desc: 'Baltic Symposium on Fetal and Maternal Medicine (BSFMM2026)'
+          desc: ''
         }],
         speakers: [
           {
@@ -238,7 +231,7 @@
   .section {
     background: #ffffff;
     border-radius: 12px;
-    padding: 24px;
+    padding: 12px 24px 24px;
     box-shadow: 0 6px 20px rgba(14, 48, 69, 0.06);
   }
 
@@ -249,10 +242,28 @@
     margin-bottom: 12px;
   }
 
+  .section-title-accent {
+    color: #036fc0;
+  }
+
   .section-desc {
     font-size: 16px;
     line-height: 26px;
     color: #4a5b67;
+  }
+
+  .hero-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .info-grid {
@@ -261,40 +272,39 @@
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
 
-  .hero-images {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-
   .hero-image-card {
     border-radius: 32px;
     overflow: hidden;
     background: #f7fbff;
     box-shadow: 0 10px 20px rgba(15, 42, 67, 0.08);
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .hero-image-card img {
-    width: 95%;
-    height: 320px;
+    width: 90%;
+    height: 90%;
     object-fit: contain;
     display: block;
     border-radius: inherit;
-    margin: 0 auto;
   }
 
   @media (max-width: 768px) {
-    .hero-images {
+    .hero-split {
       grid-template-columns: 1fr;
     }
-    .hero-image-card img {
+    .hero-image-card {
       height: 260px;
+    }
+    .hero-image-card img {
+      height: 90%;
     }
   }
 
   .info-card {
-    padding: 16px;
+    padding: 8px 16px 16px;
     border-radius: 12px;
     background: #f3f8fd;
   }
@@ -327,7 +337,7 @@
   }
 
   .fee-card {
-    padding: 16px;
+    padding: 8px 16px 16px;
     border-radius: 12px;
     border: 1px solid #e6eef5;
     background: #ffffff;
@@ -380,7 +390,7 @@
   .speaker-card {
     border: 1px solid #e6eef5;
     border-radius: 12px;
-    padding: 14px;
+    padding: 8px 14px 14px;
     background: #ffffff;
   }
 

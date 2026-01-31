@@ -119,8 +119,13 @@ export default {
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
+    transform: scale(1.6);
+    transform-origin: center;
     pointer-events: none;
+    display: block;
+    margin: 0;
   }
 }
 
@@ -141,7 +146,7 @@ export default {
   will-change: clip-path;
 
   img {
-    filter: grayscale(100%) contrast(140%) brightness(1.2);
+    filter: none;
   }
 }
 

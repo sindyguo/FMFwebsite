@@ -15,7 +15,7 @@
       <div class="main-container">
         <div class="course-completion-section">
           <div class="course-completion-title">
-            Healthcare professionals who have completed theoretical courses
+            List of healthcare professionals who have completed theoretical courses
           </div>
           <div class="course-completion-list">
             <button
@@ -260,15 +260,6 @@
             moduleCount: 5,
             sort: 12
           },
-          {
-            id: '2001688356038684673',
-            categoryName: 'FMF lectures',
-            content: 'These lectures are given by leading international experts and are held on the 3rd Friday of each month.',
-            featured: 1,
-            updateStatus: 0,
-            moduleCount: 11,
-            sort: 13
-          }
         ],
         selectedCompletionCourse: { name: 'Course completers', slug: '' },
         isCompletionModalOpen: false,
@@ -657,7 +648,7 @@
     .course-completion-title {
       font-size: 18px;
       font-weight: 700;
-      color: #0e3045;
+      color: #0f5aa4;
       margin-bottom: 14px;
     }
     .course-completion-list {
@@ -755,8 +746,8 @@
       font-weight: 600;
     }
     .course-badge-new {
-      background: #ffe2db;
-      color: #ff3c00;
+      background: #e6f1ff;
+      color: #0f5aa4;
     }
     .course-badge-updated {
       background: #eef3f6;
