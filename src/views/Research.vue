@@ -3,8 +3,40 @@
     <TopBanner height="260px" :listData="topBannerList" />
     <div class="vcontainer hcenter main-container research-content">
       <div class="section">
+        <div class="hero-title">Research</div>
+        <div class="section-desc">
+          The Fetal Medicine Foundation (FMF) funds research focused on the early prediction and prevention of pregnancy
+          complications, with the aim of improving health outcomes for mothers and babies. To date, the FMF has allocated
+          over €70 million to research addressing major causes of maternal and perinatal morbidity and mortality,
+          including preeclampsia, preterm birth, fetal growth restriction and stillbirth.
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title blue-title">Research publications</div>
+        <div class="section-desc">
+          FMF-funded research has generated a substantial body of scientific evidence, resulting in over 1,700
+          peer-reviewed publications to date.
+        </div>
+        <div class="section-desc">
+          To view the full list of FMF-supported publications,
+          <router-link class="inline-link" to="/research-publications">click here</router-link>.
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title blue-title">Randomized trials</div>
+        <div class="section-desc">
+          A key part of the FMF work is the support of large randomized controlled trials, conducted across multiple
+          countries and healthcare systems. These studies have provided robust evidence for preventive, risk-based
+          approaches to maternal care and have been published in leading peer-reviewed journals, contributing to their
+          adoption in clinical practice worldwide.
+        </div>
+      </div>
+
+      <div class="section">
         <div class="section-title">Ongoing randomized trials</div>
-        <div class="trial-grid">
+        <div class="trial-grid trial-grid-two">
           <div class="trial-card">
             <div class="trial-title">
               Aspirin versus placebo in twin pregnancies for preeclampsia prevention (ASPRE-T)
@@ -31,6 +63,34 @@
               <li>70 mL beetroot juice concentrate vs nitrate-deplete placebo daily until delivery.</li>
               <li>Primary outcome: gestational age at delivery due to preeclampsia.</li>
               <li>Target sample size: 320 women (400 screened).</li>
+            </ul>
+          </div>
+          <div class="trial-card">
+            <div class="trial-title">
+              Optim-PRE trial: Optimizing the use of aspirin for the prevention of preeclampsia
+            </div>
+            <div class="trial-desc">
+              Open label, multicentre trial in Spain and UK.
+            </div>
+            <ul class="trial-list">
+              <li>Screening for preterm PE in singleton pregnancies at 11-13 weeks’ gestation and prophylactic aspirin in the 30% with the highest risk.</li>
+              <li>At 20 weeks randomization to either stop aspirin at 24 weeks or continue until 36 weeks.</li>
+              <li>Objective: to assess whether discontinuation at 24 weeks is non-inferior to treatment until 36 weeks.</li>
+              <li>Sample size: screening in about 40,000 and randomization in 12,000.</li>
+            </ul>
+          </div>
+          <div class="trial-card">
+            <div class="trial-title">
+              Prevent-PE 2: timed birth at term
+            </div>
+            <div class="trial-desc">
+              Open label trial in the UK.
+            </div>
+            <ul class="trial-list">
+              <li>Screening for PE at 35-36 weeks and timed birth based on risk vs. usual care.</li>
+              <li>Those with risk of more than 1 in 100 will have elective delivery at 39 weeks.</li>
+              <li>Objective: to reduce preeclampsia.</li>
+              <li>Sample size: 8,000 women with singleton pregnancies.</li>
             </ul>
           </div>
         </div>
@@ -206,16 +266,43 @@
     margin-bottom: 12px;
   }
 
+  .hero-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #036FC0;
+    margin-bottom: 12px;
+  }
+
+  .blue-title {
+    color: #036FC0;
+  }
+
   .section-desc {
     font-size: 16px;
     line-height: 26px;
     color: #4a5b67;
   }
 
+  .inline-link {
+    color: #036FC0;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
   .trial-grid {
     display: grid;
     gap: 16px;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .trial-grid-two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 900px) {
+    .trial-grid-two {
+      grid-template-columns: 1fr;
+    }
   }
 
   .subsection {
