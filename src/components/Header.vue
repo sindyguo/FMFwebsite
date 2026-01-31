@@ -292,16 +292,6 @@
           self.$router.push('/research')
           return
         }
-        if (selectedItem.item.id === 'research-randomized-trials') {
-          self.changeActiveId(key)
-          self.$router.push('/research')
-          return
-        }
-        if (selectedItem.item.id === 'research-publications') {
-          self.changeActiveId(key)
-          self.$router.push('/research-publications')
-          return
-        }
         if (selectedItem.item.categoryName === 'Courses & Congress' ||
           (selectedItem.parent && selectedItem.parent.categoryName === 'Courses & Congress')) {
           return
@@ -371,10 +361,7 @@
             }
             const researchItem = data.find((item) => (item?.categoryName || '').toLowerCase() === 'research')
             if (researchItem) {
-              researchItem.childrenList = [
-                { id: 'research-randomized-trials', categoryName: 'Randomized trials' },
-                { id: 'research-publications', categoryName: 'Research publications' }
-              ]
+              delete researchItem.childrenList
             }
             const coursesIndex = data.findIndex((item) => item?.categoryName === 'Courses & Congress')
             const onlineIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'online courses')

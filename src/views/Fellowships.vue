@@ -2,154 +2,99 @@
   <div class="vcontainer fellowships">
     <TopBanner height="260px" :listData="topBannerList" />
     <div class="vcontainer hcenter main-container fellowships-content">
-      <div class="section training-section">
-        <div class="section-header">
-          <div class="section-header-left">
-            <div class="section-title">Training pathways</div>
-            <div class="section-desc">
-              Two structured pathways are available: the FMF clinical fellowship (2 years) and the Diploma in fetal medicine.
-              Details are outlined below.
-            </div>
-          </div>
+      <div class="section">
+        <div class="section-title">FMF Clinical Fellowships</div>
+        <div class="section-desc">
+          Each year, the Fetal Medicine Foundation (FMF) awards a limited number of highly competitive two-year clinical
+          fellowships in fetal medicine, designed to nurture excellence in clinical care and compassionate
+          patient-centred practice.
         </div>
-        <el-collapse class="collapse" accordion>
-          <el-collapse-item name="clinical">
-            <template #title>
-              <div class="collapse-title">FMF clinical fellowships (2 years)</div>
-            </template>
-            <div class="collapse-body">
-              <p>
-                Every year the Fetal Medicine Foundation (FMF) awards several two-year training fellowships in fetal medicine.
-                Practical training is undertaken at the Fetal Medicine units at King's College Hospital (London), Medway
-                Maritime Hospital (Kent), Southend University Hospital (Essex), Homerton University Hospital (London),
-                North Middlesex University Hospital (London) and University Hospital Lewisham (London).
-              </p>
-              <p>
-                During the period of training, doctors are closely supervised by Professor Nicolaides and a team of
-                Consultants in Fetal Medicine. They observe and actively assist in the management of a wide range of
-                conditions, from screening for fetal abnormalities to complex conditions diagnosed antenatally, such as
-                twin-to-twin transfusion syndrome.
-              </p>
-              <p>
-                The involvement of the doctors varies depending on experience, but the aim is that trainees become
-                competent in all aspects of patient care and counselling.
-              </p>
-              <p>
-                By the end of the Training Fellowship the doctor is expected to have obtained the FMF Certificates of
-                competence in:
-              </p>
-              <ul>
-                <li>Nuchal translucency scan</li>
-                <li>Assessment of the nasal bone</li>
-                <li>Assessment of ductus venosus flow</li>
-                <li>Assessment of tricuspid flow</li>
-                <li>Preeclampsia screening</li>
-                <li>Fetal defects</li>
-                <li>Fetal echocardiography</li>
-                <li>Doppler ultrasound</li>
-                <li>Cervical assessment</li>
-              </ul>
-              <p>
-                Obstetricians registered with the General Medical Council receive training in amniocentesis and chorion
-                villus sampling and receive the appropriate FMF certificate of competence.
-              </p>
-              <p>
-                Trainees have the opportunity to develop research interests in fetal-maternal medicine or take part in
-                ongoing research studies. Doctors who obtain all Certificates of Competence and participate in research
-                will be eligible for the FMF Diploma in fetal medicine.
-              </p>
-              <p>
-                The FMF does not provide any other kind of practical training apart from the two-year fellowship.
-              </p>
-              <div class="inline-actions">
-                <a class="inline-link" href="https://www.fetalmedicine.org/lists/map/certified/training-fellowship" target="_blank" rel="noopener">
-                  The list of doctors who have completed or are still engaged in training fellowships in fetal medicine
-                </a>
-              </div>
-            </div>
-          </el-collapse-item>
+        <div class="section-desc">
+          FMF clinical fellowships are both rigorous and rewarding, offering extensive training and a supportive
+          environment where future clinicians develop the skills to make meaningful contributions to fetal medicine
+          worldwide. Fellows work closely with Professor Kypros Nicolaides and senior consultants in fetal medicine,
+          gaining hands-on experience across the full spectrum of modern fetal-maternal care.
+        </div>
+        <div class="section-desc">
+          During the fellowship, fellows participate in a structured and intensive educational programme designed to
+          support advanced clinical and academic development in fetal medicine. This includes:
+        </div>
+        <ul class="criteria-list">
+          <li>Regular formal teaching, with in-depth lectures delivered monthly covering core and advanced topics in fetal medicine.</li>
+          <li>Active participation in multidisciplinary team (MDT) meetings, working closely with specialists in genetics, neonatology, maternal medicine, and neurology.</li>
+          <li>Mandatory attendance at the FMF World Congress in Fetal Medicine.</li>
+          <li>Mandatory attendance at the FMF Advances Course in Fetal Medicine.</li>
+        </ul>
+        <div class="section-desc">
+          By the end of the programme, fellows are expected to have completed all the online theoretical courses of the
+          FMF and achieved competence in key areas of fetal-medicine practice, formally recognised by FMF Certificates of
+          Competence in:
+        </div>
+        <ul class="criteria-list">
+          <li>The 11-13 weeks scan for assessment of risks for trisomies, preeclampsia and diagnosis of major fetal anomalies.</li>
+          <li>The mid-trimester scan for diagnosis of fetal anomalies, and assessment of fetal growth and uterine artery Doppler.</li>
+          <li>The third-trimester scan for diagnosis of fetal anomalies, and assessment of fetal growth and fetal oxygenation.</li>
+          <li>Fetal echocardiography.</li>
+          <li>Fetal neurosonography.</li>
+          <li>Cervical assessment.</li>
+          <li>Invasive prenatal procedures. This applies for medically qualified fellows registered with the UK General Medical Council.</li>
+        </ul>
+        <div class="section-desc">
+          Fellows are encouraged and supported to pursue research activity and contribute to ongoing scientific studies,
+          enriching the evidence base of fetal-maternal medicine.
+        </div>
+      </div>
 
-          <el-collapse-item name="diploma">
-            <template #title>
-              <div class="collapse-title">Diploma in fetal medicine</div>
-            </template>
-            <div class="collapse-body">
-              <p>
-                The practice of fetal medicine has major implications not only for the individual family, but for
-                society as a whole. There are training programs for subspecialization in fetal-maternal medicine in the
-                USA, UK, Australia and Canada. However, the number is limited and these programs are not designed to meet
-                the increasing worldwide demand for specialists.
-              </p>
-              <p>
-                The Diploma in fetal medicine builds on existing specialization programs and aims to raise training
-                standards internationally.
-              </p>
-              <div class="subsection-title">Requirements</div>
-              <p>
-                The Diploma in fetal medicine will be awarded only to candidates who have successfully completed the
-                two-year FMF clinical fellowship.
-              </p>
-              <div class="subsection-title">Training</div>
-              <p>
-                The practical component of the Diploma is a full-time structured training program designed to cover the
-                diagnosis and management of the whole spectrum of fetal disorders and pregnancy complications.
-              </p>
-              <p>
-                Candidates are expected to acquire a high standard of competence in the clinical management of
-                high-risk pregnancies; ultrasound diagnosis and management of fetal anatomical and functional
-                abnormalities; Doppler assessment of the uterine and fetal circulations; amniocentesis, chorion villus
-                sampling and cordocentesis.
-              </p>
-              <div class="subsection-title">Required knowledge</div>
-              <el-collapse class="collapse knowledge-collapse">
-                <el-collapse-item
-                  v-for="item in diplomaKnowledge"
-                  :key="item.title"
-                  :name="item.title">
-                  <template #title>
-                    <div class="knowledge-title">
-                      <span class="knowledge-bullet"></span>
-                      {{ item.title }}
-                    </div>
-                  </template>
-                  <div class="knowledge-desc">{{ item.desc }}</div>
-                </el-collapse-item>
-              </el-collapse>
-              <div class="subsection-title">Application for obtaining the Diploma in fetal medicine</div>
-              <p>
-                For any enquiries, please email <a class="inline-link" href="mailto:fellowship@fetalmedicine.org">fellowship@fetalmedicine.org</a>.
-              </p>
-              <div class="inline-actions">
-                <a class="inline-link" href="https://fetalmedicine.org/lists/map/certified/diploma" target="_blank" rel="noopener">
-                  List of sonographers who have obtained the FMF Diploma in fetal medicine
-                </a>
-              </div>
-            </div>
-          </el-collapse-item>
-        </el-collapse>
+      <div class="section">
+        <div class="section-title">Certificate of completion of the fellowship</div>
+        <div class="section-desc">
+          At the end of a successful fellowship candidates receive a Certificate of completion of the fellowship.
+        </div>
+        <div class="section-desc">
+          To view the list of healthcare professionals who have completed or are still engaged in training fellowships in
+          fetal medicine please <button class="inline-link inline-button" type="button" @click="openMap('Fellowship completers')">click here</button>.
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Diploma in Fetal Medicine</div>
+        <div class="section-desc">
+          FMF fellows who have successfully completed their two-year training and have obtained a certificate of
+          competence in invasive procedures will receive the FMF Diploma in Fetal Medicine.
+        </div>
+        <div class="section-desc">
+          To view the list of healthcare professionals who have obtained the Diploma in Fetal Medicine please
+          <button class="inline-link inline-button" type="button" @click="openMap('Diploma holders')">click here</button>.
+        </div>
       </div>
 
       <div class="section">
         <div class="section-title">Applications for FMF clinical fellowships</div>
         <div class="section-desc">
-          Applicants should complete the FMF Fellowship form and send it together with a reference from the head of the
-          department in their hospital to <a class="inline-link" href="mailto:education@fetalmedicine.org">education@fetalmedicine.org</a>.
+          Applications are open throughout the year. Shortlisted applicants will be invited to an online interview.
         </div>
         <div class="section-desc">
-          It is important that before you apply you have completed all internet based theoretical courses.
+          Applicants should complete the FMF Fellowship form and send this together with a reference from the head of
+          the department in their hospital to <a class="inline-link" href="mailto:education@fetalmedicine.org">education@fetalmedicine.org</a>.
         </div>
         <div class="section-desc">
-          Successful applicants will attend an interview.
+          Applicants are expected to have completed the FMF theoretical internet-based courses on:
         </div>
+        <ul class="criteria-list">
+          <li>The 11-13 weeks scan</li>
+          <li>Preeclampsia screening</li>
+          <li>Cervical assessment</li>
+          <li>Twin pregnancies</li>
+        </ul>
         <div class="section-desc">
-          The FMF does not provide any other kind of practical training apart from the two‑year fellowship.
+          Attendance at FMF educational events, such as the FMF World Congress in Fetal Medicine or the FMF Advances
+          Course in Fetal Medicine, is welcomed and viewed positively. However, attendance is not mandatory, and
+          applications are assessed with full recognition of differences in access to international educational
+          opportunities across countries.
         </div>
         <div class="inline-actions">
           <a class="inline-link" href="https://fetalmedicine.org/var/uploads/UActiveRecord/0/0/F/M/F/FMFfellowform.docx" target="_blank" rel="noopener">
             FMF Fellowship application form
-          </a>
-          <a class="inline-link" href="https://fetalmedicine.org/education/internet-based-courses" target="_blank" rel="noopener">
-            Internet‑based theoretical courses
           </a>
         </div>
       </div>
@@ -157,14 +102,18 @@
       <div class="section">
         <div class="section-title">Applications for project grants</div>
         <div class="section-desc">
-          Clinical research fellows or subspecialty trainees in Maternal‑Fetal Medicine can apply for research grants
-          (up to £1 million per year). Projects should meet the following criteria:
+          Clinical research fellows or subspecialty trainees in Maternal-Fetal Medicine can apply for research grants
+          with an allocated total of up to £1 million per year.
+        </div>
+        <div class="section-desc">
+          These grants are granted by the scientific committee of the FMF on the basis of their merit and provided they
+          fulfil the following criteria:
         </div>
         <ul class="criteria-list">
-          <li>The study is based in an NHS hospital in England.</li>
+          <li>They work in a NHS hospital in England.</li>
           <li>Approval from the National Research Ethics Service (NRES).</li>
-          <li>Approval from the Research &amp; Development (R&amp;D) department of the hospital.</li>
-          <li>Approval from the Health Research Authority (HRA) for multicentre studies.</li>
+          <li>Approval from research and development department of the hospital.</li>
+          <li>Approval from Health Research Authority (HRA) for multicentre studies.</li>
           <li>Peer review from outside the institution where the study is to be carried out.</li>
           <li>Study registered with ClinicalTrials.gov or ISRCTN.</li>
           <li>The applicant has a Certificate of Good Clinical Practice.</li>
@@ -172,11 +121,40 @@
       </div>
 
     </div>
+
+    <div v-if="isMapModalOpen" class="map-modal" @click.self="closeMap">
+      <div class="map-modal-card">
+        <div class="map-modal-header">
+          <div class="map-modal-title">{{ selectedMapTitle }}</div>
+          <button class="map-modal-close" type="button" @click="closeMap">Close</button>
+        </div>
+        <div class="map-modal-body">
+          <div class="map-layout">
+            <div class="map-panel">
+              <div ref="fellowshipMap" class="map-view"></div>
+            </div>
+            <div class="map-list-panel">
+              <div class="map-list-title">
+                <span>{{ mapCountryLabel }}</span>
+                <span v-if="mapCountryCount !== null" class="map-list-count">{{ mapCountryCount }}</span>
+              </div>
+              <div class="map-list-subtitle">Click a country to view the list.</div>
+              <div class="map-list-content">
+                <div v-if="!mapCountryPeople.length" class="map-empty-state">
+                  Select a country to see the list.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   import TopBanner from '@/components/TopBanner.vue'
+  import * as echarts from 'echarts'
 
   export default {
     name: 'FellowshipsPage',
@@ -187,75 +165,154 @@
       return {
         topBannerList: [{
           img: require('@/assets/img/fmf_fellowships_header.jpeg'),
-          title: 'FMF Fellowships',
+          title: '',
           desc: ''
         }],
-        diplomaKnowledge: [
-          {
-            title: 'Fetal development',
-            desc: 'Embryology, including normal and abnormal development of major systems. Teratogenicity, including mechanisms and agents.'
-          },
-          {
-            title: 'Genetics',
-            desc: 'Modes of inheritance, syndromology, molecular genetics and gene therapy, cytogenetics (conventional and molecular), pre-implantation diagnosis, genetic counselling.'
-          },
-          {
-            title: 'Fetal malformations',
-            desc: 'Ultrasound features, prenatal and postnatal management, and prognosis for abnormalities of the brain and spinal cord, face, heart and great arteries, lungs, diaphragm, gastrointestinal and urogenital tracts, abdominal wall and skeletal system. Chromosomal defects, including epidemiology, implications and prenatal screening by ultrasound, serum biochemistry and analysis of cell-free DNA in maternal blood.'
-          },
-          {
-            title: 'Diagnostic testing',
-            desc: 'The indications, risks and techniques of amniocentesis, chorion villus sampling and cordocentesis.'
-          },
-          {
-            title: 'Fetal therapy',
-            desc: 'Animal models, medical treatment (transplacental and fetal), intrauterine surgery (open, laparoscopic and ultrasound-guided). Pathophysiology, assessment and management of red cell isoimmunization, alloimmune thrombocytopenia, monochorionic twins, diaphragmatic hernia, fetal hydrops and obstructive uropathy.'
-          },
-          {
-            title: 'Maternal and fetal physiology',
-            desc: 'Maternal physiological adaptation to pregnancy, including cardiovascular, respiratory, renal, endocrinological, hematological and nutritional changes. Placental physiology in normal and pathological pregnancy, including developmental anatomy and structure, metabolic and endocrine function, and transfer. Amniotic fluid, including origin, composition and regulation. Fetal physiology in normal and pathological pregnancy, including fetal biochemistry, hematology, endocrinology and immunology, regulation of acid-base balance, fetal behavior and biophysical profile.'
-          },
-          {
-            title: 'Perinatal pathology',
-            desc: 'Perinatal death and placental pathological examination. Use of MRI and minimally invasive post-mortem examination.'
-          },
-          {
-            title: 'Neonatology',
-            desc: 'Basic assessment and resuscitation, intensive care, ventilation and nutrition, growth retardation, macrosomia, infection, brain hemorrhage, periventricular leukomalacia, enterocolitis, survival and handicap, prediction of handicap.'
-          },
-          {
-            title: 'Preterm delivery',
-            desc: 'Uterine activity (to include anatomy, physiology, molecular biology), pathophysiology, implications, screening, prevention, diagnosis, assessment and management.'
-          },
-          {
-            title: 'Impaired placentation',
-            desc: 'Fetal growth restriction, preeclampsia and fetal loss. Pathophysiology, implications, screening, prevention, diagnosis, assessment and management.'
-          },
-          {
-            title: 'Medical disorders',
-            desc: 'Diabetes mellitus, autoimmune disease including systemic lupus erythematosus and antiphospholipid antibodies, cardiovascular, pulmonary, renal, hepatic, hematological, neoplastic disorders. Pathophysiology, implications, screening, prevention, diagnosis, assessment and management.'
-          },
-          {
-            title: 'Infections',
-            desc: 'Toxoplasmosis, cytomegalovirus, rubella, human immunodeficiency virus, hepatitis, varicella, Coxsackie, Parvovirus B19, Listeria. Pathophysiology, implications, screening, prevention, diagnosis, assessment and management.'
-          },
-          {
-            title: 'Multiple pregnancy',
-            desc: 'Epidemiology, pathophysiology, chorionicity, discordancy for defects, growth or death, twin-to-twin transfusion syndrome, prenatal diagnosis, assessment and monitoring, multifetal pregnancy reduction.'
-          },
-          {
-            title: 'Implications for the individual and society',
-            desc: 'Ethics, law, psychology, sociology, politics, economics.'
-          },
-          {
-            title: 'Research methodology',
-            desc: 'Medical statistics and epidemiology. Undertaking a literature search and summarizing the findings, planning a research project, writing an application for a grant-giving body and research ethics committee, computerization, statistical analysis and interpretation of data and writing an audit report, scientific papers and a thesis.'
-          },
-          {
-            title: 'Organization and administration of fetal medicine service',
-            desc: 'Structured training, clinical protocols, consent forms, research versus audit in clinical practice, patient notes, counselling, computerization.'
-          }
-        ]
+        isMapModalOpen: false,
+        selectedMapTitle: '',
+        mapCountryLabel: 'No country selected',
+        mapCountryCount: null,
+        mapCountryPeople: [],
+        mapChartInstance: null,
+        mapCounts: {},
+        mapWorld: null,
+        mapNameToCode: {}
+      }
+    },
+    methods: {
+      openMap(title) {
+        this.selectedMapTitle = title
+        this.isMapModalOpen = true
+        this.mapCountryLabel = 'No country selected'
+        this.mapCountryCount = null
+        this.mapCountryPeople = []
+      },
+      closeMap() {
+        this.isMapModalOpen = false
+        if (this.mapChartInstance) {
+          this.mapChartInstance.dispose()
+          this.mapChartInstance = null
+        }
+        window.removeEventListener('resize', this.resizeMap)
+      },
+      initMap() {
+        if (!this.$refs.fellowshipMap) return
+        if (this.mapChartInstance) {
+          this.mapChartInstance.dispose()
+          this.mapChartInstance = null
+        }
+        this.$nextTick(async () => {
+          const worldJson = await this.loadWorldMap()
+          echarts.registerMap('world', worldJson)
+
+          const formatter = new Intl.DisplayNames(['en'], { type: 'region' })
+          const values = this.mapCounts
+          const nameToCode = {}
+          const mapData = Object.keys(values).map((code) => {
+            let name = code
+            if (code && code.length === 2 && formatter) {
+              name = formatter.of(code) || code
+            }
+            nameToCode[name] = code
+            return { name, value: values[code] }
+          })
+          this.mapNameToCode = nameToCode
+
+          this.mapChartInstance = echarts.init(this.$refs.fellowshipMap)
+          this.mapChartInstance.setOption({
+            backgroundColor: 'transparent',
+            tooltip: {
+              trigger: 'item',
+              backgroundColor: 'rgba(255,255,255,0.95)',
+              borderColor: '#2E73BE',
+              padding: [10, 15],
+              textStyle: { color: '#455a64' },
+              extraCssText: 'box-shadow: 0 4px 20px rgba(46, 115, 190, 0.15); border-radius: 8px; backdrop-filter: blur(4px);',
+              formatter: (p) => (p.value ? `<b>${p.name}</b><br/><span style="color:#2E73BE; font-size:18px; font-weight:bold;">${p.value}</span>` : p.name)
+            },
+            visualMap: {
+              left: 40,
+              bottom: 40,
+              min: 0,
+              max: Math.max(5, ...Object.values(values)),
+              inRange: {
+                color: ['#EBF5F7', '#C0D8E6', '#93B8D4', '#5F93C2', '#2E73BE']
+              },
+              text: ['High', 'Low'],
+              textStyle: { color: '#5F93C2' },
+              outOfRange: { color: '#ffffff' }
+            },
+            series: [{
+              type: 'map',
+              map: 'world',
+              roam: true,
+              zoom: 1.2,
+              itemStyle: {
+                areaColor: '#ffffff',
+                borderColor: '#C0D8E6',
+                borderWidth: 1,
+                shadowColor: 'rgba(95, 147, 194, 0.15)',
+                shadowBlur: 10,
+                shadowOffsetY: 4
+              },
+              emphasis: {
+                label: { show: false },
+                itemStyle: {
+                  areaColor: '#C8ACD6',
+                  shadowBlur: 25,
+                  shadowColor: 'rgba(200, 172, 214, 0.6)',
+                  shadowOffsetX: 6,
+                  shadowOffsetY: 8
+                }
+              },
+              select: {
+                itemStyle: {
+                  areaColor: '#C8ACD6',
+                  shadowBlur: 0,
+                  shadowColor: 'transparent'
+                }
+              },
+              data: mapData
+            }]
+          })
+
+          this.mapChartInstance.on('click', (params) => {
+            if (params.componentType !== 'series') return
+            const code = this.mapNameToCode[params.name] || params.name
+            this.mapCountryLabel = params.name || 'No country selected'
+            this.mapCountryCount = values[code] ?? values[params.name] ?? 0
+            this.mapCountryPeople = []
+          })
+          this.mapChartInstance.getZr().on('click', (event) => {
+            if (!event.target) {
+              this.mapCountryLabel = 'No country selected'
+              this.mapCountryCount = null
+              this.mapCountryPeople = []
+            }
+          })
+          window.addEventListener('resize', this.resizeMap)
+        })
+      },
+      resizeMap() {
+        if (this.mapChartInstance) {
+          this.mapChartInstance.resize()
+        }
+      },
+      async loadWorldMap() {
+        if (this.mapWorld) {
+          return this.mapWorld
+        }
+        const resp = await fetch('https://raw.githubusercontent.com/apache/echarts-examples/gh-pages/public/data/asset/geo/world.json')
+        const data = await resp.json()
+        this.mapWorld = data
+        return data
+      }
+    },
+    watch: {
+      isMapModalOpen(value) {
+        if (value) {
+          this.$nextTick(() => this.initMap())
+        }
       }
     }
   }
@@ -286,11 +343,6 @@
     box-sizing: border-box;
   }
 
-  ::v-deep .top-banner .top-banner-content .desc {
-    text-align: center;
-    text-align-last: center;
-  }
-
   .section {
     background: #ffffff;
     border-radius: 12px;
@@ -298,28 +350,18 @@
     box-shadow: 0 6px 20px rgba(14, 48, 69, 0.06);
   }
 
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 12px;
-  }
-
-  .section-header-left {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
-
   .section-title {
     font-size: 20px;
     font-weight: bold;
-    color: #0e3045;
+    color: #036fc0;
     margin-bottom: 12px;
+  }
+
+  .subsection-title {
+    margin-top: 18px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0e3045;
   }
 
   .section-desc {
@@ -329,89 +371,22 @@
   }
 
   .criteria-list {
-    margin: 12px 0 0 18px;
+    margin: 10px 0 0 18px;
     padding: 0;
     color: #4a5b67;
-    line-height: 26px;
-  }
-
-  .criteria-list li {
-    margin-bottom: 6px;
-  }
-
-  .collapse {
-    border: none;
-  }
-
-  ::v-deep .collapse .el-collapse-item__header {
     font-size: 16px;
-    font-weight: 600;
-    color: #036fc0;
-    padding: 12px 0;
-    border-bottom: 1px solid #edf1f6;
-  }
-
-  ::v-deep .collapse .el-collapse-item__header::after {
-    content: none;
-  }
-
-  ::v-deep .collapse .el-collapse-item__header .el-collapse-item__arrow {
-    display: none;
-  }
-
-  ::v-deep .collapse .el-collapse-item__header .collapse-title {
-    position: relative;
-    padding-right: 36px;
-  }
-
-  ::v-deep .collapse .el-collapse-item__header .collapse-title::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 10px solid #036fc0;
-    animation: arrowBounce 1.4s ease-in-out infinite;
-  }
-
-  @keyframes arrowBounce {
-    0%, 100% { transform: translateY(-50%); }
-    50% { transform: translateY(-29%); }
-  }
-
-  ::v-deep .collapse .el-collapse-item__content {
-    padding: 12px 0 0;
-    color: #4a5b67;
     line-height: 26px;
-    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 
-  .collapse-body p {
-    margin: 0 0 12px;
-  }
-
-  .collapse-body ul {
-    margin: 8px 0 12px 18px;
-    padding: 0;
-  }
-
-  .collapse-body li::marker {
+  .criteria-list li::marker {
     color: #036fc0;
-  }
-
-  .collapse-body li {
-    margin-bottom: 6px;
   }
 
   .inline-actions {
-    margin-top: 8px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+    margin-top: 12px;
   }
 
   .inline-link {
@@ -420,49 +395,140 @@
     text-decoration: underline;
   }
 
-  .subsection-title {
-    margin: 12px 0 6px;
-    font-weight: 600;
-    color: #0e3045;
+  .inline-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
   }
 
-  .knowledge-title {
-    font-weight: 600;
-    color: #0e3045;
+  .map-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 24, 38, 0.55);
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding-left: 8px;
+    justify-content: center;
+    z-index: 2000;
+    padding: 24px;
+    box-sizing: border-box;
   }
 
-  .knowledge-bullet {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #036fc0;
-    flex: 0 0 8px;
+  .map-modal-card {
+    width: min(1600px, 98%);
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(10, 40, 70, 0.25);
+    overflow: hidden;
   }
 
-  .knowledge-desc {
-    color: #4a5b67;
+  .map-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eef2f7;
   }
 
-  .knowledge-collapse {
-    border: none;
-  }
-
-  ::v-deep .knowledge-collapse .el-collapse-item__header {
-    font-size: 15px;
-    font-weight: 600;
+  .map-modal-title {
+    font-size: 16px;
+    font-weight: 700;
     color: #0e3045;
-    padding: 10px 0;
-    border-bottom: 1px solid #edf1f6;
   }
 
-  ::v-deep .knowledge-collapse .el-collapse-item__content {
-    padding: 8px 0 12px;
-    color: #4a5b67;
-    line-height: 26px;
-    font-size: 15px;
+  .map-modal-close {
+    border: none;
+    background: #0f5aa4;
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .map-modal-body {
+    padding: 16px 20px 20px;
+  }
+
+  .map-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 16px;
+  }
+
+  .map-panel {
+    min-height: 560px;
+    border-radius: 12px;
+    border: 1px solid #e6eef5;
+    background: #ffffff;
+    padding: 20px;
+  }
+
+  .map-view {
+    width: 100%;
+    height: 560px;
+  }
+
+  .map-list-panel {
+    border-radius: 12px;
+    border: 1px solid #e6eef5;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    min-height: 560px;
+    background: #ffffff;
+  }
+
+  .map-list-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    color: #0e3045;
+    margin-bottom: 6px;
+  }
+
+  .map-list-count {
+    background: #e6f1ff;
+    color: #0f5aa4;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+  }
+
+  .map-list-subtitle {
+    font-size: 12px;
+    color: #7a8b9b;
+    margin-bottom: 12px;
+  }
+
+  .map-list-content {
+    flex: 1;
+  }
+
+  .map-empty-state {
+    color: #9aa6b2;
+    font-size: 13px;
+  }
+
+  @media (max-width: 900px) {
+    .map-layout {
+      grid-template-columns: 1fr;
+    }
+    .map-panel,
+    .map-list-panel {
+      min-height: 420px;
+    }
+    .map-view {
+      height: 420px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .section {
+      padding: 20px;
+    }
   }
 </style>
