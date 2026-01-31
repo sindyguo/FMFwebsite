@@ -520,7 +520,7 @@
   .right-content {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 16px;
   }
 
   .section-header {
@@ -701,7 +701,7 @@
     border-radius: var(--radius-lg);
     border: 1px solid var(--border-light);
     box-shadow: var(--shadow-sm);
-    padding: 24px;
+    padding: 12px 24px 24px;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -802,7 +802,7 @@
     background: #FFFBF0; /* Warm sticky note bg */
     border: 1px solid #FEF3C7;
     border-radius: var(--radius-md);
-    padding: 24px;
+    padding: 12px 24px 24px;
     display: flex;
     gap: 20px;
     align-items: flex-start;

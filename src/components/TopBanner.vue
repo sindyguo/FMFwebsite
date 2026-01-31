@@ -89,13 +89,6 @@
     height: 100%;
     color: #ffffff;
     overflow: hidden;
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(110deg, rgba(8, 34, 60, 0.78) 10%, rgba(8, 34, 60, 0.32) 55%, rgba(8, 34, 60, 0) 80%);
-      pointer-events: none;
-    }
     
     .top-banner-bg {
       position: absolute;

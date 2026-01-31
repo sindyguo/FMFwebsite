@@ -1,7 +1,7 @@
 <template>
   <div class="vcontainer vcenter footer">
     <div class="fill hcontainer hcenter main-container footer-content">
-      <div class="footer-col footer-brand">Fetal Medicine Foundation</div>
+      <div class="footer-col footer-brand">The Fetal Medicine Foundation</div>
       <div class="footer-col">
         <div>137 Harley Street</div>
         <div>London, W1G 6BG</div>
