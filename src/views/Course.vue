@@ -1,14 +1,7 @@
 <template>
   <div class="fill vcontainer course">
     <section class="course-hero">
-      <BabyScanHeader class="course-hero-scan">
-        <div class="course-hero-content main-container">
-          <div class="course-hero-title">Online Learning</div>
-          <div class="course-hero-subtitle">
-            Internet-based courses, free of charge, available in several languages.
-          </div>
-        </div>
-      </BabyScanHeader>
+      <TopBanner class="course-hero-banner" height="260px" :listData="topBannerList" />
     </section>
 
     <section class="course-library">
@@ -138,16 +131,21 @@
 
 <script>
   import { mapGetters, mapActions } from 'vuex'
-  import BabyScanHeader from '@/components/BabyScanHeader.vue'
+  import TopBanner from '@/components/TopBanner.vue'
   import * as echarts from 'echarts'
 
   export default {
     name: 'CoursePage',
     components: {
-      BabyScanHeader
+      TopBanner
     },
     data() {
       return {
+        topBannerList: [{
+          img: require('@/assets/img/online_course_header.png'),
+          title: '',
+          desc: ''
+        }],
         listData: [],
         searchQuery: "",
         selectedCategory: "all",
@@ -569,36 +567,6 @@
     background: #f5f7fb;
     .course-hero {
       position: relative;
-      height: 850px; /* Increased to 850px to ensure full fetus contour is visible */
-      background: #000;
-      overflow: hidden;
-      
-      .course-hero-scan {
-        width: 100%;
-        height: 100%;
-      }
-
-      .course-hero-content {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 100%;
-        color: #fff;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.5); /* Added text shadow for legibility over scan */
-        
-        .course-hero-title {
-          font-size: 48px;
-          font-weight: 700;
-          letter-spacing: 0.5px;
-        }
-        .course-hero-subtitle {
-          margin-top: 12px;
-          font-size: 18px;
-          max-width: 680px;
-          color: rgba(255, 255, 255, 0.9);
-        }
-      }
     }
 
     .course-library {

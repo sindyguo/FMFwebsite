@@ -5,9 +5,10 @@
       <div class="section">
         <div class="section-header">
           <div class="section-heading">
-            <div class="section-desc">
-              Title
-            </div>
+            <router-link class="back-link" to="/research">
+              <span class="back-arrow" aria-hidden="true"></span>
+              Go back to Research
+            </router-link>
           </div>
           <div class="filters">
             <div class="filter-item">
@@ -54,9 +55,6 @@
         <div v-if="filteredPublications.length === 0" class="empty-state">
           No publications match the selected filters.
         </div>
-        <a class="inline-link" href="https://fetalmedicine.org/research/research-publications" target="_blank" rel="noopener">
-          View full publications list
-        </a>
       </div>
     </div>
   </div>
@@ -346,6 +344,40 @@
     font-weight: bold;
     color: #0e3045;
     margin-bottom: 12px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #036fc0;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 16px;
+  }
+
+  .back-link:hover {
+    text-decoration: underline;
+  }
+
+  .back-arrow {
+    position: relative;
+    width: 10px;
+    height: 2px;
+    background: #036fc0;
+    display: inline-block;
+  }
+
+  .back-arrow::before {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    width: 6px;
+    height: 6px;
+    border-left: 2px solid #036fc0;
+    border-bottom: 2px solid #036fc0;
+    transform: rotate(45deg);
   }
 
   .section-desc {

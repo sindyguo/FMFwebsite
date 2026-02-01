@@ -138,6 +138,20 @@ body {
   flex-wrap: wrap;
 }
 
+/* Global section card spacing + paragraph justification */
+.section {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+}
+
+.section p,
+.section li,
+.section .section-desc {
+  text-align: justify;
+  text-align-last: left;
+  -moz-text-align-last: left;
+}
+
 .align-end {
   align-items: flex-end;
 }

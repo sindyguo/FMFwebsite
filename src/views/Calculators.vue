@@ -71,7 +71,7 @@
             { name: 'Nuchal translucency', url: 'https://www.fetalmedicine.org/research/assess/nt' },
             { name: 'Fetal growth', url: 'https://www.fetalmedicine.org/research/assess/growth' },
             { name: 'Birth weight', url: 'https://www.fetalmedicine.org/research/assess/bw' },
-            { name: 'Fetal doppler', url: 'https://www.fetalmedicine.org/research/doppler' },
+            { name: 'Fetal Doppler', url: 'https://www.fetalmedicine.org/research/doppler' },
             { name: 'Uterine artery PI', url: 'https://www.fetalmedicine.org/research/utpi' },
             { name: 'Fetal anemia', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=fetalanemia' }
           ]
