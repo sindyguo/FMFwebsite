@@ -527,7 +527,9 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    margin-bottom: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
     
     h2 {
       font-size: 24px;
@@ -683,7 +685,7 @@
   .upcoming-section {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 16px;
     
     .section-header {
       margin-bottom: 0;
@@ -781,7 +783,7 @@
   .news-section {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 16px;
     
     .section-header {
       margin-bottom: 0;
