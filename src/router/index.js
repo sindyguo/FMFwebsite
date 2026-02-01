@@ -178,6 +178,15 @@ const routes = [
         }
       },
       {
+        path: '/fmf-supported-courses',
+        name: 'FmfSupportedCourses',
+        component: () => import(/* webpackChunkName: 'FmfSupportedCourses' */ '../views/SupportedCourses.vue'),
+        meta: {
+          title: 'FMF Supported Courses',
+          requiresAuth: false
+        }
+      },
+      {
         path: '/fellowships',
         name: 'Fellowships',
         component: () => import(/* webpackChunkName: 'Fellowships' */ '../views/Fellowships.vue'),

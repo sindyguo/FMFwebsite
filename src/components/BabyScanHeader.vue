@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-      imgSrc: require('@/assets/img/baby_scan.jpg'),
+      imgSrc: require('@/assets/img/online_course_header.png'),
       scanDuration: 4000
     }
   },

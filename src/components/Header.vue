@@ -284,7 +284,7 @@
         }
         if (selectedItem.item.id === 'fmf-supported-course') {
           self.changeActiveId(key)
-          self.$router.push('/fmf-supported-course')
+          self.$router.push('/fmf-supported-courses')
           return
         }
         if ((selectedItem.item.categoryName || '').toLowerCase() === 'research') {

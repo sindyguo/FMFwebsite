@@ -27,27 +27,23 @@
 
       <div class="section">
         <div class="section-title blue-title">Centre development</div>
-        <div class="section-desc">
-          The FMF has supported the establishment of specialist fetal medicine centres within university hospitals in the
-          capital cities of <span class="highlight-blue">Albania, Armenia, Ethiopia, Kosovo, Moldova, North Macedonia, Rwanda, and Zimbabwe</span>.
-        </div>
-        <div class="section-desc">
-          These centres are equipped with high-quality ultrasound machines and IT infrastructure, and are supported by
-          FMF expert teams who provide structured training, on-site teaching, and hands-on clinical guidance.
-        </div>
-        <div class="section-desc">
-          This approach ensures sustainable skills transfer and the long-term development of local expertise.
-        </div>
-        <div class="section-desc">
-          In addition, the FMF has made a major investment in the development and equipping of a specialist fetal
-          medicine centre at
-          <a class="inline-link" href="https://www.mse.nhs.uk" target="_blank" rel="noopener">Southend University Hospital</a>,
-          Southend-on-Sea, UK. The
-          centre is actively engaged in research into pregnancy complications and in the training of doctors in fetal
-          medicine. Clinicians based at Southend undertake specialist training rotations at the fetal medicine unit at
-          King’s College Hospital, London, supporting knowledge exchange and the development of advanced clinical
-          skills.
-        </div>
+        <ul class="section-list">
+          <li>
+            The FMF has supported the establishment of specialist fetal medicine centres within university hospitals in the
+            capital cities of <span class="highlight-blue">Albania, Armenia, Ethiopia, Kosovo, Moldova, North Macedonia, Rwanda, and Zimbabwe</span>.
+            These centres are equipped with high-quality ultrasound machines and IT infrastructure, and are supported by
+            FMF expert teams who provide structured training, on-site teaching, and hands-on clinical guidance. This approach
+            ensures sustainable skills transfer and the long-term development of local expertise.
+          </li>
+          <li>
+            In addition, the FMF has made a major investment in the development and equipping of a specialist fetal
+            medicine centre at <span class="highlight-blue">Southend University Hospital</span>, Southend-on-Sea, UK. The
+            centre is actively engaged in research into pregnancy complications and in the training of doctors in fetal
+            medicine. Clinicians based at Southend undertake specialist training rotations at the fetal medicine unit at
+            King’s College Hospital, London, supporting knowledge exchange and the development of advanced clinical
+            skills.
+          </li>
+        </ul>
         <div class="section-subtitle">Centres' photo gallery</div>
         <div class="gallery-marquee" ref="galleryMarquee">
           <div class="gallery-track">
@@ -63,26 +59,26 @@
         <div class="section-title blue-title">Donation of ultrasound machines</div>
         <div class="section-desc">
           The FMF has donated high quality ultrasound machines to
-          <a class="inline-link" href="https://attikonhospital.gov.gr" target="_blank" rel="noopener">Atticon University Hospital</a>,
+          <span class="highlight-blue">Atticon University Hospital</span>,
           Athens, Greece, and
-          <a class="inline-link" href="https://www.shso.org.cy/en/greeting/nosokomeio-archiepiskopou-makareiou-iii/" target="_blank" rel="noopener">
-            Makarios III Hospital for Women and Children
-          </a>,
+          <span class="highlight-blue">Makarios III Hospital for Women and Children</span>,
           Nicosia, Cyprus.
         </div>
       </div>
 
       <div class="section">
         <div class="section-title blue-title">Training fellowships</div>
-        <div class="section-desc">
-          Through its international fellowship and training programmes, the FMF has supported the advanced training of
-          over 1,000 healthcare professionals from around the world through FMF-funded fellowships and educational grants,
-          helping to strengthen maternal and perinatal care globally.
-        </div>
-        <div class="section-desc">
-          Each year, the FMF also hosts more than 500 clinical observers from multiple countries, reinforcing its role as
-          a global centre for education, skills transfer, and international collaboration in fetal medicine.
-        </div>
+        <ul class="section-list">
+          <li>
+            Through its international fellowship and training programmes, the FMF has supported the advanced training of
+            over 1,000 healthcare professionals from around the world through FMF-funded fellowships and educational grants,
+            helping to strengthen maternal and perinatal care globally.
+          </li>
+          <li>
+            Each year, the FMF also hosts more than 500 clinical observers from multiple countries, reinforcing its role as
+            a global centre for education, skills transfer, and international collaboration in fetal medicine.
+          </li>
+        </ul>
       </div>
 
     </div>
@@ -100,7 +96,7 @@
     data() {
       return {
         topBannerList: [{
-          img: require('@/assets/img/headers/look-for-life-header.jpeg'),
+          img: require('@/assets/img/look_for_life_header.jpeg'),
           title: ''
         }],
         images: {
@@ -227,7 +223,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
-    padding: 28px;
+    padding: 14px;
     border-radius: 16px;
     background: #ffffff;
     box-shadow: 0 10px 30px rgba(14, 48, 69, 0.08);
@@ -281,7 +277,7 @@
   .section {
     background: #ffffff;
     border-radius: 12px;
-    padding: 24px;
+    padding: 12px;
     box-shadow: 0 6px 20px rgba(14, 48, 69, 0.06);
   }
 
@@ -309,10 +305,25 @@
     color: #4a5b67;
   }
 
+  .section-list {
+    margin: 0 0 0 18px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #4a5b67;
+    font-size: 16px;
+    line-height: 26px;
+  }
+
+  .section-list li::marker {
+    color: #036fc0;
+  }
+
   .inline-link {
     color: #036fc0;
     font-weight: 600;
-    text-decoration: underline;
+    text-decoration: none;
   }
 
   .highlight-blue {

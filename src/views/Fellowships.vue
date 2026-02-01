@@ -4,45 +4,47 @@
     <div class="vcontainer hcenter main-container fellowships-content">
       <div class="section">
         <div class="section-title">FMF Clinical Fellowships</div>
-        <div class="section-desc">
-          Each year, the Fetal Medicine Foundation (FMF) awards a limited number of highly competitive two-year clinical
-          fellowships in fetal medicine, designed to nurture excellence in clinical care and compassionate
-          patient-centred practice.
-        </div>
-        <div class="section-desc">
-          FMF clinical fellowships are both rigorous and rewarding, offering extensive training and a supportive
-          environment where future clinicians develop the skills to make meaningful contributions to fetal medicine
-          worldwide. Fellows work closely with Professor Kypros Nicolaides and senior consultants in fetal medicine,
-          gaining hands-on experience across the full spectrum of modern fetal-maternal care.
-        </div>
-        <div class="section-desc">
-          During the fellowship, fellows participate in a structured and intensive educational programme designed to
-          support advanced clinical and academic development in fetal medicine. This includes:
-        </div>
-        <ul class="criteria-list">
-          <li>Regular formal teaching, with in-depth lectures delivered monthly covering core and advanced topics in fetal medicine.</li>
-          <li>Active participation in multidisciplinary team (MDT) meetings, working closely with specialists in genetics, neonatology, maternal medicine, and neurology.</li>
-          <li>Mandatory attendance at the FMF World Congress in Fetal Medicine.</li>
-          <li>Mandatory attendance at the FMF Advances Course in Fetal Medicine.</li>
+        <ul class="section-list">
+          <li>
+            Each year, the Fetal Medicine Foundation (FMF) awards a limited number of highly competitive two-year clinical
+            fellowships in fetal medicine, designed to nurture excellence in clinical care and compassionate
+            patient-centred practice.
+          </li>
+          <li>
+            FMF clinical fellowships are both rigorous and rewarding, offering extensive training and a supportive
+            environment where future clinicians develop the skills to make meaningful contributions to fetal medicine
+            worldwide. Fellows work closely with Professor Kypros Nicolaides and senior consultants in fetal medicine,
+            gaining hands-on experience across the full spectrum of modern fetal-maternal care.
+          </li>
+          <li>
+            During the fellowship, fellows participate in a structured and intensive educational programme designed to
+            support advanced clinical and academic development in fetal medicine. This includes:
+            <ul class="criteria-list">
+              <li>Regular formal teaching, with in-depth lectures delivered monthly covering core and advanced topics in fetal medicine.</li>
+              <li>Active participation in multidisciplinary team (MDT) meetings, working closely with specialists in genetics, neonatology, maternal medicine, and neurology.</li>
+              <li>Mandatory attendance at the FMF World Congress in Fetal Medicine.</li>
+              <li>Mandatory attendance at the FMF Advances Course in Fetal Medicine.</li>
+            </ul>
+          </li>
+          <li>
+            By the end of the programme, fellows are expected to have completed all the online theoretical courses of the
+            FMF and achieved competence in key areas of fetal-medicine practice, formally recognised by FMF Certificates of
+            Competence in:
+            <ul class="criteria-list">
+              <li>The 11-13 weeks scan for assessment of risks for trisomies, preeclampsia and diagnosis of major fetal anomalies.</li>
+              <li>The mid-trimester scan for diagnosis of fetal anomalies, and assessment of fetal growth and uterine artery Doppler.</li>
+              <li>The third-trimester scan for diagnosis of fetal anomalies, and assessment of fetal growth and fetal oxygenation.</li>
+              <li>Fetal echocardiography.</li>
+              <li>Fetal neurosonography.</li>
+              <li>Cervical assessment.</li>
+              <li>Invasive prenatal procedures. This applies for medically qualified fellows registered with the UK General Medical Council.</li>
+            </ul>
+          </li>
+          <li>
+            Fellows are encouraged and supported to pursue research activity and contribute to ongoing scientific studies,
+            enriching the evidence base of fetal-maternal medicine.
+          </li>
         </ul>
-        <div class="section-desc">
-          By the end of the programme, fellows are expected to have completed all the online theoretical courses of the
-          FMF and achieved competence in key areas of fetal-medicine practice, formally recognised by FMF Certificates of
-          Competence in:
-        </div>
-        <ul class="criteria-list">
-          <li>The 11-13 weeks scan for assessment of risks for trisomies, preeclampsia and diagnosis of major fetal anomalies.</li>
-          <li>The mid-trimester scan for diagnosis of fetal anomalies, and assessment of fetal growth and uterine artery Doppler.</li>
-          <li>The third-trimester scan for diagnosis of fetal anomalies, and assessment of fetal growth and fetal oxygenation.</li>
-          <li>Fetal echocardiography.</li>
-          <li>Fetal neurosonography.</li>
-          <li>Cervical assessment.</li>
-          <li>Invasive prenatal procedures. This applies for medically qualified fellows registered with the UK General Medical Council.</li>
-        </ul>
-        <div class="section-desc">
-          Fellows are encouraged and supported to pursue research activity and contribute to ongoing scientific studies,
-          enriching the evidence base of fetal-maternal medicine.
-        </div>
       </div>
 
       <div class="section">
@@ -51,8 +53,10 @@
           At the end of a successful fellowship candidates receive a Certificate of completion of the fellowship.
         </div>
         <div class="section-desc">
+          <img class="map-icon" src="@/assets/img/icons/map-icon.jpg" alt="" aria-hidden="true" />
           To view the list of healthcare professionals who have completed or are still engaged in training fellowships in
-          fetal medicine please <button class="inline-link inline-button" type="button" @click="openMap('Fellowship completers')">click here</button>.
+          fetal medicine please
+          <button class="inline-link inline-button" type="button" @click="openMap('Fellowship completers')">click here</button>.
         </div>
       </div>
 
@@ -63,6 +67,7 @@
           competence in invasive procedures will receive the FMF Diploma in Fetal Medicine.
         </div>
         <div class="section-desc">
+          <img class="map-icon" src="@/assets/img/icons/map-icon.jpg" alt="" aria-hidden="true" />
           To view the list of healthcare professionals who have obtained the Diploma in Fetal Medicine please
           <button class="inline-link inline-button" type="button" @click="openMap('Diploma holders')">click here</button>.
         </div>
@@ -70,31 +75,32 @@
 
       <div class="section">
         <div class="section-title">Applications for FMF clinical fellowships</div>
-        <div class="section-desc">
-          Applications are open throughout the year. Shortlisted applicants will be invited to an online interview.
-        </div>
-        <div class="section-desc">
-          Applicants should complete the FMF Fellowship form and send this together with a reference from the head of
-          the department in their hospital to <a class="inline-link" href="mailto:education@fetalmedicine.org">education@fetalmedicine.org</a>.
-        </div>
-        <div class="section-desc">
-          Applicants are expected to have completed the FMF theoretical internet-based courses on:
-        </div>
-        <ul class="criteria-list">
-          <li>The 11-13 weeks scan</li>
-          <li>Preeclampsia screening</li>
-          <li>Cervical assessment</li>
-          <li>Twin pregnancies</li>
+        <ul class="section-list">
+          <li>
+            Applications are open throughout the year. Shortlisted applicants will be invited to an online interview.
+            Applicants should complete the FMF Fellowship form and send this together with a reference from the head of
+            the department in their hospital to <a class="inline-link" href="mailto:education@fetalmedicine.org">education@fetalmedicine.org</a>.
+          </li>
+          <li>
+            Applicants are expected to have completed the FMF theoretical internet-based courses on:
+            <ul class="criteria-list">
+              <li>The 11-13 weeks scan</li>
+              <li>Preeclampsia screening</li>
+              <li>Cervical assessment</li>
+              <li>Twin pregnancies</li>
+            </ul>
+          </li>
+          <li>
+            Attendance at FMF educational events, such as the FMF World Congress in Fetal Medicine or the FMF Advances
+            Course in Fetal Medicine, is welcomed and viewed positively. However, attendance is not mandatory, and
+            applications are assessed with full recognition of differences in access to international educational
+            opportunities across countries.
+          </li>
         </ul>
-        <div class="section-desc">
-          Attendance at FMF educational events, such as the FMF World Congress in Fetal Medicine or the FMF Advances
-          Course in Fetal Medicine, is welcomed and viewed positively. However, attendance is not mandatory, and
-          applications are assessed with full recognition of differences in access to international educational
-          opportunities across countries.
-        </div>
         <div class="inline-actions">
           <a class="inline-link" href="https://fetalmedicine.org/var/uploads/UActiveRecord/0/0/F/M/F/FMFfellowform.docx" target="_blank" rel="noopener">
-            FMF Fellowship application form
+            <img class="download-icon" src="@/assets/img/icons/download-1915753_1280.webp" alt="" aria-hidden="true" />
+            Download application form
           </a>
         </div>
       </div>
@@ -103,11 +109,9 @@
         <div class="section-title">Applications for project grants</div>
         <div class="section-desc">
           Clinical research fellows or subspecialty trainees in Maternal-Fetal Medicine can apply for research grants
-          with an allocated total of up to £1 million per year.
-        </div>
-        <div class="section-desc">
-          These grants are granted by the scientific committee of the FMF on the basis of their merit and provided they
-          fulfil the following criteria:
+          with an allocated total of up to £1 million per year. The applications are examined by the scientific committee
+          of the FMF, and the successful applications are funded on the basis of their merit and provided they fulfil the
+          following criteria:
         </div>
         <ul class="criteria-list">
           <li>They work in a NHS hospital in England.</li>
@@ -129,18 +133,18 @@
           <button class="map-modal-close" type="button" @click="closeMap">Close</button>
         </div>
         <div class="map-modal-body">
-          <div class="map-layout">
-            <div class="map-panel">
-              <div ref="fellowshipMap" class="map-view"></div>
+          <div class="completion-map-layout">
+            <div class="completion-map-panel">
+              <div ref="fellowshipMap" class="completion-map"></div>
             </div>
-            <div class="map-list-panel">
-              <div class="map-list-title">
+            <div class="completion-list-panel">
+              <div class="completion-list-title">
                 <span>{{ mapCountryLabel }}</span>
-                <span v-if="mapCountryCount !== null" class="map-list-count">{{ mapCountryCount }}</span>
+                <span v-if="mapCountryCount !== null" class="completion-list-count">{{ mapCountryCount }}</span>
               </div>
-              <div class="map-list-subtitle">Click a country to view the list.</div>
-              <div class="map-list-content">
-                <div v-if="!mapCountryPeople.length" class="map-empty-state">
+              <div class="completion-list-subtitle">Click a country to view the list.</div>
+              <div class="completion-list-content">
+                <div v-if="!mapCountryPeople.length" class="completion-empty-state">
                   Select a country to see the list.
                 </div>
               </div>
@@ -370,6 +374,21 @@
     color: #4a5b67;
   }
 
+  .section-list {
+    margin: 10px 0 0 18px;
+    padding: 0;
+    color: #4a5b67;
+    font-size: 16px;
+    line-height: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .section-list li::marker {
+    color: #036fc0;
+  }
+
   .criteria-list {
     margin: 10px 0 0 18px;
     padding: 0;
@@ -393,6 +412,20 @@
     color: #036fc0;
     font-weight: 600;
     text-decoration: underline;
+  }
+
+  .map-icon {
+    width: 36px;
+    height: 36px;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  .download-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 6px;
+    vertical-align: middle;
   }
 
   .inline-button {
@@ -452,76 +485,70 @@
     padding: 16px 20px 20px;
   }
 
-  .map-layout {
+  .completion-map-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-    gap: 16px;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 20px;
   }
 
-  .map-panel {
-    min-height: 560px;
-    border-radius: 12px;
-    border: 1px solid #e6eef5;
+  .completion-map-panel,
+  .completion-list-panel {
     background: #ffffff;
+    border: 1px solid #e6eef5;
+    border-radius: 14px;
     padding: 20px;
+    min-height: 560px;
   }
 
-  .map-view {
+  .completion-map {
     width: 100%;
     height: 560px;
-  }
-
-  .map-list-panel {
     border-radius: 12px;
-    border: 1px solid #e6eef5;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    min-height: 560px;
-    background: #ffffff;
   }
 
-  .map-list-title {
+  .completion-list-title {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    font-size: 16px;
     font-weight: 700;
     color: #0e3045;
     margin-bottom: 6px;
   }
 
-  .map-list-count {
+  .completion-list-count {
     background: #e6f1ff;
-    color: #0f5aa4;
+    color: #036fc0;
+    font-size: 12px;
+    font-weight: 700;
     padding: 2px 8px;
     border-radius: 999px;
-    font-size: 12px;
   }
 
-  .map-list-subtitle {
-    font-size: 12px;
-    color: #7a8b9b;
+  .completion-list-subtitle {
+    font-size: 13px;
+    color: #6b7380;
     margin-bottom: 12px;
   }
 
-  .map-list-content {
+  .completion-list-content {
     flex: 1;
   }
 
-  .map-empty-state {
+  .completion-empty-state {
     color: #9aa6b2;
     font-size: 13px;
   }
 
   @media (max-width: 900px) {
-    .map-layout {
+    .completion-map-layout {
       grid-template-columns: 1fr;
     }
-    .map-panel,
-    .map-list-panel {
+    .completion-map-panel,
+    .completion-list-panel {
       min-height: 420px;
     }
-    .map-view {
+    .completion-map {
       height: 420px;
     }
   }
