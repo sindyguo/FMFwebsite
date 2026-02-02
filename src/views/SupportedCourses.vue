@@ -66,16 +66,6 @@
             image: require('@/assets/img/bsfm2026_slide1.png')
           },
           {
-            title: 'ISUOG and FMF present: Ultrasound Essentials 2026',
-            date: '23-24 January 2026',
-            startDate: '2026-01-23',
-            location: 'Online',
-            email: 'info@isuog.org',
-            link: 'https://www.isuog.org/events/ultrasound-essentials-2026.html',
-            external: true,
-            image: require('@/assets/img/supported_courses/isuog_ultrasound_2026.jpg')
-          },
-          {
             title: 'Diplomado de Tamizaje del 1er. Trimestre del Embarazo (FMF)',
             date: '20 February 2026 - December 2026',
             startDate: '2026-02-20',

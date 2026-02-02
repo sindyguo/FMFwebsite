@@ -19,26 +19,32 @@
           <li>
             During the fellowship, fellows participate in a structured and intensive educational programme designed to
             support advanced clinical and academic development in fetal medicine. This includes:
-            <ul class="criteria-list">
-              <li>Regular formal teaching, with in-depth lectures delivered monthly covering core and advanced topics in fetal medicine.</li>
-              <li>Active participation in multidisciplinary team (MDT) meetings, working closely with specialists in genetics, neonatology, maternal medicine, and neurology.</li>
-              <li>Mandatory attendance at the FMF World Congress in Fetal Medicine.</li>
-              <li>Mandatory attendance at the FMF Advances Course in Fetal Medicine.</li>
-            </ul>
+            <details class="sub-details">
+              <summary class="sub-summary">View details</summary>
+              <ul class="criteria-list">
+                <li>Regular formal teaching, with in-depth lectures delivered monthly covering core and advanced topics in fetal medicine.</li>
+                <li>Active participation in multidisciplinary team (MDT) meetings, working closely with specialists in genetics, neonatology, maternal medicine, and neurology.</li>
+                <li>Mandatory attendance at the FMF World Congress in Fetal Medicine.</li>
+                <li>Mandatory attendance at the FMF Advances Course in Fetal Medicine.</li>
+              </ul>
+            </details>
           </li>
           <li>
             By the end of the programme, fellows are expected to have completed all the online theoretical courses of the
             FMF and achieved competence in key areas of fetal-medicine practice, formally recognised by FMF Certificates of
             Competence in:
-            <ul class="criteria-list">
-              <li>The 11-13 weeks scan for assessment of risks for trisomies, preeclampsia and diagnosis of major fetal anomalies.</li>
-              <li>The mid-trimester scan for diagnosis of fetal anomalies, and assessment of fetal growth and uterine artery Doppler.</li>
-              <li>The third-trimester scan for diagnosis of fetal anomalies, and assessment of fetal growth and fetal oxygenation.</li>
-              <li>Fetal echocardiography.</li>
-              <li>Fetal neurosonography.</li>
-              <li>Cervical assessment.</li>
-              <li>Invasive prenatal procedures. This applies for medically qualified fellows registered with the UK General Medical Council.</li>
-            </ul>
+            <details class="sub-details">
+              <summary class="sub-summary">View details</summary>
+              <ul class="criteria-list">
+                <li>The 11-13 weeks scan for assessment of risks for trisomies, preeclampsia and diagnosis of major fetal anomalies.</li>
+                <li>The mid-trimester scan for diagnosis of fetal anomalies, and assessment of fetal growth and uterine artery Doppler.</li>
+                <li>The third-trimester scan for diagnosis of fetal anomalies, and assessment of fetal growth and fetal oxygenation.</li>
+                <li>Fetal echocardiography.</li>
+                <li>Fetal neurosonography.</li>
+                <li>Cervical assessment.</li>
+                <li>Invasive prenatal procedures. This applies for medically qualified fellows registered with the UK General Medical Council.</li>
+              </ul>
+            </details>
           </li>
           <li>
             Fellows are encouraged and supported to pursue research activity and contribute to ongoing scientific studies,
@@ -398,6 +404,33 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
+  }
+
+  .sub-details {
+    margin-top: 6px;
+  }
+
+  .sub-summary {
+    cursor: pointer;
+    color: #036fc0;
+    font-weight: 600;
+    list-style: none;
+    outline: none;
+  }
+
+  .sub-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .sub-summary::before {
+    content: '▸';
+    display: inline-block;
+    margin-right: 6px;
+    transition: transform 0.2s ease;
+  }
+
+  details[open] > .sub-summary::before {
+    transform: rotate(90deg);
   }
 
   .criteria-list li::marker {

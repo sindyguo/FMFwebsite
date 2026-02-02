@@ -37,9 +37,6 @@
               :key="childItem.id || childItem.categoryName"
               :index="childItem.id">
               <span class="submenu-item">
-                <span
-                  v-if="isOnlineCoursesMenu(item)"
-                  :class="['submenu-icon', getMenuIconClass(childItem.categoryName)]"></span>
                 <span class="submenu-text">{{ childItem.categoryName }}</span>
               </span>
             </el-menu-item>
@@ -108,9 +105,6 @@
                 :key="`mobile-child-${childItem.id || childItem.categoryName}`"
                 :index="childItem.id">
                 <span class="submenu-item">
-                  <span
-                    v-if="isOnlineCoursesMenu(item)"
-                    :class="['submenu-icon', getMenuIconClass(childItem.categoryName)]"></span>
                   <span class="submenu-text">{{ childItem.categoryName }}</span>
                 </span>
               </el-menu-item>
@@ -279,6 +273,10 @@
         }
 
         const self = this
+        if (selectedItem.item.linkUrl) {
+          window.open(selectedItem.item.linkUrl)
+          return
+        }
         if (selectedItem.item.id === 'fmf-world-congress') {
           return
         }
@@ -352,7 +350,7 @@
               target.childrenList = [
                 { id: 'fmf-world-congress', categoryName: 'FMF World Congress' },
                 { id: 'fmf-advances-course', categoryName: 'FMF Advances Course' },
-                { id: 'fmf-supported-course', categoryName: 'FMF Supported Course' }
+                { id: 'fmf-supported-course', categoryName: 'FMF Supported Courses' }
               ]
             }
             const lookForLife = data.find((item) => item?.categoryName === 'Look for Life')
@@ -363,11 +361,19 @@
             if (researchItem) {
               delete researchItem.childrenList
             }
-            const coursesIndex = data.findIndex((item) => item?.categoryName === 'Courses & Congress')
+            const researchIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'research')
             const onlineIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'online courses')
-            if (coursesIndex > -1 && onlineIndex > -1 && onlineIndex !== coursesIndex + 1) {
+            if (researchIndex > -1 && onlineIndex > -1 && onlineIndex !== researchIndex + 1) {
               const [onlineItem] = data.splice(onlineIndex, 1)
-              data.splice(coursesIndex + 1, 0, onlineItem)
+              data.splice(researchIndex + 1, 0, onlineItem)
+            }
+            const softwareIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'fmf software')
+            if (softwareIndex === -1) {
+              data.push({
+                id: 'fmf-software',
+                categoryName: 'FMF software',
+                linkUrl: 'https://fmf.refractionx.com/download?direct=true'
+              })
             }
             this.listData = data
           } else {
@@ -688,21 +694,21 @@
     }
   }
   .submenu-wrapper {
-    width: 360px;
+    width: 320px;
     max-width: calc(100vw - 24px);
-    min-width: 280px;
-    padding: 8px;
-    border-radius: 14px;
+    min-width: 240px;
+    padding: 6px;
+    border-radius: 12px;
     background-color: #ffffff;
     box-shadow: 0 20px 40px rgba(12, 36, 56, 0.18);
     .el-menu {
       background-color: transparent !important;
-      display: grid;
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
       align-content: start;
-      gap: 10px;
-      padding: 12px;
-      border-radius: 12px;
+      gap: 4px;
+      padding: 6px;
+      border-radius: 8px;
     }
     .el-menu::before,
     .el-menu::after {
@@ -723,92 +729,36 @@
       fill: currentColor;
     }
     .el-menu-item {
-      background: linear-gradient(135deg, #f7f8fb 0%, #eff2f7 100%) !important;
+      background: #ffffff !important;
       color: #2a3b4f !important;
-      font-size: 15px !important;
+      font-size: 13px !important;
       font-weight: 600;
       line-height: 1.2;
-      border-radius: 16px;
-      padding: 16px 18px !important;
+      border-radius: 8px;
+      padding: 8px 10px !important;
       height: auto !important;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      transition: background-color 0.2s ease, color 0.2s ease;
       position: relative;
       overflow: hidden;
-      padding-left: 16px !important;
       border: 1px solid #edf1f6;
-      box-shadow: 0 10px 24px rgba(15, 42, 67, 0.08);
       &.is-active, &:hover {
         color: #1f3346 !important;
-        background: linear-gradient(135deg, #f9fbff 0%, #eef3f9 100%) !important;
-        box-shadow: 0 14px 28px rgba(15, 42, 67, 0.12);
-        transform: translateY(-2px);
+        background: #f5f8fc !important;
       }
     }
     .submenu-item {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 4px;
     }
     .submenu-text {
       white-space: nowrap;
     }
-    .submenu-icon {
-      width: 28px;
-      height: 28px;
-      flex: 0 0 28px;
-      border-radius: 8px;
-      background-color: #f1f6fb;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-    .icon-dot {
-      background-image: radial-gradient(circle at 50% 50%, #2b6cb0 0 5px, transparent 6px);
-    }
-    .icon-heart {
-      background-image: url("~@/assets/img/online_course_icons/icon_heart.png");
-    }
-    .icon-dna {
-      background-image: url("~@/assets/img/online_course_icons/icon_dna.png");
-    }
-    .icon-brain {
-      background-image: url("~@/assets/img/online_course_icons/icon_brain.png");
-    }
-    .icon-fetus {
-      background-image: url("~@/assets/img/online_course_icons/icon_fetus.png");
-    }
-    .icon-ultrasound {
-      background-image: url("~@/assets/img/online_course_icons/icon_ultrasound.png");
-    }
-    .icon-uterus {
-      background-image: url("~@/assets/img/online_course_icons/icon_uterus.png");
-    }
-    .icon-maternal {
-      background-image: url("~@/assets/img/online_course_icons/icon_maternal.png");
-    }
-    .icon-placenta {
-      background-image: url("~@/assets/img/online_course_icons/icon_placenta.png");
-    }
-    .icon-probe {
-      background-image: url("~@/assets/img/online_course_icons/icon_probe.png");
-    }
-    .icon-pressure {
-      background-image: url("~@/assets/img/online_course_icons/icon_pressure.png");
-    }
-    .icon-lecture {
-      background-image: url("~@/assets/img/menu_lecture.jpeg");
-    }
-    .icon-twin {
-      background-image: url("~@/assets/img/menu_twin_pregnancy.jpeg");
-    }
   }
 
   .submenu-wrapper.online-courses-menu {
-    width: 700px;
-    min-width: 560px;
-    .el-menu {
-      grid-template-columns: repeat(2, minmax(300px, 1fr));
-    }
+    width: 300px;
+    min-width: 220px;
   }
   
   .meBox {

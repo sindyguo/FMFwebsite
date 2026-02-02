@@ -6,95 +6,6 @@
 
     <div class="main-container">
       <div class="home-layout">
-        <!-- Left Navigation -->
-        <aside class="left-sidebar">
-          <div class="sidebar-card">
-            <h3 class="sidebar-title">Explore</h3>
-            <div class="nav-list">
-              <template v-for="(item, index) in leftListData">
-                <el-popover
-                  v-if="item.showPop"
-                  :key="`popover-${index}`"
-                  v-model="item.popVisible"
-                  placement="right-start" 
-                  :visible-arrow="false"
-                  trigger="hover"
-                  popper-class="modern-popover"
-                  :offset="10">
-                  
-                  <!-- Popover Content -->
-                  <div class="popover-content">
-                    <div class="popover-header">
-                      <span>{{ item.title }}</span>
-                    </div>
-                    <div class="popover-body">
-                      <div v-if="!item.children || item.children.length == 0" class="empty-state">
-                        No data available
-                      </div>
-                      <div
-                        v-else
-                        v-for="subItem in (item.children ||[])"
-                        :key="subItem.categoryName"
-                        class="popover-item"
-                        @click="leftItemClick(item, subItem)">
-                        <div class="popover-item-dot"></div>
-                        <span>{{ subItem.categoryName }}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Trigger -->
-                  <div slot="reference" :class="['nav-item', `nav-item-${index}`]" @click="itemClick(item)">
-                    <div class="nav-item-icon-box">
-                      <svg v-if="index === 0" class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M4.5 5.5c0-1.1.9-2 2-2h6a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3h-6a2 2 0 0 0-2 2z" />
-                        <path d="M19.5 5.5c0-1.1-.9-2-2-2h-6a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h6a2 2 0 0 1 2 2z" />
-                      </svg>
-                      <svg v-else-if="index === 1" class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
-                        <rect x="4" y="3.5" width="16" height="17" rx="2" />
-                        <path d="M8 8h8M8 12h3m2 0h3M8 16h3m2 0h3" />
-                      </svg>
-                      <svg v-else class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
-                        <rect x="3.5" y="4" width="17" height="12" rx="2" />
-                        <path d="M8 20h8M10 16v4M14 16v4" />
-                      </svg>
-                    </div>
-                    <div class="nav-item-info">
-                      <span class="nav-item-title">{{ item.categoryName }}</span>
-                    </div>
-                    <i class="el-icon-arrow-right nav-arrow"></i>
-                  </div>
-                </el-popover>
-
-                <div
-                  v-else
-                  :key="`item-${index}`"
-                  :class="['nav-item', `nav-item-${index}`]"
-                  @click="itemClick(item)">
-                  <div class="nav-item-icon-box">
-                    <svg v-if="index === 0" class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M4.5 5.5c0-1.1.9-2 2-2h6a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3h-6a2 2 0 0 0-2 2z" />
-                      <path d="M19.5 5.5c0-1.1-.9-2-2-2h-6a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h6a2 2 0 0 1 2 2z" />
-                    </svg>
-                    <svg v-else-if="index === 1" class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
-                      <rect x="4" y="3.5" width="16" height="17" rx="2" />
-                      <path d="M8 8h8M8 12h3m2 0h3M8 16h3m2 0h3" />
-                    </svg>
-                    <svg v-else class="nav-item-icon" viewBox="0 0 24 24" aria-hidden="true">
-                      <rect x="3.5" y="4" width="17" height="12" rx="2" />
-                      <path d="M8 20h8M10 16v4M14 16v4" />
-                    </svg>
-                  </div>
-                  <div class="nav-item-info">
-                    <span class="nav-item-title">{{ item.categoryName }}</span>
-                  </div>
-                  <i class="el-icon-arrow-right nav-arrow"></i>
-                </div>
-              </template>
-            </div>
-          </div>
-        </aside>
-
         <!-- Right Content -->
         <main class="right-content">
           <!-- Main Carousel / Featured -->
@@ -149,50 +60,53 @@
 
           <div class="upcoming-section">
             <div class="section-header">
-              <h2>Upcoming Events</h2>
+              <h2>Monthly webinars</h2>
               <div class="header-line"></div>
             </div>
 
             <div class="upcoming-grid">
-              <div class="upcoming-card">
-                <h3 class="upcoming-title">Next FMF lecture</h3>
-                <div class="upcoming-meta">
-                  <span class="upcoming-meta-text upcoming-topic">Cholestasis in pregnancy by Professor Catherine Williamson</span>
+              <div class="upcoming-card webinar-card">
+                <div class="webinar-image">
+                  <img src="@/assets/img/home/monthly_webinar_1.jpeg" alt="Monthly webinar" />
                 </div>
-                <div class="upcoming-meta upcoming-meta-inline">
-                  <span class="upcoming-meta-label">Date</span>
-                  <span class="upcoming-meta-text">20th February at 13:30-14:30</span>
-                  <a class="upcoming-link" href="#" target="_blank" rel="noopener">Click here to register</a>
+                <div class="webinar-content">
+                  <h3 class="upcoming-title">Next FMF lecture</h3>
+                  <div class="upcoming-meta">
+                    <span class="upcoming-meta-text upcoming-topic">Cholestasis in pregnancy by Professor Catherine Williamson</span>
+                  </div>
+                  <div class="upcoming-meta upcoming-meta-inline">
+                    <span class="upcoming-meta-label">Date</span>
+                    <span class="upcoming-meta-text">20th February at 13:30-14:30</span>
+                    <a class="upcoming-link" href="#" target="_blank" rel="noopener">Click here to register</a>
+                  </div>
                 </div>
               </div>
 
-              <div class="upcoming-card">
-                <div class="upcoming-title">New FMF Supported Webinar Series</div>
-                <div class="upcoming-subtitle">Research Training Program in Obstetrics, Maternal-Fetal Medicine and Reproductive Health.</div>
-                <p class="upcoming-text">
-                  This free-of-charge course is organised by <strong>The Fetal Medicine Foundation Asia Pacific</strong> and is supported by the <strong>FMF.</strong>
-                </p>
-                <p class="upcoming-text">
-                  <strong>First lecture - Thursday 26 February 2026</strong>
-                  <a
-                    class="upcoming-link"
-                    href="https://news.fetalmedicine.org/l/nf150IUqqCfSF3uQNp9PZg/IrpEyQzDCxooAUy0rIsvAQ/20wbHD763GZeYXhX67J8920QzA"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    Click here to register
-                  </a>
-                </p>
-                <p class="upcoming-text">
-                  <strong>Each webinar lasts for 60-90 minutes and will be held on the last Thursday of each month at 10 am GMT (6 pm HKT, 9 pm AEDT, 11 am CET).</strong>
-                </p>
-                <ul class="upcoming-list">
-                  <li>The course offers a structured program of training from basic to advanced research skills, data analysis and statistics and ensures that participants gain both theoretical knowledge and practical application.</li>
-                  <li>The curriculum is tailored to meet the needs of healthcare professionals and individuals aspiring to pursue medical research. By combining interactive learning, expert guidance, and practical exercises, the program aims to strengthen research capacity and foster innovation in obstetrics and maternal-fetal medicine.</li>
-                </ul>
-                <p class="upcoming-text">
-                  <strong>Faculty:</strong> Liona Poon, Jon Hyett, Daniel Rolnik, Ben Mol, Fabricio Da Silva Costa, Long Nguyen-Hoang, Piya Chaemsaithong, Clarissa Velayo, Constance Chen, Valeria Rolle, Mar Gil
-                </p>
+              <div class="upcoming-card webinar-card">
+                <div class="webinar-image">
+                  <img src="@/assets/img/home/monthly_webinar_2.jpeg" alt="Monthly webinar" />
+                </div>
+                <div class="webinar-content">
+                  <div class="upcoming-title">New Webinar Series</div>
+                  <div class="upcoming-subtitle"><strong>Research Training Program in Maternal-Fetal Medicine and Reproductive Health.</strong></div>
+                  <p class="upcoming-text">
+                    This free-of-charge course is organised by <strong>The Fetal Medicine Foundation Asia Pacific</strong> and is supported by the <strong>FMF.</strong>
+                  </p>
+                  <p class="upcoming-text">
+                    <strong>Faculty:</strong> Liona Poon, Jon Hyett, Daniel Rolnik, Ben Mol, Fabricio Da Silva Costa, Long Nguyen-Hoang, Piya Chaemsaithong, Clarissa Velayo, Constance Chen, Valeria Rolle, Mar Gil
+                  </p>
+                  <p class="upcoming-text">
+                    <strong>First lecture - Thursday 26 February 2026</strong>
+                    <a
+                      class="upcoming-link"
+                      href="https://news.fetalmedicine.org/l/nf150IUqqCfSF3uQNp9PZg/IrpEyQzDCxooAUy0rIsvAQ/20wbHD763GZeYXhX67J8920QzA"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      Click here to register
+                    </a>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -260,29 +174,6 @@
     data() {
       return {
         educationList: [],
-        leftListData: [
-          {
-            popVisible: false,
-            showPop: false,
-            categoryName: 'Online Courses',
-            title: 'Course List',
-            routePath: '/course?categoryName=Online Courses',
-            children: []
-          }, {
-            popVisible: false,
-            showPop: false,
-            linkUrl: 'https://www.fetalmedicine.org',
-            categoryName: 'Calculators',
-            title: 'Calculator Tools',
-            routePath: '/calculators'
-          }, {
-            popVisible: false,
-            showPop: false,
-            linkUrl: 'https://fmf.refractionx.com/download?direct=true',
-            categoryName: 'FMF software',
-            title: 'FMF software',
-          }
-        ],
         carouselListData: [],
         researchList: [
           { icon: require('@/assets/img/icon/icon_research.png'),
@@ -292,37 +183,10 @@
       }
     },
     methods: {
-      itemClick(e) {
-        if (e.routePath) {
-          this.$router.push(e.routePath)
-          return
-        }
-        if (e.linkUrl) {
-          window.open(e.linkUrl)
-        }
-      },
       goto(e){
         window.open(e)
       },
       ...mapActions('user', ['changeActiveId']),
-      async websiteNavigationFn(categoryName) {
-        const reqData = {
-          categoryName: categoryName
-        }
-        const resp = await this.$api.websiteCourseNavigation(reqData).catch(err => err)
-        if ((resp.code === 200 || resp.code === 0) &&
-          Array.isArray(resp.data) && resp.data[0] &&
-          Array.isArray(resp.data)) {
-          return resp.data
-        } else {
-          return []
-        }
-      },
-      initListData() {
-        this.websiteNavigationFn('Education').then(listData => {
-          this.leftListData[0].children = listData;
-        })
-      },
       handleDetail(row) {
         this.changeActiveId('/congress')
         this.$router.push(`/congress?categoryName=${row.title}`)
@@ -348,18 +212,6 @@
         const endFormatted = `${endDay}${getOrdinalSuffix(endDay)} ${endMonth} ${year}`;
         return `${startFormatted} - ${endFormatted}`;
       },
-      leftItemClick(item, subItem) {
-        item.popVisible = false;
-        const self = this
-        if (subItem.routePath) {
-          self.$router.push(subItem.routePath)
-          return
-        }
-        self.$utils.checkLoginAndContinue(() => {
-          self.changeActiveId('/courseDetail')
-          self.$router.push('/courseDetail?categoryName=' + subItem.categoryName)
-        })
-      },
       getCongressList() {
         this.$api.websiteCongressList({
           page: 1, pageSize: 1, publishStatus: 1,
@@ -375,7 +227,6 @@
       },
     },
     created() {
-      this.initListData();
       this.getCongressList();
     },
   }
@@ -404,116 +255,7 @@
   }
 
   .home-layout {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 32px;
-    align-items: start;
-    
-    @media (max-width: 1024px) {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-  }
-
-  /* Left Sidebar */
-  .left-sidebar {
-    position: sticky;
-    top: 24px;
-  }
-
-  .sidebar-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md);
-    padding: 24px;
-    border: 1px solid var(--border-light);
-  }
-
-  .sidebar-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text-main);
-    margin-bottom: 20px;
-    padding-left: 8px;
-    border-left: 4px solid var(--color-accent);
-  }
-
-  .nav-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .nav-item {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    border-radius: var(--radius-md);
-    background: var(--bg-body);
-    transition: all 0.12s ease;
-    cursor: pointer;
-    border: 1px solid transparent;
-
-    &:hover {
-      background: #F0F9FF; /* Very light blue */
-      border-color: #BAE6FD;
-      transform: translateX(4px);
-      
-      .nav-item-icon-box {
-        background: var(--color-accent);
-        color: #ffffff;
-      }
-      .nav-arrow {
-        opacity: 1;
-        transform: translateX(0);
-        color: var(--color-accent);
-      }
-    }
-  }
-
-  .nav-item-icon-box {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: #E0F2FE; /* Sky 100 */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 16px;
-    transition: all 0.12s ease;
-    color: var(--color-accent);
-    
-    .nav-item-icon {
-      width: 36px;
-      height: 36px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: all 0.12s ease;
-    }
-  }
-  
-  .nav-item-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
-    .nav-item-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--text-main);
-    }
-  }
-
-  .nav-arrow {
-    font-size: 16px;
-    color: var(--text-light);
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.12s ease;
+    display: block;
   }
 
   /* Right Content */
@@ -693,8 +435,8 @@
   }
 
   .upcoming-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
   }
 
@@ -703,10 +445,38 @@
     border-radius: var(--radius-lg);
     border: 1px solid var(--border-light);
     box-shadow: var(--shadow-sm);
-    padding: 12px 24px 24px;
+    padding: 12px;
     display: flex;
     flex-direction: column;
     gap: 12px;
+  }
+
+  .webinar-card {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .webinar-image {
+    width: 100%;
+    position: relative;
+    padding-top: 50%;
+    overflow: hidden;
+  }
+
+  .webinar-image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .webinar-content {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   .upcoming-title {
@@ -766,6 +536,12 @@
     color: var(--color-accent);
     font-weight: 600;
     font-size: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .upcoming-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .upcoming-list {

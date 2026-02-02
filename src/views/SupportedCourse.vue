@@ -157,51 +157,63 @@
         speakers: [
           {
             name: 'Prof. Kypros Nicolaides',
-            title: 'Founder and Chairman of The Fetal Medicine Foundation, Professor of Fetal Medicine, Kings College Hospital, King’s College of London, London, UK'
+            title: 'Founder and Chairman of The Fetal Medicine Foundation, Professor of Fetal Medicine, Kings College Hospital, King’s College of London, London, UK',
+            photo: require('@/assets/img/bsfm2026_speakers/kypros_nicolaides.png')
           },
           {
             name: 'Assoc. Prof. Anastasija Arechvo',
-            title: 'Senior Lecturer, King’s College of London, Consultant in Fetal Medicine, Kings College Hospital, London, UK'
+            title: 'Senior Lecturer, King’s College of London, Consultant in Fetal Medicine, Kings College Hospital, London, UK',
+            photo: require('@/assets/img/bsfm2026_speakers/anastasija_arechvo.png')
           },
           {
             name: 'Prof. Diana Ramasauskaite',
-            title: 'Head of the Center in Obstetrics and Gynaecology, Vilnius University Hospital Santaros, Vilnius, Lithuania'
+            title: 'Head of the Center in Obstetrics and Gynaecology, Vilnius University Hospital Santaros, Vilnius, Lithuania',
+            photo: require('@/assets/img/bsfm2026_speakers/diana_ramasauskaite.png')
           },
           {
             name: 'Prof. Magdalena Litwinska',
-            title: 'First Department of Obstetrics and Gynaecology, Medical University of Warsaw, Poland'
+            title: 'First Department of Obstetrics and Gynaecology, Medical University of Warsaw, Poland',
+            photo: require('@/assets/img/bsfm2026_speakers/magdalena_litwinska.png')
           },
           {
             name: 'Prof. Ewelina Litwinska',
-            title: 'First Department of Obstetrics and Gynaecology, Medical University of Warsaw, Poland'
+            title: 'First Department of Obstetrics and Gynaecology, Medical University of Warsaw, Poland',
+            photo: require('@/assets/img/bsfm2026_speakers/ewelina_litwinska.png')
           },
           {
             name: 'Assoc. Prof. Raffaele Napolitano',
-            title: 'Consultant in Maternal Fetal Medicine and Obstetrics, University College London Hospitals, London, UK'
+            title: 'Consultant in Maternal Fetal Medicine and Obstetrics, University College London Hospitals, London, UK',
+            photo: require('@/assets/img/bsfm2026_speakers/raffaele_napolitano.png')
           },
           {
             name: 'Assoc. Prof. Marietta Charakida',
-            title: 'Senior Clinical Lecturer, King’s College of London, Consultant in Fetal and Pediatric Cardiology at Kings College Hospital, London, UK'
+            title: 'Senior Clinical Lecturer, King’s College of London, Consultant in Fetal and Pediatric Cardiology at Kings College Hospital, London, UK',
+            photo: require('@/assets/img/bsfm2026_speakers/marietta_charakida.png')
           },
           {
             name: 'Prof. Egle Machtejeviene',
-            title: 'Head of Fetal Medicine Centre at Hospital of Lithuanian University of Health Sciences, Kaunas, Lithuania'
+            title: 'Head of Fetal Medicine Centre at Hospital of Lithuanian University of Health Sciences, Kaunas, Lithuania',
+            photo: require('@/assets/img/bsfm2026_speakers/egle_machtejeviene.png')
           },
           {
             name: 'Dr. Tessa Homfray',
-            title: 'Consultant in Medical Genetics at St. George’s University Hospital, and at Kings College Hospital, London, UK'
+            title: 'Consultant in Medical Genetics at St. George’s University Hospital, and at Kings College Hospital, London, UK',
+            photo: require('@/assets/img/bsfm2026_speakers/tessa_homfray.png')
           },
           {
             name: 'Dr. Michael Brusilov',
-            title: 'Consultant in Fetal Medicine, Lis Maternity Hospital, Tel Aviv, Israel'
+            title: 'Consultant in Fetal Medicine, Lis Maternity Hospital, Tel Aviv, Israel',
+            photo: require('@/assets/img/bsfm2026_speakers/michael_brusilov.png')
           },
           {
             name: 'Dr. Karam Hamed',
-            title: 'Associate specialist in Fetal Medicine, Kings College Hospital, London, UK'
+            title: 'Associate specialist in Fetal Medicine, Kings College Hospital, London, UK',
+            photo: require('@/assets/img/bsfm2026_speakers/karam_hamed.png')
           },
           {
             name: 'Dr. Ruta Breiviene',
-            title: 'Research Fellow in Fetal Medicine, King’s College Hospital, London, UK'
+            title: 'Research Fellow in Fetal Medicine, King’s College Hospital, London, UK',
+            photo: require('@/assets/img/bsfm2026_speakers/ruta_breiviene.png')
           }
         ]
       }
@@ -392,6 +404,15 @@
     border-radius: 12px;
     padding: 8px 14px 14px;
     background: #ffffff;
+  }
+
+  .speaker-avatar {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    margin-bottom: 10px;
   }
 
   .speaker-name {

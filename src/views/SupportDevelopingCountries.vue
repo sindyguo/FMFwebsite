@@ -293,7 +293,7 @@
   }
 
   .section-subtitle {
-    margin: 16px 0 10px;
+    margin: 32px 0 10px;
     font-size: 16px;
     font-weight: 600;
     color: #0e3045;
