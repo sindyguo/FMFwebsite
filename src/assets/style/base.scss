@@ -152,6 +152,20 @@ body {
   -moz-text-align-last: left;
 }
 
+/* Card text justification (keep last line left-aligned) */
+[class*="card"] p,
+[class*="card"] li,
+[class*="card"] .card-desc,
+[class*="card"] .card-text,
+[class*="card"] .card-subtitle,
+[class*="card"] .card-feature,
+[class*="card"] .upcoming-text,
+[class*="card"] .upcoming-meta-text {
+  text-align: justify;
+  text-align-last: left;
+  -moz-text-align-last: left;
+}
+
 .align-end {
   align-items: flex-end;
 }

@@ -19,6 +19,7 @@
           peer-reviewed publications to date.
         </div>
         <div class="section-desc">
+          <img class="pub-icon" src="@/assets/img/icons/research-publications-icon.png" alt="" aria-hidden="true" />
           To view the full list of FMF-supported publications,
           <router-link class="inline-link" to="/research-publications">click here</router-link>.
         </div>
@@ -287,6 +288,13 @@
     color: #036FC0;
     font-weight: 600;
     text-decoration: underline;
+  }
+
+  .pub-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    vertical-align: middle;
   }
 
   .trial-grid {
