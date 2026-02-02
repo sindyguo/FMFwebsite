@@ -150,7 +150,7 @@
     data() {
       return {
         topBannerList: [{
-          img: require('@/assets/img/bsfm2026_header.jpg'),
+          img: require('@/assets/img/bsfm2026_cover.png'),
           title: 'FMF Supported Course',
           desc: ''
         }],

@@ -63,7 +63,30 @@
             email: '',
             link: '/fmf-supported-course',
             external: false,
-            image: require('@/assets/img/bsfm2026_slide1.png')
+            image: require('@/assets/img/bsfm2026_cover.png'),
+            displayOrder: 1
+          },
+          {
+            title: 'III Fundamentals and Updates in Fetal Medicine',
+            date: '20-21 March 2026',
+            startDate: '2026-03-20',
+            location: 'USA (Online and in-person)',
+            email: '',
+            link: 'https://cmetracker.net/NORTHWELL/Publisher?page=pubOpen#/EventID/104074/',
+            external: true,
+            image: require('@/assets/img/supported_courses/fundamentals_updates.jpeg'),
+            displayOrder: 2
+          },
+          {
+            title: 'Fetal Ultrasound: From first trimester to advanced fetal anomalies',
+            date: '10-12 April 2026',
+            startDate: '2026-04-10',
+            location: 'USA (In-person only)',
+            email: '',
+            link: 'https://www.eventbrite.com/e/fetal-ultrasound-from-first-trimester-to-advanced-fetal-anomalies-tickets-1978301279381?aff=oddtdtcreator',
+            external: true,
+            image: require('@/assets/img/supported_courses/nt_courses.jpg'),
+            displayOrder: 3
           },
           {
             title: 'Diplomado de Tamizaje del 1er. Trimestre del Embarazo (FMF)',
@@ -73,7 +96,8 @@
             email: 'educacion@fmm-ac.org',
             link: 'https://fetalmedicinemexico.com/diplomados-fmm/',
             external: true,
-            image: require('@/assets/img/supported_courses/mexico_city.webp')
+            image: require('@/assets/img/supported_courses/mexico_city.webp'),
+            displayOrder: 4
           },
           {
             title: 'NT Courses - Australia',
@@ -83,7 +107,8 @@
             email: '',
             link: 'https://www.nuchaltrans.edu.au',
             external: true,
-            image: require('@/assets/img/supported_courses/nt_courses.jpg')
+            image: require('@/assets/img/supported_courses/nt_courses.jpg'),
+            displayOrder: 5
           },
           {
             title: 'NT Courses - USA',
@@ -93,13 +118,18 @@
             email: '',
             link: 'https://www.fetalmedicineusa.com',
             external: true,
-            image: require('@/assets/img/supported_courses/nt_courses.jpg')
+            image: require('@/assets/img/supported_courses/nt_courses.jpg'),
+            displayOrder: 6
           }
         ]
       }
     },
     computed: {
       sortedCourses() {
+        const hasManualOrder = this.courses.some((course) => typeof course.displayOrder === 'number')
+        if (hasManualOrder) {
+          return [...this.courses].sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
+        }
         const today = new Date()
         return [...this.courses].sort((a, b) => {
           const aDate = a.startDate ? new Date(a.startDate) : null
