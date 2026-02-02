@@ -157,7 +157,7 @@
             featured: 1,
             updateStatus: 1,
             moduleCount: 9,
-            sort: 1
+            sort: 2
           },
           {
             id: '1989307716978896898',
@@ -166,7 +166,7 @@
             featured: 1,
             updateStatus: 1,
             moduleCount: 10,
-            sort: 2
+            sort: 1
           },
           {
             id: '1989312171468156929',

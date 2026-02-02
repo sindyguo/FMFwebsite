@@ -165,16 +165,19 @@
           return children
         }
         const order = [
-          'fetal echocardiography',
+          'the 11-13 weeks scan',
+          'preeclampsia screening',
           'fetal neurosonography',
-          'genetics for fetal medicine',
-          'intrapartum ultrasound',
-          'topics in maternal medicine',
-          'cervical assessment',
-          'fetal abnormalities',
-          'placenta accreta spectrum disorders',
           'fetal cardiac scanning',
-          'preeclampsia screening'
+          'fetal echocardiography',
+          'cervical assessment',
+          'genetics for fetal medicine',
+          'fetal abnormalities',
+          'topics in maternal medicine',
+          'placenta accreta spectrum disorders',
+          'intrapartum ultrasound',
+          'twin pregnancies',
+          'fmf lectures'
         ]
         const rank = new Map(order.map((name, idx) => [name, idx]))
         return [...children].sort((a, b) => {
@@ -361,12 +364,6 @@
             if (researchItem) {
               delete researchItem.childrenList
             }
-            const researchIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'research')
-            const onlineIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'online courses')
-            if (researchIndex > -1 && onlineIndex > -1 && onlineIndex !== researchIndex + 1) {
-              const [onlineItem] = data.splice(onlineIndex, 1)
-              data.splice(researchIndex + 1, 0, onlineItem)
-            }
             const softwareIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'fmf software')
             if (softwareIndex === -1) {
               data.push({
@@ -374,6 +371,11 @@
                 categoryName: 'FMF software',
                 linkUrl: 'https://fmf.refractionx.com/download?direct=true'
               })
+            }
+            const onlineIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'online courses')
+            if (onlineIndex > -1) {
+              const [onlineItem] = data.splice(onlineIndex, 1)
+              data.push(onlineItem)
             }
             this.listData = data
           } else {
@@ -694,10 +696,10 @@
     }
   }
   .submenu-wrapper {
-    width: 320px;
+    width: 335px;
     max-width: calc(100vw - 24px);
     min-width: 240px;
-    padding: 6px;
+    padding: 1.5px;
     border-radius: 12px;
     background-color: #ffffff;
     box-shadow: 0 20px 40px rgba(12, 36, 56, 0.18);
@@ -706,8 +708,8 @@
       display: flex;
       flex-direction: column;
       align-content: start;
-      gap: 4px;
-      padding: 6px;
+      gap: 1px;
+      padding: 1px;
       border-radius: 8px;
     }
     .el-menu::before,
@@ -731,11 +733,11 @@
     .el-menu-item {
       background: #ffffff !important;
       color: #2a3b4f !important;
-      font-size: 13px !important;
-      font-weight: 600;
-      line-height: 1.2;
+      font-size: 15px !important;
+      font-weight: 400;
+      line-height: 18px;
       border-radius: 8px;
-      padding: 8px 10px !important;
+      padding: 1.5px 8px !important;
       height: auto !important;
       transition: background-color 0.2s ease, color 0.2s ease;
       position: relative;
@@ -757,7 +759,7 @@
   }
 
   .submenu-wrapper.online-courses-menu {
-    width: 300px;
+    width: 315px;
     min-width: 220px;
   }
   
