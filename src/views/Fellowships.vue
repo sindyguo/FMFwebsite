@@ -59,7 +59,7 @@
           At the end of a successful fellowship candidates receive a Certificate of completion of the fellowship.
         </div>
         <div class="section-desc">
-          <img class="map-icon" src="@/assets/img/icons/map-icon.jpg" alt="" aria-hidden="true" />
+          <img class="map-icon" src="@/assets/img/icons/map-world-icon.jpg.avif" alt="" aria-hidden="true" />
           To view the list of healthcare professionals who have completed or are still engaged in training fellowships in
           fetal medicine please
           <button class="inline-link inline-button" type="button" @click="openMap('Fellowship completers')">click here</button>.
@@ -73,7 +73,7 @@
           competence in invasive procedures will receive the FMF Diploma in Fetal Medicine.
         </div>
         <div class="section-desc">
-          <img class="map-icon" src="@/assets/img/icons/map-icon.jpg" alt="" aria-hidden="true" />
+          <img class="map-icon" src="@/assets/img/icons/map-world-icon.jpg.avif" alt="" aria-hidden="true" />
           To view the list of healthcare professionals who have obtained the Diploma in Fetal Medicine please
           <button class="inline-link inline-button" type="button" @click="openMap('Diploma holders')">click here</button>.
         </div>

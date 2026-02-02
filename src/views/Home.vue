@@ -93,9 +93,6 @@
                     This free-of-charge course is organised by <strong>The Fetal Medicine Foundation Asia Pacific</strong> and is supported by the <strong>FMF.</strong>
                   </p>
                   <p class="upcoming-text">
-                    <strong>Faculty:</strong> Liona Poon, Jon Hyett, Daniel Rolnik, Ben Mol, Fabricio Da Silva Costa, Long Nguyen-Hoang, Piya Chaemsaithong, Clarissa Velayo, Constance Chen, Valeria Rolle, Mar Gil
-                  </p>
-                  <p class="upcoming-text">
                     <strong>First lecture - Thursday 26 February 2026</strong>
                     <a
                       class="upcoming-link"
