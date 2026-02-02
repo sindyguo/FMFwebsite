@@ -533,7 +533,7 @@
     margin-left: 0;
     color: var(--color-accent);
     font-weight: 600;
-    font-size: 14px;
+    font-size: 15px;
     align-self: flex-start;
   }
 

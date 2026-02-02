@@ -64,7 +64,7 @@
             link: '/fmf-supported-course',
             external: false,
             image: require('@/assets/img/bsfm2026_cover.png'),
-            displayOrder: 1
+            displayOrder: 3
           },
           {
             title: 'III Fundamentals and Updates in Fetal Medicine',
@@ -75,7 +75,7 @@
             link: 'https://cmetracker.net/NORTHWELL/Publisher?page=pubOpen#/EventID/104074/',
             external: true,
             image: require('@/assets/img/supported_courses/fundamentals_updates.png'),
-            displayOrder: 2
+            displayOrder: 1
           },
           {
             title: 'Fetal Ultrasound: From first trimester to advanced fetal anomalies',
@@ -86,7 +86,7 @@
             link: 'https://www.eventbrite.com/e/fetal-ultrasound-from-first-trimester-to-advanced-fetal-anomalies-tickets-1978301279381?aff=oddtdtcreator',
             external: true,
             image: require('@/assets/img/supported_courses/fetal_ultrasound_anomalies.png'),
-            displayOrder: 3
+            displayOrder: 2
           },
           {
             title: 'Diplomado de Tamizaje del 1er. Trimestre del Embarazo (FMF)',
@@ -197,7 +197,7 @@
   .course-title {
     font-size: 18px;
     font-weight: 700;
-    color: #0e3045;
+    color: #036fc0;
     margin-bottom: 8px;
   }
 
