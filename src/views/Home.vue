@@ -70,14 +70,11 @@
                   <img src="@/assets/img/home/monthly_webinar_1.jpeg" alt="Monthly webinar" />
                 </div>
                 <div class="webinar-content">
-                  <h3 class="upcoming-title">Next FMF lecture</h3>
+                  <h3 class="upcoming-title">Cholestasis in Pregnancy</h3>
                   <div class="upcoming-meta">
-                    <span class="upcoming-meta-text upcoming-topic">Cholestasis in pregnancy by Professor Catherine Williamson</span>
-                  </div>
-                  <div class="upcoming-meta upcoming-meta-inline">
-                    <span class="upcoming-meta-label">Date</span>
-                    <span class="upcoming-meta-text">20th February at 13:30-14:30</span>
-                    <a class="upcoming-link" href="#" target="_blank" rel="noopener">Click here to register</a>
+                    <span class="upcoming-meta-text"><strong>Lecturer:</strong> Prof Catherine Williamson</span>
+                    <span class="upcoming-meta-text"><strong>Date:</strong> Friday 20 February 2026 @ 13:30</span>
+                    <a class="upcoming-link" href="#" target="_blank" rel="noopener">Register here</a>
                   </div>
                 </div>
               </div>
@@ -87,22 +84,19 @@
                   <img src="@/assets/img/home/monthly_webinar_2.jpeg" alt="Monthly webinar" />
                 </div>
                 <div class="webinar-content">
-                  <div class="upcoming-title">New Webinar Series</div>
-                  <div class="upcoming-subtitle"><strong>Research Training Program in Maternal-Fetal Medicine and Reproductive Health.</strong></div>
-                  <p class="upcoming-text">
-                    This free-of-charge course is organised by <strong>The Fetal Medicine Foundation Asia Pacific</strong> and is supported by the <strong>FMF.</strong>
-                  </p>
-                  <p class="upcoming-text">
-                    <strong>First lecture - Thursday 26 February 2026</strong>
+                  <div class="upcoming-title">Research Training Program in Maternal-Fetal Medicine</div>
+                  <div class="upcoming-meta">
+                    <span class="upcoming-meta-text"><strong>Lecturers:</strong> Prof Liona Poon &amp; Prof Jon Hyett</span>
+                    <span class="upcoming-meta-text"><strong>Date:</strong> Thursday 26 February 2026 @ 10:00 AM</span>
                     <a
                       class="upcoming-link"
                       href="https://news.fetalmedicine.org/l/nf150IUqqCfSF3uQNp9PZg/IrpEyQzDCxooAUy0rIsvAQ/20wbHD763GZeYXhX67J8920QzA"
                       target="_blank"
                       rel="noopener"
                     >
-                      Click here to register
+                      Register here
                     </a>
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -529,10 +523,11 @@
   }
 
   .upcoming-link {
-    margin-left: 8px;
+    margin-left: 0;
     color: var(--color-accent);
     font-weight: 600;
     font-size: 14px;
+    align-self: flex-start;
   }
 
   @media (max-width: 900px) {
