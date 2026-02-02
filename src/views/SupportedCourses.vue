@@ -74,7 +74,7 @@
             email: '',
             link: 'https://cmetracker.net/NORTHWELL/Publisher?page=pubOpen#/EventID/104074/',
             external: true,
-            image: require('@/assets/img/supported_courses/fundamentals_updates.jpeg'),
+            image: require('@/assets/img/supported_courses/fundamentals_updates.png'),
             displayOrder: 2
           },
           {
@@ -85,7 +85,7 @@
             email: '',
             link: 'https://www.eventbrite.com/e/fetal-ultrasound-from-first-trimester-to-advanced-fetal-anomalies-tickets-1978301279381?aff=oddtdtcreator',
             external: true,
-            image: require('@/assets/img/supported_courses/nt_courses.jpg'),
+            image: require('@/assets/img/supported_courses/fetal_ultrasound_anomalies.png'),
             displayOrder: 3
           },
           {

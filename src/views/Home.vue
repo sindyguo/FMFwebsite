@@ -74,7 +74,14 @@
                   <div class="upcoming-meta">
                     <span class="upcoming-meta-text"><strong>Lecturer:</strong> Prof Catherine Williamson</span>
                     <span class="upcoming-meta-text"><strong>Date:</strong> Friday 20 February 2026 @ 13:30</span>
-                    <a class="upcoming-link" href="#" target="_blank" rel="noopener">Register here</a>
+                    <a
+                      class="upcoming-link"
+                      href="https://us02web.zoom.us/webinar/register/WN_gRbA-qKbSR69O83seSrV8Q#/registration"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      Register here
+                    </a>
                   </div>
                 </div>
               </div>
