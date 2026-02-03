@@ -352,7 +352,6 @@
             if (target) {
               target.childrenList = [
                 { id: 'fmf-world-congress', categoryName: 'FMF World Congress' },
-                { id: 'fmf-advances-course', categoryName: 'FMF Advances Course' },
                 { id: 'fmf-supported-course', categoryName: 'FMF Supported Courses' }
               ]
             }
