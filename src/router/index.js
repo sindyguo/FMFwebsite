@@ -171,9 +171,9 @@ const routes = [
       {
         path: '/fmf-supported-course',
         name: 'FmfSupportedCourse',
-        component: () => import(/* webpackChunkName: 'FmfSupportedCourse' */ '../views/SupportedCourse.vue'),
+        component: () => import(/* webpackChunkName: 'FmfSupportedCourse' */ '../views/BalticSymposium.vue'),
         meta: {
-          title: 'FMF Supported Course',
+          title: 'Baltic Symposium',
           requiresAuth: false
         }
       },
