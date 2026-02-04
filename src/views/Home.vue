@@ -122,7 +122,11 @@
                   The results of a FMF supported trial has recently been published in the Lancet.
                 </p>
                 <p class="upcoming-text">
-                  The study showed that planned early-term birth based on risk stratification for pre-eclampsia at 36 weeks' gestation reduced the incidence of pre-eclampsia by 30%, without increasing emergency caesarean section or neonatal care unit admission.
+                  The study showed that
+                  <span class="news-highlight">
+                    planned early-term birth based on risk stratification for pre-eclampsia at 36 weeks' gestation reduced the incidence of pre-eclampsia by 30%
+                  </span>
+                  , without increasing emergency caesarean section or neonatal care unit admission.
                 </p>
                 <p class="upcoming-text">
                   Goadsby J, Syngelaki A, Magee LA, von Dadelszen P, Akolekar R, Webster S, Wright A, Wright D, Nicolaides KH. Scheduled birth at term for the prevention of pre-eclampsia (PREVENT-PE): an open-label randomised controlled trial. Lancet. 2026;407:67-77.
@@ -527,6 +531,11 @@
     font-size: 14px;
     color: var(--text-regular);
     line-height: 1.6;
+  }
+
+  .news-highlight {
+    font-weight: 700;
+    color: var(--color-accent);
   }
 
   .upcoming-link {

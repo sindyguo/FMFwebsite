@@ -7,7 +7,7 @@
         <div class="section-desc">
           The Fetal Medicine Foundation (FMF) funds research focused on the early prediction and prevention of pregnancy
           complications, with the aim of improving health outcomes for mothers and babies. To date, the FMF has allocated
-          over €70 million to research addressing major causes of maternal and perinatal morbidity and mortality,
+          over £50 million to research addressing major causes of maternal and perinatal morbidity and mortality,
           including preeclampsia, preterm birth, fetal growth restriction and stillbirth.
         </div>
       </div>
