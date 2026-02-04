@@ -2,10 +2,13 @@
   <div class="vcontainer supported-course">
     <TopBanner height="260px" :listData="topBannerList" />
     <div class="vcontainer hcenter main-container supported-course-content">
+      <div class="back-link-row">
+        <router-link class="back-link" to="/fmf-supported-courses">back to FMF supported courses</router-link>
+      </div>
       <div class="section">
         <div class="hero-split">
           <div class="hero-copy">
-            <div class="section-title section-title-accent">Baltic Symposium on Fetal and Maternal Medicine (BSFMM2026)</div>
+            <div class="section-title section-title-accent">Baltic Symposium</div>
             <div class="section-desc">
               The Fetal Medicine Foundation, in collaboration with Vilnius University, the Lithuanian Society of
               Obstetricians and Gynecologists, and King’s College London, brings together leading experts in fetal and
@@ -150,8 +153,8 @@
     data() {
       return {
         topBannerList: [{
-          img: require('@/assets/img/bsfm2026_header.jpg'),
-          title: 'FMF Supported Course',
+          img: require('@/assets/img/baltic_symposium_header.jpeg'),
+          title: 'Baltic Symposium',
           desc: ''
         }],
         speakers: [
@@ -233,6 +236,17 @@
     gap: 28px;
     padding: 24px 16px 0;
     box-sizing: border-box;
+  }
+
+  .back-link-row {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .back-link {
+    color: #036fc0;
+    font-weight: 600;
+    text-decoration: underline;
   }
 
   ::v-deep .top-banner .top-banner-content .desc {
