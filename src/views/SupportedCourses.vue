@@ -11,7 +11,20 @@
               <img :src="course.image" :alt="course.title" />
             </div>
             <div class="course-info">
-              <div class="course-title">{{ course.title }}</div>
+              <div class="course-title">
+                <a
+                  v-if="course.external"
+                  class="course-title-link"
+                  :href="course.link"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {{ course.title }}
+                </a>
+                <router-link v-else class="course-title-link" :to="course.link">
+                  {{ course.title }}
+                </router-link>
+              </div>
               <div class="course-meta">
                 <div class="meta-item">
                   <span class="meta-label">Date</span>
@@ -63,7 +76,7 @@
             email: '',
             link: '/fmf-supported-course',
             external: false,
-            image: require('@/assets/img/bsfm2026_cover.png'),
+            image: require('@/assets/img/baltic_symposium_card.jpeg'),
             displayOrder: 3
           },
           {
@@ -199,6 +212,11 @@
     font-weight: 700;
     color: #036fc0;
     margin-bottom: 8px;
+  }
+
+  .course-title-link {
+    color: inherit;
+    text-decoration: none;
   }
 
   .course-meta {

@@ -276,6 +276,16 @@
         }
 
         const self = this
+        if (selectedItem.item.routePath) {
+          self.changeActiveId(key)
+          self.$router.push(selectedItem.item.routePath)
+          return
+        }
+        if ((selectedItem.item.categoryName || '').toLowerCase() === 'fmf software') {
+          self.changeActiveId(key)
+          self.$router.push('/fmf-software')
+          return
+        }
         if (selectedItem.item.linkUrl) {
           window.open(selectedItem.item.linkUrl)
           return
@@ -363,12 +373,17 @@
             if (researchItem) {
               delete researchItem.childrenList
             }
-            const softwareIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'fmf software')
-            if (softwareIndex === -1) {
+            const softwareItem = data.find((item) => (item?.categoryName || '').toLowerCase() === 'fmf software')
+            if (softwareItem) {
+              delete softwareItem.childrenList
+              softwareItem.categoryName = 'FMF Software'
+              softwareItem.routePath = '/fmf-software'
+              delete softwareItem.linkUrl
+            } else {
               data.push({
                 id: 'fmf-software',
-                categoryName: 'FMF software',
-                linkUrl: 'https://fmf.refractionx.com/download?direct=true'
+                categoryName: 'FMF Software',
+                routePath: '/fmf-software'
               })
             }
             const onlineIndex = data.findIndex((item) => (item?.categoryName || '').toLowerCase() === 'online courses')

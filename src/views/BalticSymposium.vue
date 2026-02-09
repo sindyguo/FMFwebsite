@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="hero-image-card">
-            <img src="@/assets/img/bsfm2026_slide1.png" alt="BSFM 2026" />
+            <img src="@/assets/img/baltic_symposium_card.jpeg" alt="Baltic Symposium" />
           </div>
         </div>
         <div class="info-grid">
@@ -45,17 +45,17 @@
           <div class="fee-card">
             <div class="fee-title">Pre‑registration</div>
             <ul>
-              <li>Delegate – 80 Eur</li>
-              <li>Resident, midwife, nurse – 30 Eur</li>
-              <li>Student – 10 Eur</li>
+              <li>Delegate – 90 Eur</li>
+              <li>Resident, midwife, nurse – 40 Eur</li>
+              <li>Student – 15 Eur</li>
             </ul>
           </div>
           <div class="fee-card">
             <div class="fee-title">On‑site fee</div>
             <ul>
-              <li>Delegate – 160 Eur</li>
-              <li>Resident, midwife, nurse – 60 Eur</li>
-              <li>Student – 20 Eur</li>
+              <li>Delegate – 180 Eur</li>
+              <li>Resident, midwife, nurse – 80 Eur</li>
+              <li>Student – 30 Eur</li>
             </ul>
           </div>
         </div>
@@ -64,7 +64,17 @@
           meals and refreshments during the conference.
         </div>
         <div class="inline-actions">
-          <span class="action-text">Registration opens soon.</span>
+          <a class="action-text" href="https://reg.eventas.lt/bsfmm26" target="_blank" rel="noopener">
+            Click here to register
+          </a>
+          <a
+            class="action-text"
+            href="https://amzn-fmf-bucket.s3.eu-west-2.amazonaws.com/default/20260209/Baltic Congress of Fetal Medicine_1770664424389.pdf"
+            target="_blank"
+            rel="noopener"
+          >
+            Click here to view the programme
+          </a>
         </div>
       </div>
 
@@ -98,13 +108,25 @@
           Town, providing comfortable accommodation for conference delegates throughout the duration of the conference.
         </div>
         <div class="section-desc">
-          Hotel location from Vilnius International Airport: 7 km (about 15 minutes by car).
+          To receive the 15% discount for accommodation in Attic Queen, Standard King or Standard Twin room with
+          breakfast, please click
+          <a
+            class="inline-link"
+            href="https://www.marriott.com/event-reservations/reservation-link.mi?id=1768293493874&key=CORP&app=resvlink"
+            target="_blank"
+            rel="noopener"
+          >
+            HERE
+          </a>.
         </div>
         <div class="section-desc">
-          To request the 15% discount (from "Stay for Breakfast Rate") for accommodation in Attic Queen, Standard King
-          or Standard Twin room with breakfast, please contact the hotel by email
+          Select your preferred room and rate "Special Event Rate". The discount is valid for reservations made until
+          30 April 2026.
+        </div>
+        <div class="section-desc">
+          If you have any questions, please contact the hotel by email
           <a class="inline-link" href="mailto:reservations@acvilnius.com">reservations@acvilnius.com</a>
-          and include the discount code <strong>BSFM2026</strong> in your message.
+          and include event code <strong>BSFM2026</strong> in your message.
         </div>
       </div>
 
@@ -385,8 +407,9 @@
   .inline-actions {
     margin-top: 10px;
     display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 
   .inline-link {
