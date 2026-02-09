@@ -69,7 +69,7 @@
           </a>
           <a
             class="action-text"
-            href="https://amzn-fmf-bucket.s3.eu-west-2.amazonaws.com/default/20260209/Baltic Congress of Fetal Medicine_1770664424389.pdf"
+            href="https://amzn-fmf-bucket.s3.eu-west-2.amazonaws.com/default/20260209/Baltic Congress of Fetal Medicine programme_1770670498953.pdf"
             target="_blank"
             rel="noopener"
           >
@@ -239,6 +239,11 @@
             name: 'Dr. Ruta Breiviene',
             title: 'Research Fellow in Fetal Medicine, King’s College Hospital, London, UK',
             photo: require('@/assets/img/bsfm2026_speakers/ruta_breiviene.png')
+          },
+          {
+            name: 'Prof. Kristiina Rull',
+            title: 'Professor of Obstetrics, Gynecology and Genetics, Department of Obstetrics and Gynecology, Tartu, Estonia',
+            photo: require('@/assets/img/bsfm2026_speakers/kristiina_rull.jpeg')
           }
         ]
       }
@@ -447,7 +452,7 @@
     width: 150px;
     height: 150px;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 50%;
     display: block;
     margin-bottom: 10px;
   }
