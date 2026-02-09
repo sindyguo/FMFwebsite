@@ -146,7 +146,7 @@
     font-size: 32px;
     line-height: 1.2;
     font-weight: 700;
-    color: #0e3045;
+    color: #036fc0;
     margin-bottom: 16px;
   }
 
