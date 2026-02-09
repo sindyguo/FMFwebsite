@@ -214,6 +214,15 @@ const routes = [
         }
       },
       {
+        path: '/fmf-software',
+        name: 'FMFSoftware',
+        component: () => import(/* webpackChunkName: 'FMFSoftware' */ '../views/FMFSoftware.vue'),
+        meta: {
+          title: 'FMF software',
+          requiresAuth: false
+        }
+      },
+      {
         path: '/research-publications',
         name: 'ResearchPublications',
         component: () => import(/* webpackChunkName: 'ResearchPublications' */ '../views/ResearchPublications.vue'),
