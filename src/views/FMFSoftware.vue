@@ -55,20 +55,26 @@
 
       <div class="section">
         <div class="section-title blue-title">Installation of software</div>
-        <div class="subsection-title">Minimum System Requirements</div>
-        <ul class="section-list">
-          <li>Windows Version 11 and 8 core processor (or better)</li>
-          <li>macOS Version 14 and Apple Silicon (M1 or better)</li>
-          <li>Memory 16 GB</li>
-          <li>Storage 512 GB NVMe</li>
-        </ul>
-        <div class="subsection-title">Recommended System Requirements</div>
-        <ul class="section-list">
-          <li>Windows Version 11 and 10 core processor (or better)</li>
-          <li>macOS Version 14 and Apple Silicon (M3 or better)</li>
-          <li>Memory 32 GB</li>
-          <li>Storage 1 TB NVMe</li>
-        </ul>
+        <div class="requirements-grid">
+          <div class="requirements-card">
+            <div class="subsection-title">Minimum System Requirements</div>
+            <ul class="section-list">
+              <li>Windows Version 11 and 8 core processor (or better)</li>
+              <li>macOS Version 14 and Apple Silicon (M1 or better)</li>
+              <li>Memory 16 GB</li>
+              <li>Storage 512 GB NVMe</li>
+            </ul>
+          </div>
+          <div class="requirements-card">
+            <div class="subsection-title">Recommended System Requirements</div>
+            <ul class="section-list">
+              <li>Windows Version 11 and 10 core processor (or better)</li>
+              <li>macOS Version 14 and Apple Silicon (M3 or better)</li>
+              <li>Memory 32 GB</li>
+              <li>Storage 1 TB NVMe</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div class="section download-section">
@@ -200,6 +206,23 @@
     margin-bottom: 10px;
   }
 
+  .requirements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .requirements-card {
+    border: 1px solid #e5eef6;
+    border-radius: 10px;
+    padding: 16px;
+    background: #fbfdff;
+  }
+
+  .requirements-card .subsection-title {
+    margin-top: 0;
+  }
+
   .download-section {
     background: #ffffff;
     border: none;
@@ -263,6 +286,10 @@
 
   @media (max-width: 1000px) {
     .feature-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .requirements-grid {
       grid-template-columns: 1fr;
     }
   }
