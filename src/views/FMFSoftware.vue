@@ -169,7 +169,7 @@
   }
 
   .subsection-title {
-    font-size: 20px;
+    font-size: 19px;
     line-height: 1.25;
     color: #0e3045;
     font-weight: 600;
@@ -312,7 +312,7 @@
     }
 
     .subsection-title {
-      font-size: 18px;
+      font-size: 19px;
     }
 
     .download-grid {
