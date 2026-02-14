@@ -2,14 +2,20 @@
   <div id="app">
     <!-- 路由出口 -->
     <router-view/>
+    <AutoHelpRobot />
   </div>
 </template>
 
 <script>
+import AutoHelpRobot from '@/components/AutoHelpRobot.vue'
+
 let designWidth = 1920;
 let designHeight = 1080;
 export default {
   name: 'App',
+  components: {
+    AutoHelpRobot
+  },
   mounted() {
     // this.keepFit();
     // window.addEventListener('resize', () => {
