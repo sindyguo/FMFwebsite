@@ -298,6 +298,15 @@ const routes = [
     }
   },
   {
+    path: '/help-admin',
+    name: 'HelpDeskAdmin',
+    component: () => import(/* webpackChunkName: 'HelpDeskAdmin' */ '../views/HelpDeskAdmin.vue'),
+    meta: {
+      title: 'Help Desk Admin',
+      requiresAuth: false
+    }
+  },
+  {
     path: '*',
     redirect: '/'
   }

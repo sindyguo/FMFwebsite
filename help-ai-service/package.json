@@ -1,0 +1,22 @@
+{
+  "name": "help-ai-service",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Independent MVP service for FAQ and email-assisted categorization",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "lint": "node --check src/server.js && node --check src/app.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "morgan": "^1.10.0",
+    "uuid": "^11.0.5"
+  }
+}
