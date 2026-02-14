@@ -77,6 +77,21 @@
           <span>FAQ Candidate Builder</span>
         </div>
         <div class="row-actions">
+          <el-input-number
+            v-model="syncLimit"
+            :min="1"
+            :max="200"
+            :step="1"
+            size="mini"
+            class="sync-limit-input"
+          />
+          <el-input
+            v-model="syncSince"
+            size="mini"
+            class="sync-since-input"
+            placeholder="Optional since, e.g. 2026-02-13T00:00:00.000Z"
+          />
+          <el-button type="warning" @click="syncGmailNow">Sync Gmail Now</el-button>
           <el-button type="primary" @click="generateCandidates">Generate Candidates</el-button>
           <el-button @click="loadCandidates">Refresh Candidate List</el-button>
         </div>
@@ -172,7 +187,9 @@ export default {
       previewQuestion: '',
       previewResult: null,
       activeFaqCache: [],
-      lastError: ''
+      lastError: '',
+      syncLimit: 50,
+      syncSince: ''
     }
   },
   created() {
@@ -285,6 +302,32 @@ export default {
         await this.loadCandidates()
       } catch (error) {
         this.showError(error, 'Generate failed')
+      }
+    },
+    async syncGmailNow() {
+      if (!this.apiBase) return this.$message.error('Please input API base URL first.')
+      if (!this.adminToken) return this.$message.error('Please input admin token first.')
+
+      const payloadBody = {
+        provider: 'gmail',
+        limit: Number(this.syncLimit) || 50,
+        generateCandidates: true
+      }
+      if (this.syncSince && String(this.syncSince).trim()) {
+        payloadBody.since = String(this.syncSince).trim()
+      }
+
+      try {
+        const payload = await this.requestJson('/v1/jobs/sync-mails', {
+          method: 'POST',
+          body: JSON.stringify(payloadBody)
+        }, true)
+        this.$message.success(
+          `Synced Gmail. fetched=${payload.fetched}, inserted=${payload.inserted}, deduplicated=${payload.deduplicated}, generated=${payload.generatedCandidates || 0}`
+        )
+        await this.loadCandidates()
+      } catch (error) {
+        this.showError(error, 'Sync Gmail failed')
       }
     },
     async loadCandidates() {
@@ -469,6 +512,14 @@ h1 {
 .priority-input ::v-deep .el-input__inner {
   padding-left: 26px;
   padding-right: 26px;
+}
+
+.sync-limit-input {
+  width: 90px;
+}
+
+.sync-since-input {
+  width: 320px;
 }
 
 .error-box {
