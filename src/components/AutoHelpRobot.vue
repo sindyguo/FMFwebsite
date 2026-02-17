@@ -91,6 +91,10 @@ const LOCAL_FAQ_MAP = [
   {
     keywords: ['congress', 'registration', 'register', 'payment', 'invoice'],
     answer: 'Congress registration flow: 1) Open the Congress page and review event details; 2) Go to the registration page and complete your profile; 3) Finish payment; 4) Check your confirmation letter and invoice in your email or account center.'
+  },
+  {
+    keywords: ['page not fully visible', 'cannot find next button', 'next button', 'screen resolution', 'zoom', 'display scale'],
+    answer: 'If the page is not fully visible and you cannot find the Next button, the usual cause is low screen resolution. Please increase browser zoom-out (for example to 80%-90%) or raise your screen resolution to at least 1440×932.'
   }
 ]
 
@@ -240,7 +244,7 @@ export default {
       const fallback = {
         login: ['What should I do if login fails?', 'Why is my verification code invalid?', 'What if my account cannot be found?'],
         password: ['How do I reset a forgotten password?', 'What if I did not receive the reset email?', 'What if my reset link has expired?'],
-        course: ['Where can I start learning courses?', 'Why is my learning progress not updated?', 'Where can I download course materials?'],
+        course: ['Where can I start learning courses?', 'Why is my learning progress not updated?', 'What if the page is not fully visible and I cannot find the Next button?'],
         exam: ['Where is the exam entry?', 'What if I did not pass the exam?', 'Where can I check my score?'],
         congress: ['Where is the congress registration entry?', 'How do I confirm my registration was successful?', 'Where can I download my invoice?']
       }

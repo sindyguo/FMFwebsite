@@ -40,6 +40,9 @@
               <li>
                 Presents reference charts for fetal biometry, amniotic fluid depth and uterine and fetal Dopplers.
               </li>
+              <li>
+                Allows recording of invasive intrauterine procedures and laboratory results.
+              </li>
             </ul>
           </div>
           <div class="feature-card">
