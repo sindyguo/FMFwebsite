@@ -67,16 +67,16 @@
             <div class="upcoming-grid">
               <div class="upcoming-card webinar-card">
                 <div class="webinar-image">
-                  <img src="@/assets/img/home/monthly_webinar_1.jpeg" alt="Monthly webinar" />
+                  <img src="@/assets/img/home/monthly_webinar_2.jpeg" alt="Monthly webinar" />
                 </div>
                 <div class="webinar-content">
-                  <h3 class="upcoming-title">Cholestasis in Pregnancy</h3>
+                  <div class="upcoming-title">Research Training Program in Maternal-Fetal Medicine</div>
                   <div class="upcoming-meta">
-                    <span class="upcoming-meta-text"><strong>Lecturer:</strong> Prof Catherine Williamson</span>
-                    <span class="upcoming-meta-text"><strong>Date:</strong> Friday 20 February 2026 @ 13:30</span>
+                    <span class="upcoming-meta-text"><strong>Lecturers:</strong> Prof Liona Poon &amp; Prof Jon Hyett</span>
+                    <span class="upcoming-meta-text"><strong>Date:</strong> Thursday 26 February 2026 @ 10:00 AM</span>
                     <a
                       class="upcoming-link"
-                      href="https://us02web.zoom.us/webinar/register/WN_gRbA-qKbSR69O83seSrV8Q#/registration"
+                      href="https://news.fetalmedicine.org/l/nf150IUqqCfSF3uQNp9PZg/IrpEyQzDCxooAUy0rIsvAQ/20wbHD763GZeYXhX67J8920QzA"
                       target="_blank"
                       rel="noopener"
                     >
@@ -88,16 +88,16 @@
 
               <div class="upcoming-card webinar-card">
                 <div class="webinar-image">
-                  <img src="@/assets/img/home/monthly_webinar_2.jpeg" alt="Monthly webinar" />
+                  <img src="@/assets/img/home/monthly_webinar_1.jpeg" alt="Monthly webinar" />
                 </div>
                 <div class="webinar-content">
-                  <div class="upcoming-title">Research Training Program in Maternal-Fetal Medicine</div>
+                  <h3 class="upcoming-title">Labor Management</h3>
                   <div class="upcoming-meta">
-                    <span class="upcoming-meta-text"><strong>Lecturers:</strong> Prof Liona Poon &amp; Prof Jon Hyett</span>
-                    <span class="upcoming-meta-text"><strong>Date:</strong> Thursday 26 February 2026 @ 10:00 AM</span>
+                    <span class="upcoming-meta-text"><strong>Lecturer:</strong> Professor Vincenzo Berghella</span>
+                    <span class="upcoming-meta-text"><strong>Date:</strong> 13th of March 2026</span>
                     <a
                       class="upcoming-link"
-                      href="https://news.fetalmedicine.org/l/nf150IUqqCfSF3uQNp9PZg/IrpEyQzDCxooAUy0rIsvAQ/20wbHD763GZeYXhX67J8920QzA"
+                      href="https://us02web.zoom.us/webinar/register/WN_lCbAS-YyRW6sBHl1Z9W6DA"
                       target="_blank"
                       rel="noopener"
                     >
