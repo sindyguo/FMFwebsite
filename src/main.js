@@ -25,8 +25,23 @@ Vue.use(ElementUI, { locale })
 import api from '@/api/index'
 Vue.prototype.$api = api
 
+
+import dataCom from '@/data/data.json'
+Vue.prototype.$dataCom = dataCom
+
 import utils from '@/utils/index'
 Vue.prototype.$utils = utils
+
+import upload from '@/utils/upload'
+Object.keys(upload).forEach(key => {
+  Vue.prototype[key] = upload[key]
+})
+import timeFn from '@/utils/timeFn'
+Object.keys(timeFn).forEach(key => {
+  Vue.prototype[key] = timeFn[key]
+})
+
+
 
 import moment  from 'moment'
 Vue.prototype.$moment = moment
@@ -71,6 +86,28 @@ if (localStorage.getItem('appVersion') !== process.env.VUE_APP_VERSION) {
   }
 }
 
+
+Vue.filter('registrationTypeF', (value) => {
+  console.log(value)
+  if (value) {
+    if (value.toLowerCase().includes('group')) {
+      return 'Company Registration'
+    } else if (value.toLowerCase().includes('individual')) { 
+      return 'Individual Registration'
+    } else if (value == 'Manual') { 
+      return 'Manual'
+    }
+  } else {
+    return ''
+  }
+})
+Vue.filter('amountF', (value) => {
+  if (value) {
+    return value / 100
+  } else {
+    return value
+  }
+})
 
 new Vue({
   router,

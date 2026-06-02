@@ -178,6 +178,7 @@ export default {
   left: 50%;
   top:50%;
   transform: translate(-50%,-50%);
+  overflow: visible;
 }
 .verifybox-top{
   padding: 0 15px;
@@ -192,6 +193,7 @@ export default {
 .verifybox-bottom{
   padding: 15px;
   box-sizing: border-box;
+  overflow: visible;
 }
 .verifybox-close{
   position: absolute;
@@ -290,13 +292,17 @@ export default {
 /*滑动验证码*/
 .verify-bar-area {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #FFFFFF;
   text-align: center;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   border: 1px solid #ddd;
   -webkit-border-radius: 4px;
+  padding: 4px 0;
 }
 
 .verify-bar-area .verify-move-block {
@@ -321,11 +327,12 @@ export default {
   position: absolute;
   top: -1px;
   left: -1px;
+  bottom: -1px;
   background: #f0fff0;
   cursor: pointer;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
   border: 1px solid #ddd;
 }
 
@@ -377,6 +384,15 @@ export default {
 
 .verify-bar-area .verify-msg {
   z-index: 3;
+  position: relative;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #45494c;
+  padding: 0 44px;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
+  -webkit-font-smoothing: antialiased;
 }
 
 /*字体图标的css*/

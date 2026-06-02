@@ -114,8 +114,8 @@
                   v-for="person in completionCountryPeople"
                   :key="person.id + person.name"
                   class="completion-person-row">
-                  <span class="completion-person-name">{{ person.name }}</span>
-                  <span class="completion-person-id">{{ person.id }}</span>
+                  <span class="completion-person-name">{{ formatName(person.first_name, person.last_name) }}</span>
+                  <span class="completion-person-id">{{ person.exam_time.slice(0,10) }}</span>
                 </div>
                 <div v-if="!completionCountryPeople.length" class="completion-empty-state">
                   Select a country to see its course completers.
@@ -149,116 +149,7 @@
         listData: [],
         searchQuery: "",
         selectedCategory: "all",
-        onlineCoursesPreset: [
-          {
-            id: '1989284455255666689',
-            categoryName: 'Fetal echocardiography',
-            content: 'Provides key diagnostic features of common fetal cardiac defects through concise videos and explanatory text.',
-            featured: 1,
-            updateStatus: 1,
-            moduleCount: 9,
-            sort: 2
-          },
-          {
-            id: '1989307716978896898',
-            categoryName: 'Fetal neurosonography',
-            content: 'Summarizes the diagnosis, associated abnormalities, management, and prognosis of major fetal brain conditions.',
-            featured: 1,
-            updateStatus: 1,
-            moduleCount: 10,
-            sort: 1
-          },
-          {
-            id: '1989312171468156929',
-            categoryName: 'Genetics for fetal medicine',
-            content: 'Introduces core genetic principles essential for fetal medicine and explains their clinical application.',
-            featured: 1,
-            updateStatus: 1,
-            moduleCount: 7,
-            sort: 3
-          },
-          {
-            id: '1989422258010484738',
-            categoryName: 'Topics in maternal medicine',
-            content: 'Summarizes the causes, diagnosis, management, prevention, and long-term effects of major maternal medical disorders during and after pregnancy.',
-            featured: 1,
-            updateStatus: 0,
-            moduleCount: 13,
-            sort: 4
-          },
-          {
-            id: '1996163011516592129',
-            categoryName: 'Intrapartum ultrasound',
-            content: 'Describes key ultrasound techniques for labor assessment and reviews current evidence on their clinical indications.',
-            featured: 1,
-            updateStatus: 1,
-            moduleCount: 2,
-            sort: 5
-          },
-          {
-            id: '2004961251519148033',
-            categoryName: 'Twin pregnancies',
-            content: 'This course summarizes the differences in outcomes and management between dichorionic and monochorionic twin pregnancies.',
-            featured: 1,
-            updateStatus: 0,
-            moduleCount: 5,
-            sort: 6
-          },
-          {
-            id: '2005404637984239617',
-            categoryName: 'The 11-13 weeks scan',
-            content: 'This course covers all the important aspects of the 11-13 weeks scan.',
-            featured: 0,
-            updateStatus: 1,
-            moduleCount: 5,
-            sort: 7
-          },
-          {
-            id: '1989374664949395458',
-            categoryName: 'Cervical assessment',
-            content: 'Explains cervical length measurement and its clinical use in predicting and preventing preterm birth and managing labor‑related complications.',
-            featured: 0,
-            updateStatus: 1,
-            moduleCount: 8,
-            sort: 8
-          },
-          {
-            id: '1989379308115226626',
-            categoryName: 'Fetal abnormalities',
-            content: 'Provides an overview of the diagnosis, associated anomalies, investigations, management, prognosis, and recurrence risks of fetal abnormalities.',
-            featured: 0,
-            updateStatus: 1,
-            moduleCount: 13,
-            sort: 9
-          },
-          {
-            id: '1989368262591803394',
-            categoryName: 'Placenta accreta spectrum disorders',
-            content: 'Highlights the key diagnostic features of PAS disorders using images, diagrams, videos, and concise text.',
-            featured: 0,
-            updateStatus: 1,
-            moduleCount: 2,
-            sort: 10
-          },
-          {
-            id: '1992547864730415106',
-            categoryName: 'Fetal cardiac scanning',
-            content: 'Covers the essential techniques and views required for comprehensive fetal cardiac assessment.',
-            featured: 0,
-            updateStatus: 1,
-            moduleCount: 6,
-            sort: 11
-          },
-          {
-            id: '1989364592269619202',
-            categoryName: 'Preeclampsia screening',
-            content: 'Covers the essential principles and methods for screening preeclampsia across all trimesters.',
-            featured: 0,
-            updateStatus: 1,
-            moduleCount: 5,
-            sort: 12
-          },
-        ],
+        onlineCoursesPreset: [],
         selectedCompletionCourse: { name: 'Course completers', slug: '' },
         isCompletionModalOpen: false,
         isCompletionMapLoading: false,
@@ -269,7 +160,8 @@
         completionCountryCount: null,
         completionCountryPeople: [],
         isCompletionCountryLoading: false,
-        completionWorldMap: null
+        completionWorldMap: null,
+        currentCourse: null
       }
     },
     computed: {
@@ -290,6 +182,7 @@
       },
       filteredList() {
         const query = this.searchQuery.trim().toLowerCase()
+        console.log(this.listData)
         return this.listData.filter((item) => {
           const name = (item.categoryName || '').toLowerCase()
           const content = (item.content || '').toLowerCase()
@@ -301,6 +194,16 @@
     },
     methods: {
       ...mapActions('user', ['changeActiveId']),
+      formatName(first, last) {
+        // 仅对纯英文单词做首字母大写、其余小写处理，非英文字符保持原样
+        const fmt = w => {
+          if (!w) return ''
+          return /^[A-Za-z\s'-]+$/.test(w)
+            ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()
+            : w
+        }
+        return [fmt(first), fmt(last)].filter(Boolean).join(' ')
+      },
       setCategory(id) {
         this.selectedCategory = id
       },
@@ -348,12 +251,13 @@
         const reqData = {
           categoryName: categoryName
         }
-        if (categoryName === 'Online Courses') {
-          this.listData = [...this.onlineCoursesPreset].sort((a, b) => a.sort - b.sort)
-          this.selectedCategory = 'all'
-          return
-        }
+        // if (categoryName === 'Online Courses') {
+        //   this.listData = [...this.onlineCoursesPreset].sort((a, b) => a.sort - b.sort)
+        //   this.selectedCategory = 'all'
+        //   return
+        // }
         this.$api.websiteCourseNavigation(reqData).then(resp => {
+          console.log('websiteCourseNavigation:', resp)
           if ((resp.code === 200 || resp.code === 0) && Array.isArray(resp.data)) {
             this.listData = resp.data
           } else {
@@ -384,7 +288,8 @@
         this.completionCountryPeople = []
         this.isCompletionCountryLoading = false
         await this.$nextTick()
-        await this.loadCompletionMapData()
+        await this.loadCompletionMapData(course)
+        this.currentCourse = course
       },
       closeCompletionModal() {
         this.isCompletionModalOpen = false
@@ -394,20 +299,26 @@
         }
         window.removeEventListener('resize', this.resizeCompletionMap)
       },
-      async loadCompletionMapData() {
+      async loadCompletionMapData(course) {
         this.isCompletionMapLoading = true
-        const slug = this.selectedCompletionCourse.slug
+        // const slug = this.selectedCompletionCourse.slug
         try {
-          const resp = await fetch(`/data/fmf-course-completions/${slug}_counts.json`, { cache: 'force-cache' })
-          const data = await resp.json()
-          this.completionMapCounts = data.counts || {}
+          // const resp = await fetch(`/website/data/fmf-course-completions/${slug}_counts.json`, { cache: 'force-cache' })
+          // const data = await resp.json()
+          // this.completionMapCounts = data.counts || {}
+          // console.log('completionMapCounts:', this.completionMapCounts)
+          this.$api.getCourseCountry({courseId: course.id}).then(res=>{
+            console.log('getCourseCountry:', res)
+            this.completionMapCounts = res.data.counts || {}
+            this.isCompletionMapLoading = false
+            this.$nextTick(() => {
+              this.initCompletionMap()
+            })
+          })
         } catch (err) {
           this.completionMapCounts = {}
         } finally {
-          this.isCompletionMapLoading = false
-          this.$nextTick(() => {
-            this.initCompletionMap()
-          })
+          console.log('completionMapCounts:', this.completionMapCounts)
         }
       },
       async initCompletionMap() {
@@ -464,7 +375,7 @@
             roam: true,
             zoom: 1.2,
             itemStyle: {
-              areaColor: '#ffffff',
+              areaColor: '#f3f9ff',
               borderColor: '#C0D8E6',
               borderWidth: 1,
               shadowColor: 'rgba(95, 147, 194, 0.15)',
@@ -495,6 +406,7 @@
         this.completionChartInstance.on('click', (params) => {
           if (params.componentType !== 'series') return
           const code = this.completionNameToCode[params.name] || params.name
+          console.log(params)
           this.loadCompletionCountryList(code, params.name)
         })
         this.completionChartInstance.getZr().on('click', (event) => {
@@ -515,7 +427,7 @@
         if (this.completionWorldMap) {
           return this.completionWorldMap
         }
-        const resp = await fetch('https://raw.githubusercontent.com/apache/echarts-examples/gh-pages/public/data/asset/geo/world.json')
+        const resp = await fetch('/website/data/world.json')
         const data = await resp.json()
         this.completionWorldMap = data
         return data
@@ -530,13 +442,23 @@
         }
         this.isCompletionCountryLoading = true
         const slug = this.selectedCompletionCourse.slug
+        console.log('loadCompletionCountryList:', slug, code, name)
         const countryKey = code && code.length <= 3 ? code : this.slugifyCountryName(name || code)
         try {
-          const resp = await fetch(`/data/fmf-course-completions/${slug}/${countryKey}.json`, { cache: 'force-cache' })
-          const data = await resp.json()
-          this.completionCountryLabel = data.country || name || code
-          this.completionCountryCount = data.count || null
-          this.completionCountryPeople = data.people || []
+          console.log(slug, countryKey)
+          // const resp = await fetch(`/website/data/fmf-course-completions/${slug}/${countryKey}.json`, { cache: 'force-cache' })
+          this.$api.getCourseCountryUserList({courseId: this.currentCourse.id, country: name}).then(res=>{
+            console.log('getCourseCountryUserList:', res)
+            // const data = await resp.json()
+            this.completionCountryLabel = res.data.country
+            this.completionCountryCount = res.data.count || null
+            this.completionCountryPeople = res.data.people || []
+            console.log('completionCountryPeople:', this.completionCountryPeople)
+          })
+          // const data = await resp.json()
+          // this.completionCountryLabel = data.country || name || code
+          // this.completionCountryCount = data.count || null
+          // this.completionCountryPeople = data.people || []
         } catch (err) {
           this.completionCountryLabel = 'Unable to load country data'
           this.completionCountryCount = null
@@ -550,7 +472,7 @@
         return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
       }
     },
-    mounted() {
+    created() {
       this.websiteCourseNavigationFn(this.$route.query.categoryName)
     },
     beforeRouteUpdate(to, from, next) {
@@ -562,7 +484,7 @@
 
 <style lang="scss" scoped>
   .course {
-    padding-top: 72px;
+    // padding-top: 72px;
     min-height: calc(100% - 200px);
     background: #f5f7fb;
     .course-hero {
@@ -856,7 +778,7 @@
 
     .completion-map-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      grid-template-columns: minmax(0, 1.9fr) minmax(0, 0.9fr);
       gap: 20px;
     }
 
@@ -943,35 +865,110 @@
       padding: 20px 0;
     }
 
-    @media (max-width: 1024px) {
-      .course-grid {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    /* ============================================================
+       RESPONSIVE BREAKPOINTS
+       ============================================================ */
+
+    /* Tablet: 768px ~ 1279px */
+    @media (min-width: 768px) and (max-width: 1279px) {
+      .main-container {
+        width: 100% !important;
+        padding-left: 32px !important;
+        padding-right: 32px !important;
       }
+      .course-grid             { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+      .course-completion-title { font-size: 16px; }
+      .course-results-title    { font-size: 20px; }
+      .completion-map-layout   { grid-template-columns: 1fr; }
+      .completion-map-panel,
+      .completion-list-panel   { min-height: 420px; }
+      .completion-map          { height: 420px; }
     }
 
-    @media (max-width: 768px) {
-      .course-hero {
-        height: 420px;
-        .course-hero-title {
-          font-size: 32px;
-        }
+    /* Large phone: 480px ~ 767px */
+    @media (min-width: 480px) and (max-width: 767px) {
+      .main-container {
+        width: 100% !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
       }
-      .course-grid {
-        grid-template-columns: 1fr;
-      }
-      .course-search-row {
-        max-width: 100%;
-      }
-      .completion-map-layout {
-        grid-template-columns: 1fr;
-      }
+      .course-library            { padding: 8px 0 24px; }
+      .course-completion-section { padding: 14px; margin-bottom: 16px; }
+      .course-completion-title   { font-size: 15px; margin-bottom: 10px; }
+      .completion-chip           { padding: 6px 12px; font-size: 12px; }
+      .course-results-title      { font-size: 18px; }
+      .course-results-sub        { font-size: 13px; }
+      .course-grid               { grid-template-columns: 1fr; gap: 12px; }
+      .course-card-body          { padding: 16px; gap: 8px; }
+      .course-card-title         { font-size: 15px; }
+      .course-card-desc          { font-size: 13px; line-height: 20px; }
+      .completion-modal          { padding: 12px; }
+      .completion-modal-header   { padding: 14px 16px; }
+      .completion-modal-title    { font-size: 15px; }
+      .completion-modal-body     { padding: 12px 14px 16px; }
+      .completion-map-layout     { grid-template-columns: 1fr; gap: 12px; }
       .completion-map-panel,
-      .completion-list-panel {
-        min-height: unset;
+      .completion-list-panel     { min-height: unset; padding: 14px; }
+      .completion-map            { height: 280px; }
+      .completion-list-content   { max-height: 320px; }
+    }
+
+    /* Small phone: 360px ~ 479px */
+    @media (min-width: 360px) and (max-width: 479px) {
+      .main-container {
+        width: 100% !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
       }
-      .completion-map {
-        height: 300px;
+      .course-library            { padding: 6px 0 20px; }
+      .course-completion-section { padding: 12px; margin-bottom: 14px; }
+      .course-completion-title   { font-size: 14px; margin-bottom: 8px; }
+      .completion-chip           { padding: 5px 10px; font-size: 11px; }
+      .course-results-title      { font-size: 16px; }
+      .course-results-sub        { font-size: 12px; }
+      .course-grid               { grid-template-columns: 1fr; gap: 10px; }
+      .course-card-body          { padding: 14px; gap: 7px; }
+      .course-card-title         { font-size: 14px; }
+      .course-card-desc          { font-size: 12px; line-height: 18px; }
+      .course-badge              { font-size: 11px; padding: 4px 8px; }
+      .completion-modal          { padding: 8px; }
+      .completion-modal-header   { padding: 12px 14px; }
+      .completion-modal-title    { font-size: 14px; }
+      .completion-modal-body     { padding: 10px 12px 14px; }
+      .completion-map-layout     { grid-template-columns: 1fr; gap: 10px; }
+      .completion-map-panel,
+      .completion-list-panel     { min-height: unset; padding: 12px; }
+      .completion-map            { height: 240px; }
+      .completion-list-content   { max-height: 280px; }
+    }
+
+    /* Very small: < 360px */
+    @media (max-width: 359px) {
+      .main-container {
+        width: 100% !important;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
       }
+      .course-library            { padding: 6px 0 16px; }
+      .course-completion-section { padding: 10px; margin-bottom: 12px; }
+      .course-completion-title   { font-size: 13px; margin-bottom: 8px; }
+      .completion-chip           { padding: 5px 9px; font-size: 11px; }
+      .course-results-title      { font-size: 15px; }
+      .course-results-sub        { font-size: 12px; }
+      .course-grid               { grid-template-columns: 1fr; gap: 8px; }
+      .course-card-body          { padding: 12px; gap: 6px; }
+      .course-card-title         { font-size: 13px; }
+      .course-card-desc          { font-size: 12px; line-height: 18px; }
+      .course-badge              { font-size: 11px; padding: 3px 7px; }
+      .completion-modal          { padding: 6px; }
+      .completion-modal-header   { padding: 10px 12px; }
+      .completion-modal-title    { font-size: 13px; }
+      .completion-modal-body     { padding: 8px 10px 12px; }
+      .completion-map-layout     { grid-template-columns: 1fr; gap: 8px; }
+      .completion-map-panel,
+      .completion-list-panel     { min-height: unset; padding: 10px; }
+      .completion-map            { height: 200px; }
+      .completion-list-content   { max-height: 240px; }
     }
   }
 </style>

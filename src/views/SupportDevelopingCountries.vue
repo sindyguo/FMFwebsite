@@ -210,7 +210,7 @@
     padding-bottom: 48px;
     font-family: 'Helvetica', Arial, sans-serif;
     font-size: 16px;
-    padding-top: 72px;
+    // padding-top: 72px;
   }
 
   .look-for-life-content {
@@ -303,6 +303,7 @@
     font-size: 16px;
     line-height: 26px;
     color: #4a5b67;
+    text-align: justify;
   }
 
   .section-list {
@@ -315,7 +316,9 @@
     font-size: 16px;
     line-height: 26px;
   }
-
+  .section-list li {
+    text-align: justify;
+  }
   .section-list li::marker {
     color: #036fc0;
   }
@@ -370,18 +373,95 @@
     text-align: center;
   }
 
-  @media (max-width: 900px) {
-    .gallery-item {
-      flex: 0 0 var(--gallery-item-width, 220px);
-      max-width: var(--gallery-item-width, 220px);
-    }
+  /* ============================================================
+     RESPONSIVE BREAKPOINTS
+     ============================================================ */
+
+  /* Mobile common: remove justify alignment */
+  @media (max-width: 767px) {
+    .hero-desc,
+    .hero-desc p,
+    .section-desc,
+    .section-list li  { text-align: left !important; }
   }
 
-  @media (max-width: 600px) {
-    .gallery-item {
-      flex: 0 0 var(--gallery-item-width, 220px);
-      max-width: var(--gallery-item-width, 220px);
+  /* Tablet: 768px ~ 1279px */
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 32px !important;
+      padding-right: 32px !important;
     }
+    .hero-title { font-size: 24px; }
+  }
+
+  /* Large phone: 480px ~ 767px */
+  @media (min-width: 480px) and (max-width: 767px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+    .look-for-life-content { gap: 20px; padding: 16px 0 0; }
+    .hero-card  { gap: 16px; padding: 12px; }
+    .hero-text,
+    .hero-image { flex: 1 1 100%; min-width: 0; }
+    .hero-image { max-height: 220px; }
+    .hero-title { font-size: 20px; margin-bottom: 10px; }
+    .hero-desc  { font-size: 14px; line-height: 22px; }
+    .section    { padding: 14px 12px; }
+    .section-title    { font-size: 16px; }
+    .section-subtitle { font-size: 14px; margin: 20px 0 8px; }
+    .section-desc,
+    .section-list     { font-size: 14px; line-height: 22px; }
+    .gallery-image    { height: 160px; }
+    .gallery-caption  { font-size: 12px; }
+  }
+
+  /* Small phone: 360px ~ 479px */
+  @media (min-width: 360px) and (max-width: 479px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+    }
+    .look-for-life-content { gap: 16px; padding: 12px 0 0; }
+    .hero-card  { gap: 12px; padding: 10px; }
+    .hero-text,
+    .hero-image { flex: 1 1 100%; min-width: 0; }
+    .hero-image { max-height: 200px; }
+    .hero-title { font-size: 18px; margin-bottom: 8px; }
+    .hero-desc  { font-size: 13px; line-height: 20px; }
+    .section    { padding: 12px 10px; }
+    .section-title    { font-size: 15px; }
+    .section-subtitle { font-size: 13px; margin: 16px 0 6px; }
+    .section-desc,
+    .section-list     { font-size: 13px; line-height: 20px; }
+    .gallery-image    { height: 140px; }
+    .gallery-caption  { font-size: 11px; }
+  }
+
+  /* Very small: < 360px */
+  @media (max-width: 359px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+    }
+    .look-for-life-content { gap: 12px; padding: 10px 0 0; }
+    .hero-card  { gap: 10px; padding: 8px; }
+    .hero-text,
+    .hero-image { flex: 1 1 100%; min-width: 0; }
+    .hero-image { max-height: 180px; }
+    .hero-title { font-size: 16px; margin-bottom: 8px; }
+    .hero-desc  { font-size: 12px; line-height: 18px; }
+    .section    { padding: 10px 8px; }
+    .section-title    { font-size: 14px; }
+    .section-subtitle { font-size: 12px; margin: 14px 0 6px; }
+    .section-desc,
+    .section-list     { font-size: 12px; line-height: 18px; }
+    .gallery-image    { height: 120px; }
+    .gallery-caption  { font-size: 11px; }
   }
 
   .carousel-image {

@@ -3,12 +3,15 @@
     <!-- Form content -->
     <el-form :model="registrationForm" :rules="registrationRules" label-position="left" ref="registrationForm"
       class="registration-form" size="small">
-      <el-form-item label="Last name" prop="lastname">
-        <el-input v-model="registrationForm.lastname" placeholder="Please enter" clearable></el-input>
-      </el-form-item>
-
       <el-form-item label="First name" prop="firstName">
         <el-input v-model="registrationForm.firstName" placeholder="Please enter" clearable></el-input>
+      </el-form-item>
+
+      <el-form-item label="Last name" prop="lastName">
+        <el-input v-model="registrationForm.lastName" placeholder="Please enter" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="Alternative email" prop="emailAlternative">
+        <el-input v-model="registrationForm.emailAlternative" placeholder="Please enter" clearable></el-input>
       </el-form-item>
 
       <el-form-item label="Title" prop="title">
@@ -27,29 +30,35 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="Institution Name" prop="institutionName">
+      <el-form-item label="Institution name" prop="institutionName">
         <el-input v-model="registrationForm.institutionName" placeholder="Please enter" clearable></el-input>
       </el-form-item>
-
-      <el-form-item label="Clinical Specialty" prop="clinicalSpecialty">
+      
+      <el-form-item label="Clinical specialty" prop="clinicalSpecialty">
         <el-select v-model="registrationForm.clinicalSpecialty" placeholder="Please select">
           <el-option v-for="item in grades" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item
-        v-show="registrationForm.grade == 'Other'" label="Other Clinical Specialties" prop="gradeOther">
+      
+
+      <el-form-item v-if="registrationForm.clinicalSpecialty == 'Other'"
+        label="Other Clinical Specialties" prop="gradeOther"
+        :rules="[{ required: true, message: 'Please enter other Clinical specialty', trigger: 'blur' }]">
         <el-input v-model="registrationForm.gradeOther" placeholder="Please enter" clearable></el-input>
       </el-form-item>
+
+      <el-form-item label="Telephone" prop="telephone">
+        <el-input v-model="registrationForm.telephone" placeholder="Please enter" clearable></el-input>
+      </el-form-item>
       <!-- 占位 -->
-      <el-form-item v-show="registrationForm.grade != 'Other'"></el-form-item>
-
-      <el-form-item label="Email" prop="email">
+      <el-form-item v-show="registrationForm.clinicalSpecialty != 'Other'"></el-form-item>
+      <!-- <el-form-item label="Email" prop="email">
         <el-input v-model="registrationForm.email" placeholder="Please enter" clearable></el-input>
-      </el-form-item>
+      </el-form-item> -->
 
-      <el-form-item label="Email (alternative)" prop="emailAlternative">
+      <!-- <el-form-item label="Email (alternative)" prop="emailAlternative">
         <el-input v-model="registrationForm.emailAlternative" placeholder="Please enter" clearable></el-input>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-form-item label="Date of birth" prop="birthday">
         <el-date-picker
@@ -63,7 +72,7 @@
       </el-form-item>
 
       <el-form-item label="Country" prop="country">
-        <el-select v-model="registrationForm.country" placeholder="Please select" style="width: 100%;">
+        <el-select v-model="registrationForm.country" filterable  placeholder="Please select" style="width: 100%;">
           <el-option v-for="item in countries" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
       </el-form-item>
@@ -80,9 +89,7 @@
         <el-input v-model="registrationForm.address" placeholder="Please enter" clearable></el-input>
       </el-form-item>
 
-      <el-form-item label="Telephone" prop="telephone">
-        <el-input v-model="registrationForm.telephone" placeholder="Please enter" clearable></el-input>
-      </el-form-item>
+      
 
       <el-form-item label="Preferred language" prop="preferredLanguage">
         <el-select v-model="registrationForm.preferredLanguage" placeholder="Please select" style="width: 100%;">
@@ -99,10 +106,10 @@
 
       <!-- Navigation buttons -->
       <div class="navigation-buttons">
-        <el-button type="default" style="width: 244px; margin-right: 10px;" @click="preClick">
+        <el-button type="default" class="nav-btn nav-btn--back" @click="preClick">
           Back
         </el-button>
-        <el-button type="primary" style="width: 244px;" @click="nextClick">
+        <el-button type="primary" class="nav-btn nav-btn--next" @click="nextClick">
           Next
         </el-button>
       </div>
@@ -119,21 +126,14 @@
     name: 'RegistrationStep2',
     components: { TermsDialog },
     data() {
-      const validateGradeOther = (rule, value, callback) => {
-        if (this.registrationForm.grade === 'Other' && !value) {
-          callback(new Error('Please input other clinical specialty'))
-        } else {
-          callback()
-        }
-      };
       return {
         showTermsDialog: false,
         registrationForm: {
-          lastname: '',
+          lastName: '',
           nickname: '',
+          emailAlternative: '',
           title: '',
           department: '',
-          email: '',
           birthday: '',
           city: '',
           address: '',
@@ -142,13 +142,12 @@
           companyName: '',
           grade: '',
           gradeOther: '',
-          emailAlternative: '',
           country: '',
           postCode: '',
           preferredLanguage: ''
         },
         registrationRules: {
-          lastname: [
+          lastName: [
             { required: true, message: 'Please input last name', trigger: 'blur' }
           ],
           firstName: [
@@ -164,23 +163,20 @@
             { required: true, message: 'Please select institution', trigger: 'blur' }
           ],
           institutionName: [
-            { required: true, message: 'Please input institution name', trigger: 'blur' }
+            { required: true, message: 'Please input Institution name', trigger: 'blur' }
           ],
           clinicalSpecialty: [
-            { required: true, message: 'Please select clinical specialty', trigger: 'blur' }
+            { required: true, message: 'Please select Clinical specialty', trigger: 'blur' }
           ],
-          gradeOther: [
-            { required: true, validator: validateGradeOther, trigger: 'blur' }
-          ],
-          email: [
-            { required: true, message: 'Please input email', trigger: 'blur' },
-            { type: 'email', message: 'Please input valid email', trigger: 'blur' }
-          ],
+          // email: [
+          //   { required: true, message: 'Please input email', trigger: 'blur' },
+          //   { type: 'email', message: 'Please input valid email', trigger: 'blur' }
+          // ],
           emailAlternative: [
             { type: 'email', message: 'Please input valid email', trigger: 'blur' }
           ],
           birthday: [
-            { required: true, message: 'Please select date of birth', trigger: 'blur' }
+            { required: true, message: 'Please select Date of birth', trigger: 'blur' }
           ],
           country: [
             { required: true, message: 'Please select country', trigger: 'blur' }
@@ -211,6 +207,7 @@
         companys: [
           { value: 'Hospital', label: 'Hospital' },
           { value: 'University', label: 'University' },
+          { value: 'Private practice', label: 'Private practice' },
           { value: 'Pharmaceutical company', label: 'Pharmaceutical company' },
           { value: 'Medical device company', label: 'Medical device company' },
           { value: 'Other', label: 'Other' }
@@ -234,20 +231,21 @@
           { value: 'ja', label: 'Japanese' }
         ],
         grades: [
-          { value: 'OBs&Gynae', label: 'OBs&Gynae' },
+          { value: 'ObGyn', label: 'ObGyn' },
           { value: 'Radiology', label: 'Radiology' },
           { value: 'Midwifery', label: 'Midwifery' },
           { value: 'Sonography', label: 'Sonography' },
           { value: 'Cardiology', label: 'Cardiology' },
-          { value: 'Clinical Scientist', label: 'Clinical Scientist' },
-          { value: 'Paediatrics', label: 'Paediatrics' },
-          { value: 'Paediatric Surgery', label: 'Paediatric Surgery' },
+          { value: 'Clinical scientist', label: 'Clinical scientist' },
+          { value: 'Pediatrics', label: 'Pediatrics' },
+          { value: 'Pediatric surgery', label: 'Pediatric surgery' },
           { value: 'Anesthesiology', label: 'Anesthesiology' },
+          { value: 'Maternal Fetal Medicine', label: 'Maternal Fetal Medicine' },
           { value: 'Physician', label: 'Physician' },
           { value: 'Laboratory', label: 'Laboratory' },
-          { value: 'Medical Student', label: 'Medical Student' },
-          { value: 'Pharma Industry', label: 'Pharma Industry' },
-          { value: 'Medical Device Industry', label: 'Medical Device Industry' },
+          { value: 'Medical student', label: 'Medical student' },
+          { value: 'Pharma sndustry', label: 'Pharma sndustry' },
+          { value: 'Medical device industry', label: 'Medical device industry' },
           { value: 'Other', label: 'Other' }
         ]
       }
@@ -264,7 +262,7 @@
         const self = this
         this.$refs.registrationForm.validate(valid => {
           if (valid) {
-            self.registrationForm.nickname = self.registrationForm.lastname + ' ' + self.registrationForm.firstName
+            self.registrationForm.nickname = self.registrationForm.lastName + ' ' + self.registrationForm.firstName
             this.$emit('nextSuccess', self.registrationForm)
           } else {
             console.log('Validation failed or terms not accepted');
@@ -304,155 +302,172 @@
 </script>
 
 <style lang="scss" scoped>
+/* ── Step 2 wrapper ──────────────────────────────────────── */
 .registration-step2 {
   width: 100%;
   background-color: #ffffff;
-  .step-indicator {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    padding: 0 20px;
-    border-bottom: 1px solid #e4e7ed;
-  }
-
-  .step-item {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .step-item.active {
-    color: #036fc0;
-  }
-
-  .step-item:hover {
-    color: #036fc0;
-  }
-
-  .step-number {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #036fc0;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  .step-text {
-    font-size: 14px;
-    color: #8A9094;
-  }
+  padding-top: 20px;
+  padding-bottom: 12px;
 
   .registration-form {
     display: flex;
     flex-wrap: wrap;
-    gap: 0px 100px;
-  }
-
-  .form-column {
-    flex: 1;
-    min-width: 300px;
-  }
-
-  .el-form-item__label {
-    font-weight: normal;
-    color: #0E3045;
-  }
-
-  .el-form-item__content {
-    margin-left: 120px;
-  }
-
-  .el-input {
-    width: 100%;
-  }
-
-  .el-select {
-    width: 100%;
-  }
-
-  .el-date-picker {
-    width: 100%;
+    gap: 0 80px;
   }
 
   .terms-item {
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     .link {
       color: #036fc0;
+      cursor: pointer;
+      &:hover { text-decoration: underline; }
     }
   }
 
   .navigation-buttons {
     display: flex;
     justify-content: center;
+    gap: 12px;
     width: 100%;
-  }
+    margin-top: 8px;
+    padding-bottom: 12px;
+    box-sizing: border-box;
 
-  .el-button--primary {
-    background-color: #036fc0;
-    border-color: #036fc0;
-    color: white;
-  }
+    .nav-btn {
+      height: 46px !important;
+      border-radius: 10px !important;
+      font-size: 15px !important;
+      min-width: 160px;
+      width: 244px;
+      max-width: 100%;
+      box-sizing: border-box;
+      margin-left: 0 !important; /* override ElementUI default sibling margin */
+    }
 
-  .el-button--primary:hover {
-    background-color: #005a9c;
-    border-color: #005a9c;
-  }
+    /* ElementUI adds `.el-button + .el-button { margin-left: 10px; }` globally */
+    ::v-deep .el-button + .el-button {
+      margin-left: 0 !important;
+    }
 
-  .el-button--default {
-    background-color: #fff;
-    border-color: #dcdfe6;
-    color: #606266;
+    .nav-btn--back {
+      border-color: #d6e2ee !important;
+      color: #4a5b6a !important;
+      &:hover {
+        border-color: #036fc0 !important;
+        color: #036fc0 !important;
+      }
+    }
+
+    .nav-btn--next {
+      background-color: #036fc0 !important;
+      border-color: #036fc0 !important;
+      &:hover {
+        background-color: #005a9c !important;
+        border-color: #005a9c !important;
+      }
+    }
   }
 }
 
+/* ── Form field overrides (desktop) ─────────────────────── */
+::v-deep .el-form-item {
+  margin-bottom: 6px !important;
+  width: 44%;
+}
 
+::v-deep .el-form-item__label {
+  font-size: 15px !important;
+  color: #4a5b6a !important;
+  font-weight: 500 !important;
+}
 
-/* Responsive design */
-@media (max-width: 768px) {
+::v-deep .el-input__inner,
+::v-deep .el-input--small .el-input__inner {
+  border-radius: 8px !important;
+  border-color: #d6e2ee !important;
+  height: 38px !important;
+  line-height: 38px !important;
+  font-size: 14px !important;
+  color: #0e3045 !important;
+
+  &:focus {
+    border-color: #036fc0 !important;
+    box-shadow: 0 0 0 3px rgba(3, 111, 192, 0.1) !important;
+  }
+}
+
+::v-deep .el-select {
+  width: 100%;
+}
+
+::v-deep .el-date-editor {
+  width: 100% !important;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+/* Tablet: ≤ 900px */
+@media (max-width: 900px) {
+  .registration-step2 .registration-form {
+    gap: 0 32px;
+  }
+}
+
+/* Mobile: ≤ 767px — single column + top labels */
+@media (max-width: 767px) {
   .registration-step2 {
-    padding: 20px;
-    .step-indicator {
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .step-item {
-      flex-direction: row;
-      align-items: center;
-    }
-
-    .step-number {
-      margin-right: 5px;
-    }
+    padding-top: 12px;
+    padding-bottom: 16px;
 
     .registration-form {
       flex-direction: column;
-    }
-
-    .form-column {
-      min-width: auto;
-      width: 100%;
-    }
-
-    .el-form-item__content {
-      margin-left: 0;
+      gap: 0;
     }
 
     .navigation-buttons {
-      justify-content: center;
+      flex-direction: column-reverse;
+      align-items: stretch;
+      gap: 10px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+
+      .nav-btn {
+        width: 100% !important;
+        min-width: unset;
+      }
     }
   }
+
+  /* Switch to top-label layout */
+  ::v-deep .el-form-item {
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 10px !important;
+  }
+
+  ::v-deep .el-form-item__label {
+    display: block !important;
+    width: 100% !important;
+    text-align: left !important;
+    padding-bottom: 4px !important;
+    padding-right: 0 !important;
+    font-size: 13px !important;
+  }
+
+  ::v-deep .el-form-item__content {
+    margin-left: 0 !important;
+  }
 }
-::v-deep .el-form-item {
-  margin-bottom: 0;
-  width: 44%;
+
+/* Small mobile: ≤ 479px */
+@media (max-width: 479px) {
+  ::v-deep .el-form-item__label {
+    font-size: 12px !important;
+  }
+
+  ::v-deep .el-input__inner {
+    font-size: 13px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+  }
 }
 </style>

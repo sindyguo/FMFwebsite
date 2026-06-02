@@ -3,7 +3,7 @@
     <div class="vcontainer left-content">
       <div class="vcontainer left-container">
         <span class="left-title">Education</span>
-        <span class="tip mv-5">Internet-based courses, which are free of charge and available in several languages:</span>
+        <span class="tip mv-5">Internet-based courses, which are free of charge and will be available in several languages.</span>
         <div
           v-for="item in educationList"
           :key="item.id"
@@ -135,14 +135,9 @@
   .education {
     margin-top: 85px;
     font-size: 14px;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 0 24px 32px;
-    box-sizing: border-box;
     .left-content {
-      flex: 1 1 280px;
-      max-width: 420px;
-      margin-right: 0;
+      width: 388px;
+      margin-right: 16px;
       .left-container {
         padding: 15px 20px;
         margin-bottom: 20px;
@@ -170,8 +165,7 @@
       }
     }
     .right-content {
-      flex: 2 1 520px;
-      min-width: 0;
+      width: 796px;
       .right-container {
         padding: 15px 20px;
         margin-bottom: 20px;
@@ -216,14 +210,6 @@
       color: #036fc0;
       cursor: pointer;
       text-decoration: none;
-    }
-    @media (max-width: 1024px) {
-      padding: 0 16px 28px;
-      .left-content,
-      .right-content {
-        max-width: 100%;
-        width: 100%;
-      }
     }
   }
 </style>

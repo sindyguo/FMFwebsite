@@ -32,7 +32,7 @@
       </el-table-column>
       <el-table-column prop="updateStatus" label="Update Status" :align="'center'" min-width="120">
         <template #default="{ row }">
-          <span>{{ row.updateStatus == 1 ? 'Finished' : 'Updateing' }}</span>
+          <span>{{ row.updateStatus == 1 ? 'Updated' : 'Updating' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="Learning Progress" :align="'center'" min-width="150">
@@ -59,7 +59,7 @@
             icon="el-icon-edit-outline"
             :disabled="row.examResults == 1 || row.updateStatus != 1 || row.coursesLearnCount != row.coursesTotal"
             @click="examClick(row)">
-            Take an exam
+            Final test
           </el-button>
         </template>
       </el-table-column>

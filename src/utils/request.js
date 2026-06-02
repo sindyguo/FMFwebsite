@@ -1,8 +1,11 @@
 import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
+import { MessageBox } from 'element-ui'
 import store from '@/store'
 import router from '@/router'
-
+import { showAlternativeEmailDialog, showBackupEmailDialog } from '@/utils/showAlternativeEmailDialog'
+// 弹窗锁：防止异常提示框重复弹出
+let isAlerting = false // 普通异常弹窗锁
+let isConfirmingLogin = false // 登录过期弹窗锁
 // 创建 axios 实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // 环境变量配置的基地址
@@ -18,7 +21,7 @@ service.interceptors.request.use(
     // 在发送请求之前做些什么
     
     // 添加 token
-    const token = store.state.token || sessionStorage.getItem('token')
+    const token = store.state.token || localStorage.getItem('token')
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`
     }
@@ -53,6 +56,14 @@ service.interceptors.response.use(
     // 根据后端返回的数据结构进行调整
     if (data.code === 200 || data.code === 0 || data.success) {
       return data
+    } else if (data.code === 888) {
+      const loginEmail = data.data?.loginEmail || data.data || ''
+      showAlternativeEmailDialog(loginEmail)
+      return Promise.reject(data)
+    } else if (data.code === 999) {
+      const loginEmail = data.data?.loginEmail || data.data || ''
+      showBackupEmailDialog(loginEmail)
+      return Promise.reject(data)
     } else if(data.code === 1001000000 && data.msg.includes('HISTORY')) {
       MessageBox.confirm('Previous users, please use your registered email to reset your password!', 'Tip', {
         confirmButtonText: 'ToReset',
@@ -69,24 +80,47 @@ service.interceptors.response.use(
       }).then(() => {
         router.push('/resetPwd')
       }).catch(() => {})
+    } else if (data.msg?.includes('Duplicate')) {
+      MessageBox.confirm(data.msg, 'Duplicate', {
+        confirmButtonText: 'Cancel',
+        showCancelButton: false,
+        type: 'none'
+      }).then(() => {}).catch(() => {})
+      return Promise.reject(data)
     } else {
       // 业务错误处理
       const message = data.message || data.msg || 'request error'
       
       // 如果是登录过期
       if (data.code === 401) {
-        MessageBox.confirm('Login has expired, please log in again', 'Tip', {
-          confirmButtonText: 'Re login',
-          cancelButtonText: 'Cancel',
-          type: 'none'
-        }).then(() => {
-          store.dispatch('user/logout')
-          router.push('/login')
-        }).catch(() => {})
+        if(!isConfirmingLogin) {
+          isConfirmingLogin = true
+          MessageBox.confirm('Login has expired, please log in again', 'Tip', {
+            confirmButtonText: 'Re login',
+            cancelButtonText: 'Cancel',
+            type: 'none',
+            showClose: false
+          }).then(async () => {
+            await store.dispatch('user/logout')
+            store.commit('user/SET_NEED_LOGIN', true)
+            // router.push('/login')
+          }).catch(() => {}).finally(() => {
+            isConfirmingLogin = false
+          })
+        }
       } else if (config.url?.includes('captcha/get') || config.url.includes('captcha/check')) {
         return data
       } else {
-        Message.error(message)
+        if(!isAlerting) {
+          isAlerting = true
+          MessageBox.alert(message, 'Tip', {
+            confirmButtonText: 'Cancel',
+            showCancelButton: false,
+            type: 'none'
+          }).then(() => {}).catch(() => {}).finally(() => {
+            isAlerting = false
+          })
+        }
       }
       
       return Promise.reject(new Error(message))
@@ -99,7 +133,6 @@ service.interceptors.response.use(
     
     if (error.response) {
       const { status, data } = error.response
-      
       switch (status) {
         case 400:
           message = data.message || 'request error'
@@ -153,8 +186,12 @@ service.interceptors.response.use(
     } else {
       message = error.message
     }
-    
-    Message.error(message)
+
+    MessageBox.alert(message, 'Tip', {
+      confirmButtonText: 'Cancel',
+      showCancelButton: false,
+      type: 'none'
+    }).then(() => {}).catch(() => {})
     return Promise.reject(error)
   }
 )
@@ -190,6 +227,7 @@ export function post(url, data = {}, config = {}) {
     ...config
   }).catch(err => err)
 }
+
 
 /**
  * PUT 请求

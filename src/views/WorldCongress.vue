@@ -1,172 +1,484 @@
 <template>
-  <div class="vcontainer worldcongress">
-    <div class="congress-hero">
-      <TopBanner height="320px" :listData="topData" />
+  <div class="vcontainer worldcongress" v-loading="loading">
+    <div class="">
+      <TopBanner height="520px" :listData="topData" />
     </div>
-    <section class="congress-main">
-      <div class="main-container">
-        <div class="congress-main-title">Join colleagues from around the world in Vienna</div>
-        <div class="congress-summary">
-          <div class="congress-summary-media">
-            <el-image
-              v-if="firstCarouseData.congressImageList && firstCarouseData.congressImageList[0]"
-              :src="firstCarouseData.congressImageList[0].url"
-              class="summary-image"
-              fit="cover"
-              alt=""
-            />
-            <div v-else class="summary-placeholder"></div>
-          </div>
-          <div class="congress-summary-details">
-            <div class="summary-item">
-              <div class="summary-icon">
-                <img src="@/assets/img/icon/icon_data.png" alt="" />
+    <div class="vcontainer">
+      <div class="vcontainer hcenter main-container congress-info">
+        <div class="vcontainer hcenter info-header">
+          <span class="info-title">Join colleagues from around the world in {{firstCarouseData.city}}</span>
+          <!-- <span class="info-subTitle">{{ firstCarouseData.title }}</span> -->
+        </div>
+        <div class="worldcongress-fmf">
+          <el-carousel
+            v-if="firstCarouseData.congressImageList && firstCarouseData.congressImageList[0]"
+            arrow="never"
+            indicator-position="none"
+            class="carousel-container"
+            :interval="3000"
+            height="338px">
+            <el-carousel-item
+              v-for="(carouselItem, i) in (firstCarouseData.congressImageList || [])"
+              :key="i">
+              <el-image :src="carouselItem.url" class="carousel-img" alt="" />
+            </el-carousel-item>
+          </el-carousel>
+          <div v-else class="carousel-empty"></div>
+          <div class="fill vcontainer carousel-form" style="height: 100%">
+            <div class="hcontainer vcenter" style="margin-bottom: 24px;">
+              <el-image
+                :src="require('@/assets/img/icon/icon_data.png')"
+                class="carousel-icon"
+                alt=""
+              />
+              <div class="vcontainer flex-between">
+                <span class="carousel-label">Date</span>
+                <span class="carousel-value">{{
+                  formatFullDateRange(
+                    firstCarouseData.startTime,
+                    firstCarouseData.endTime
+                  )
+                }}</span>
               </div>
-              <div class="summary-text">
-                <div class="summary-label">Date</div>
-                <div class="summary-value">
-                  {{ formatFullDateRange(firstCarouseData.startTime, firstCarouseData.endTime) }}
+            </div>
+            <div class="hcontainer vcenter" style="margin-bottom: 24px;">
+              <el-image
+                :src="require('@/assets/img/icon/icon_location.png')"
+                class="carousel-icon"
+                alt=""
+              />
+              <div class="vcontainer flex-between">
+                <span class="carousel-label">Location</span>
+                <span class="carousel-value">{{
+                  firstCarouseData.location || ""
+                }}</span>
+                <span class="carousel-value" style="margin-top: 2px;">{{
+                  firstCarouseData.address || ""
+                }}</span>
+              </div>
+            </div>
+            <div class="hcontainer vcenter" style="margin-bottom: 24px;" v-if="!canRegistered">
+              <div class="carousel-label">Registrations will open in {{formatFullDateRange1(firstCarouseData.registrationStartTime, false)}}</div>
+            </div>
+            
+            <!-- <div class="hcontainer vcenter">
+              <el-image
+                :src="require('@/assets/img/svg/icon_Registration.svg')"
+                class="carousel-icon"
+                alt=""
+              />
+              <div class="vcontainer flex-between">
+                <span class="carousel-label">Registration</span>
+                <span class="carousel-value">Registrations will open in {{formatFullDateRange1(firstCarouseData.registrationStartTime)}}<br>Abstract submission will open in {{formatFullDateRange1(firstCarouseData.abstractSubmissionStartTime)}} </span>
+              </div>
+            </div> -->
+            <!-- <div class="hcontainer vcenter">
+              <el-image
+                :src="require('@/assets/img/icon/icon_fee.png')"
+                class="carousel-icon"
+                alt=""
+              />
+              <div class="vcontainer flex-between">
+                <span class="carousel-label">Registration Fee</span>
+                <span class="carousel-value"
+                  >{{ firstCarouseData.currency == "GBP" ? "£" : "€" || ""
+                  }}{{ firstCarouseData.cost || "" }}</span
+                >
+              </div>
+            </div> -->
+            <span v-if="firstCarouseData.programmeList && firstCarouseData.programmeList.length > 0" class="carousel-link haveFile" @click="handlePreview(firstCarouseData.programmeList)">Click here to view the programme 
+              <span class="el-icon-caret-right"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="main-container congress-about">
+        <div class="about-title">About the Congress</div>
+        <span class="about-desc">{{
+          firstCarouseData.congressIntroduction
+        }}</span>
+      </div>
+      <div class="vcontainer hcenter congress-registration">
+        <div class="vcontainer main-container">
+          <span class="section-title">Registration</span>
+          <span class="section-subtitle"
+            >Secure your place at the <span v-html="firstCarouseData.title"></span></span
+          >
+          <span class="registration-info">{{
+            firstCarouseData.registrationIntroduction
+          }}</span>
+          <div class="registration-options">
+            <div class="option-card attendee">
+              <div class="option-header">
+                <el-image
+                  :src="
+                    require('@/assets/img/icon/icon_attendee_registration.png')
+                  "
+                  class="option-icon"
+                  alt=""
+                />
+                <div class="option-title">Attendee Registration</div>
+                <div class="option-subtitle">
+                  Join us as a congress participant
                 </div>
               </div>
+              <div class="option-body">
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-primary.png"
+                    class="option-feature-icon"
+                  />
+                  <span>Full access to all sessions</span>
+                </div>
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-primary.png"
+                    class="option-feature-icon"
+                  />
+                  <span>Coffee breaks and lunches included</span>
+                </div>
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-primary.png"
+                    class="option-feature-icon"
+                  />
+                  <span>Certificate of Attendance and CME Accreditation</span>
+                </div>
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-primary.png"
+                    class="option-feature-icon"
+                  />
+                  <span>Networking opportunities</span>
+                </div>
+
+                
+              </div>
+              <div class="vcontainer option-price">
+                <span
+                  >{{ currency == "GBP" ? "£" : "€" || ""
+                  }}{{ minFeeAmount }}</span
+                >
+                <span>Registration fee per person</span>
+              </div>
+              <el-button
+                class="option-button attendee"
+                :disabled="isAttendeeDisable"
+                @click="attendeeRegistrationClick">
+                Attendee Registration
+              </el-button>
             </div>
-            <div class="summary-item">
-              <div class="summary-icon">
-                <img src="@/assets/img/icon/icon_location.png" alt="" />
+            <div class="option-card abstract" v-show="isAbstractPeriod">
+              <div class="option-header">
+                <el-image
+                  :src="
+                    require('@/assets/img/icon/icon_abstract_submission.png')
+                  "
+                  class="option-icon"
+                  alt=""
+                />
+                <div class="option-title">Abstract Submission</div>
+                <div class="option-subtitle">
+                  <!-- Present your research at the congress -->
+                  Share your research with experts
+                </div>
               </div>
-              <div class="summary-text">
-                <div class="summary-label">Location</div>
-                <div class="summary-value">{{ firstCarouseData.location || "" }}</div>
-                <div class="summary-value">{{ firstCarouseData.address || "" }}</div>
+              <div class="option-body">
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-success.png"
+                    class="option-feature-icon"
+                  />
+                  <span>Submit your research abstract</span>
+                </div>
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-success.png"
+                    class="option-feature-icon"
+                  />
+                  <span>Opportunity for oral presentation</span>
+                </div>
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-success.png"
+                    class="option-feature-icon"
+                  />
+                  <span>E-poster published on FMF website</span>
+                </div>
+
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-success.png"
+                    class="option-feature-icon"
+                  />
+                  <span>Certificate of presentation</span>
+                </div>
+
               </div>
+              <div class="vcontainer option-price">
+                <span>Submit your work</span>
+                <span>Deadline {{ formatFullDateRange1(firstCarouseData.abstractSubmissionEndTime) }}</span>
+              </div>
+              <el-button
+                class="option-button abstract"
+                :disabled="isAbstractDisable"
+                @click="abstractSubmissionClick">
+                Abstract Submission
+              </el-button>
+            </div>
+            <div class="option-card image-contest" v-show="!isAbstractPeriod">
+              <div class="option-header">
+                <div class="option-icon option-icon--image-contest">
+                  <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+                    <rect x="3" y="6" width="30" height="20" rx="2" stroke="white" stroke-width="2.2" fill="none"/>
+                    <polyline points="3,22 10,15 16,20 22,12 30,22" stroke="white" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+                    <circle cx="25" cy="13" r="2.5" fill="white"/>
+                    <rect x="13" y="26" width="10" height="3" rx="1" fill="white"/>
+                    <rect x="10" y="29" width="16" height="2" rx="1" fill="white"/>
+                  </svg>
+                </div>
+                <div class="option-title">FMF Clinical Image Contest</div>
+                <div class="option-subtitle">Showcase your expertise</div>
+              </div>
+              <div class="option-body">
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-success.png"
+                    class="option-feature-icon option-feature-icon--purple"
+                  />
+                  <span>Submit your most interesting diagnostic or artistic ultrasound image</span>
+                </div>
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-success.png"
+                    class="option-feature-icon option-feature-icon--purple"
+                  />
+                  <span>Reviewed by an esteemed jury</span>
+                </div>
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-success.png"
+                    class="option-feature-icon option-feature-icon--purple"
+                  />
+                  <span>Winner announced live at World Congress</span>
+                </div>
+                <div class="option-feature">
+                  <img
+                    src="@/assets/img/check-success.png"
+                    class="option-feature-icon option-feature-icon--purple"
+                  />
+                  <span>Sponsored by GE HealthCare - Voluson</span>
+                </div>
+              </div>
+              <div class="vcontainer option-price option-price--purple">
+                <span>Submit your image</span>
+                <span>Deadline {{ formatFullDateRange1(firstCarouseData.contestEndTime) }}</span>
+              </div>
+              <el-button
+                class="option-button image-contest-btn"
+                :disabled="isParticipateDisable"
+                @click="participateClick">
+                Participate
+              </el-button>
             </div>
           </div>
-        </div>
-        <div class="congress-about-card">
-          <div class="about-title">About the Congress</div>
-          <div class="about-desc">{{ firstCarouseData.congressIntroduction }}</div>
         </div>
       </div>
-    </section>
-
-    <section class="congress-registration">
-      <div class="main-container">
-        <div class="registration-title">Registration</div>
-        <div class="registration-subtitle">
-          Secure your place at the {{ firstCarouseData.title }}
+      <!-- <div class="sponsors-section">
+        <div class="section-title">Sponsors and Exhibitors</div>
+        <div class="section-subtitle">We are grateful for the support of our sponsors who make this congress possible</div>
+        <div class="sponsors-list">
+          <div class="sponsor-category">
+            <span>Diamond Sponsors</span>
+            <div class="sponsor-row">
+              <div class="sponsor-item">
+                <img src="https://via.placeholder.com/150x50?text=GE+HealthCare" alt="GE HealthCare" />
+              </div>
+              <div class="sponsor-item">
+                <img src="https://via.placeholder.com/150x50?text=SAMSUNG" alt="SAMSUNG" />
+              </div>
+            </div>
+          </div>
+          <div class="sponsor-category">
+            <span>Gold Sponsors</span>
+            <div class="sponsor-row">
+              <div class="sponsor-item">
+                <img src="https://via.placeholder.com/150x50?text=CANON" alt="Canon Medical" />
+              </div>
+              <div class="sponsor-item">
+                <img src="https://via.placeholder.com/150x50?text=ThermoFisher" alt="Thermo Fisher Scientific" />
+              </div>
+              <div class="sponsor-item">
+                <img src="https://via.placeholder.com/150x50?text=Illumina" alt="Illumina" />
+              </div>
+              <div class="sponsor-item">
+                <img src="https://via.placeholder.com/150x50?text=DIAGNOLY" alt="Diagnoly" />
+              </div>
+            </div>
+          </div>
+          <div class="sponsor-category">
+            <span>Silver Sponsors</span>
+            <div class="sponsor-row">
+              <div class="sponsor-item">
+                <img src="https://via.placeholder.com/150x50?text=pregnolia" alt="Pregnolia" />
+              </div>
+              <div class="sponsor-item">
+                <img src="https://via.placeholder.com/150x50?text=revity" alt="ReVity" />
+              </div>
+              <div class="sponsor-item">
+                <img src="https://via.placeholder.com/150x50?text=origin-medical" alt="Origin Medical" />
+              </div>
+              <div class="sponsor-item">
+                <img src="https://via.placeholder.com/150x50?text=mindray" alt="Mindray" />
+              </div>
+            </div>
+          </div>
+          <div class="view-more">
+            <span>View More Sponsors →</span>
+          </div>
         </div>
-        <div class="registration-info">{{ firstCarouseData.registrationIntroduction }}</div>
-        <div class="registration-cards">
-          <div class="registration-card">
-            <div class="card-icon attendee">
-              <img src="@/assets/img/icon/icon_attendee_registration.png" alt="" />
-            </div>
-            <div class="card-title">Attendee Registration</div>
-            <div class="card-subtitle">Join us as a congress participant</div>
-            <div class="card-features">
-              <div class="card-feature">
-                <img src="@/assets/img/check-primary.png" alt="" />
-                <span>Full access to all sessions</span>
-              </div>
-              <div class="card-feature">
-                <img src="@/assets/img/check-primary.png" alt="" />
-                <span>Coffee breaks and lunches included</span>
-              </div>
-              <div class="card-feature">
-                <img src="@/assets/img/check-primary.png" alt="" />
-                <span>Certificate of Attendance and CME Accreditation</span>
-              </div>
-              <div class="card-feature">
-                <img src="@/assets/img/check-primary.png" alt="" />
-                <span>Networking opportunities</span>
-              </div>
-            </div>
-            <div class="card-callout">
-              <div class="callout-main">
-                {{ firstCarouseData.currency == "GBP" ? "£" : "€" || "" }}{{ firstCarouseData.cost || "" }}
-              </div>
-              <div class="callout-sub">Registration fee per person</div>
-            </div>
-            <el-button
-              class="card-button attendee"
-              :disabled="isAttendeeDisable"
-              @click="goto('/congressSignUp?id=' + firstCarouseData.id, '/congressSignUp')"
-            >
-              Attendee Registration
-            </el-button>
+      </div> -->
+
+      <div class="previous-congresses block"  v-if="(firstCarouseData.diamonSponsorsList && firstCarouseData.diamonSponsorsList.length > 0) || (firstCarouseData.goldSponsorsList && firstCarouseData.goldSponsorsList.length > 0) || (firstCarouseData.silverSponsorsList && firstCarouseData.silverSponsorsList.length > 0) || (firstCarouseData.bronzeSponsorsList && firstCarouseData.bronzeSponsorsList.length > 0)">
+        <div class="vcontainer hcenter main-container">
+          <div class="section-title">Sponsors and Exhibitors</div>
+          <div class="section-subtitle">
+            We are grateful for the support of our sponsors who make this
+            congress possible
           </div>
 
-          <div class="registration-card">
-            <div class="card-icon abstract">
-              <img src="@/assets/img/icon/icon_abstract_submission.png" alt="" />
+          <div class="imgBox diamondSponsors" v-if="firstCarouseData.diamonSponsorsList && firstCarouseData.diamonSponsorsList.length > 0">
+            <div class="topMark">
+              <div class="mark">Diamond Sponsors</div>
+              <div class="line line1"></div>
             </div>
-            <div class="card-title">Abstract Submission</div>
-            <div class="card-subtitle">Share your research with experts</div>
-            <div class="card-features">
-              <div class="card-feature">
-                <img src="@/assets/img/check-success.png" alt="" />
-                <span>Submit your research abstract</span>
-              </div>
-              <div class="card-feature">
-                <img src="@/assets/img/check-success.png" alt="" />
-                <span>Opportunity for oral presentation</span>
-              </div>
-              <div class="card-feature">
-                <img src="@/assets/img/check-success.png" alt="" />
-                <span>E-poster published on FMF website</span>
-              </div>
-              <div class="card-feature">
-                <img src="@/assets/img/check-success.png" alt="" />
-                <span>Certificate of presentation</span>
+            <div
+              class="congress-grid"
+              :class="{emptyBox: !firstCarouseData.diamonSponsorsList}">
+              <div
+                v-for="(item, index) in (firstCarouseData.diamonSponsorsList || [])"
+                :key="index"
+                class="hcontainer flex-between congress-item logoBox"
+              >
+                <img :src="item.companyLogo" alt="" />
               </div>
             </div>
-            <div class="card-callout">
-              <div class="callout-main">Submit your work</div>
-              <div class="callout-sub">
-                Deadline {{ formatDeadline(firstCarouseData.abstractSubmissionEndTime) }}
+          </div>
+
+          <div class="imgBox goldSponsors" v-if="firstCarouseData.goldSponsorsList && firstCarouseData.goldSponsorsList.length > 0">
+            <div class="topMark">
+              <div class="mark ">Gold Sponsors</div>
+              <div class="line line1"></div>
+            </div>
+            <div
+              class="congress-grid"
+              style="height: 114px"
+              :class="{emptyBox: !firstCarouseData.goldSponsorsList}">
+              <div
+                v-for="(item, index) in (firstCarouseData.goldSponsorsList || [])"
+                :key="index"
+                class="hcontainer flex-between congress-item logoBox"
+                style="height: 114px"
+              >
+                <img :src="item.companyLogo" alt="" />
               </div>
             </div>
-            <el-button
-              class="card-button abstract"
-              :disabled="isAbstractDisable"
-              @click="goto('/speech?id=' + firstCarouseData.id, '/speech')"
-            >
-              Abstract Submission
-            </el-button>
+          </div>
+
+          <div class="imgBox silverSponsors" v-if="firstCarouseData.silverSponsorsList && firstCarouseData.silverSponsorsList.length > 0">
+            <div class="topMark">
+              <div class="mark">Silver Sponsors</div>
+              <div class="line line1"></div>
+            </div>
+            <div
+              class="congress-grid"
+              style="height: 88px; margin-bottom: 32px"
+              :class="{emptyBox: !firstCarouseData.silverSponsorsList}">
+              <div
+                v-for="(item, index) in (firstCarouseData.silverSponsorsList || [])"
+                :key="index"
+                class="hcontainer flex-between congress-item logoBox"
+                style="height: 88px"
+              >
+                <img :src="item.companyLogo" alt="" />
+              </div>
+            </div>
+          </div>
+          <div class="view-more" @click="goto('/sponsor?id='+firstCarouseData.id, '/sponsor')">
+            <span>View More Sponsors  <span class="el-icon-caret-right"></span></span>
           </div>
         </div>
       </div>
-    </section>
-
-    <section class="previous-world-congresses">
-      <div class="main-container">
-        <div class="previous-title">Previous World Congresses</div>
-        <div class="previous-subtitle">
-          Explore our rich history of international fetal medicine conferences
-        </div>
-        <div class="previous-grid">
+      <!-- 跳转界面未完成，临时性关闭 -->
+      <div class="previous-world-congresses previous-congresses">
+        <div class="vcontainer hcenter main-container">
+          <div class="section-title">Previous World Congresses</div>
+          <div class="section-subtitle">
+            Explore our rich history of international fetal medicine conferences
+          </div>
           <div
-            v-for="(congress, index) in (previousCongresses || [])"
-            :key="index"
-            class="previous-card"
+            class="congress-grid"
+            :class="{
+              emptyBox: !previousCongresses || previousCongresses.length == 0,
+            }"
           >
-            <div class="previous-year">{{ congress.year }}</div>
-            <div class="previous-city">{{ congress.city }}</div>
-            <div class="previous-country">{{ congress.country }}</div>
-            <div class="previous-link">View Abstracts <span class="el-icon-caret-right"></span></div>
+            <div
+              v-for="(congress, index) in (previousCongresses || [])"
+              :key="index"
+              class="hcontainer flex-between congress-item"
+            >
+              <div class="vcontainer">
+                <span class="congress-year">{{ congress.year }}</span>
+                <span class="congress-city">{{ congress.city }}</span>
+                <span class="congress-country">{{ congress.country }}</span>
+                <span class="congress-link" v-if="congress.hasAbstracts" @click="gotoUrl(congress.year)">View Abstracts <span class="el-icon-caret-right"></span></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+    <ProfileIncompleteDialog :visible.sync="profileDialogVisible" />
+
+    <el-dialog
+      title="FMF Clinical Image Contest"
+      :visible.sync="imageContestUploadedDialog"
+      width="min(480px, calc(100vw - 32px))"
+      append-to-body>
+      <p style="line-height:1.7;color:#333;font-size:15px;margin:0;">
+        You have already uploaded your image for the Image Contest. If you need to make any changes, please contact
+        <a href="mailto:education@fetalmedicine.org" style="color:#036fc0;text-decoration:none;">education@fetalmedicine.org</a>
+      </p>
+      <span slot="footer">
+        <el-button type="primary" @click="imageContestUploadedDialog = false">OK</el-button>
+      </span>
+    </el-dialog>
+
+    <el-dialog
+      title="Login"
+      :visible.sync="dialogObj.visible"
+      custom-class="congress-login-dialog"
+      append-to-body
+      top="33vh"
+      width="min(620px, calc(100vw - 16px))">
+      <div class="congress-login-dialog-body">
+        <LoginForm :innerOperate="true" loginModeProp="code"/>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import TopBanner from "@/components/TopBanner.vue";
+import ProfileIncompleteDialog from "@/components/ProfileIncompleteDialog.vue";
+import LoginForm from "@/components/LoginForm.vue";
 import { mapActions } from "vuex";
 export default {
   name: "CongressPage",
   components: {
     TopBanner,
+    ProfileIncompleteDialog,
+    LoginForm,
   },
   data() {
     return {
@@ -189,34 +501,26 @@ export default {
         },
       ],
       firstCarouseData: {},
+      loading: false,
       topData: [],
-      previousCongresses: [
-        { year: "2025", city: "Prague", country: "Czechia" },
-        { year: "2024", city: "Lisbon", country: "Portugal" },
-        { year: "2023", city: "Valencia", country: "Spain" },
-        { year: "2022", city: "Crete", country: "Greece" },
-        { year: "2019", city: "Alicante", country: "Spain" },
-        { year: "2018", city: "Athens", country: "Greece" },
-        { year: "2017", city: "Ljubljana", country: "Slovenia" },
-        { year: "2016", city: "Mallorca", country: "Spain" },
-        { year: "2015", city: "Crete", country: "Greece" },
-        { year: "2014", city: "Nice", country: "France" },
-        { year: "2013", city: "Marbella", country: "Spain" },
-        { year: "2012", city: "Kos", country: "Greece" },
-        { year: "2011", city: "St Julians", country: "Malta" },
-        { year: "2010", city: "Rhodes", country: "Greece" },
-        { year: "2009", city: "Portorose", country: "Slovenia" },
-        { year: "2008", city: "Sorrento", country: "Italy" },
-        { year: "2007", city: "Cavtat", country: "Croatia" },
-        { year: "2006", city: "Barcelona", country: "Spain" },
-        { year: "2005", city: "Istanbul", country: "Turkey" },
-        { year: "2004", city: "Limassol", country: "France" },
-      ],
+      previousCongresses: [],
+      profileDialogVisible: false,
+      imageContestUploadedDialog: false,
+      dialogObj: {
+        visible: false,
+      },
     };
   },
   computed: {
     categoryName() {
       return this.$route.query.categoryName;
+    },
+    isLogin() {
+      return this.$store.getters['user/isLogin']
+    },
+    canRegistered() {
+      let currentTime = new Date().getTime()
+      return currentTime > new Date(this.firstCarouseData.registrationStartTime).getTime()
     },
     isAttendeeDisable() {
       if (!this.firstCarouseData.registrationStartTime ||
@@ -237,10 +541,103 @@ export default {
         return true
       }
       return !this.$moment().isBetween(this.$moment(this.firstCarouseData.abstractSubmissionStartTime), this.$moment(this.firstCarouseData.abstractSubmissionEndTime))
+    },
+    minFeeAmount() {
+      if(!this.firstCarouseData?.typeOfFeeList?.length) return 0;
+      return Math.min(
+        ...this.firstCarouseData?.typeOfFeeList
+        .flatMap(item => item.detailList || []) // 兼容 detailList 为空的情况
+        .map(detail => detail.feeAmount)
+      )
+    },
+    currency() {
+      return this.firstCarouseData?.typeOfFeeList?.[0]?.currency || ''
+    },
+    isAbstractPeriod() {
+      if (!this.firstCarouseData.abstractSubmissionEndTime) return true;
+      return new Date().getTime() <= new Date(this.firstCarouseData.abstractSubmissionEndTime).getTime();
+    },
+    isParticipateDisable() {
+      if (!this.firstCarouseData.contestStartTime ||
+        !this.firstCarouseData.contestEndTime ||
+        this.$moment(this.firstCarouseData.contestStartTime).isValid() === false ||
+        this.$moment(this.firstCarouseData.contestEndTime).isValid() === false
+      ) {
+        return true
+      }
+      return !this.$moment().isBetween(this.$moment(this.firstCarouseData.contestStartTime), this.$moment(this.firstCarouseData.contestEndTime))
+    },
+  },
+  watch: {
+    isLogin(val) {
+      if (!val) {
+        this.profileDialogVisible = false
+      } else {
+        this.dialogObj.visible = false
+      }
     }
   },
   methods: {
     ...mapActions('user', ['changeActiveId']),
+    isProfileIncomplete() {
+      try {
+        const userInfo = JSON.parse(localStorage.getItem('userInfo') || '{}')
+        return !!localStorage.getItem('token') && (!userInfo.firstName || !userInfo.lastName)
+      } catch {
+        return false
+      }
+    },
+    attendeeRegistrationClick() {
+      this.goto('/congressSignUp?id=' + this.firstCarouseData.id, '/congressSignUp')
+    },
+    abstractSubmissionClick() {
+      if (this.isProfileIncomplete()) {
+        this.profileDialogVisible = true
+        return
+      }
+      this.$api
+        .userCongressAbstractSubmission({ congressId: this.firstCarouseData.id })
+        .then(() => {
+          this.goto('/speech?id=' + this.firstCarouseData.id, '/speech')
+        })
+        .catch((err) => {
+          this.$message?.error(err?.msg || err?.message || 'Request failed')
+        })
+    },
+    gotoUrl(e) {
+      // window.open(`${process.env.BASE_URL}previousWorldCongresses/${e}/index.html`, '_blank');
+      // window.open(`/website/#/previousWorldCongresses?id=${e}`)
+      this.$router.push(`/congressHistory?year=${e}`)
+    },
+    normalizeDataList(dataList) {
+      if (!Array.isArray(dataList)) return dataList;
+      const hasSlash = dataList.some(item => item.Menu && item.Menu.includes('/'));
+      if (!hasSlash) return dataList;
+
+      const parentMap = new Map();
+      const result = [];
+
+      dataList.forEach(item => {
+        if (item.Menu && item.Menu.includes('/')) {
+          const slashIdx = item.Menu.indexOf('/');
+          const parentName = item.Menu.slice(0, slashIdx).trim();
+          const childName = item.Menu.slice(slashIdx + 1).trim();
+          if (!parentMap.has(parentName)) {
+            const parentItem = { Menu: parentName, subDataList: [], contentList: [] };
+            parentMap.set(parentName, parentItem);
+            result.push(parentItem);
+          }
+          parentMap.get(parentName).subDataList.push({ ...item, Menu: childName });
+        } else {
+          if (!parentMap.has(item.Menu)) {
+            parentMap.set(item.Menu, item);
+            result.push(item);
+          }
+        }
+      });
+
+      return result;
+    },
     // ... existing methods
     formatDate(dateString) {
       if (!dateString) return "";
@@ -295,34 +692,16 @@ export default {
       const endDay = endDate.getDate();
       const endMonth = months[endDate.getMonth()];
       const year = endDate.getFullYear();
-
-      const getOrdinalSuffix = (day) => {
-        if (day > 3 && day < 21) return "th";
-        switch (day % 10) {
-          case 1:
-            return "st";
-          case 2:
-            return "nd";
-          case 3:
-            return "rd";
-          default:
-            return "th";
-        }
-      };
-
-      const startFormatted = `${startDay}${getOrdinalSuffix(
-        startDay
-      )} ${startMonth}`;
-      const endFormatted = `${endDay}${getOrdinalSuffix(
-        endDay
-      )} ${endMonth} ${year}`;
+      const startFormatted = `${startDay} ${startMonth}`;
+      const endFormatted = `${endDay} ${endMonth} ${year}`;
 
       return `${startFormatted} - ${endFormatted}`;
     },
-    formatDeadline(dateString) {
-      if (!dateString) return "";
-      const date = new Date(dateString);
-      if (Number.isNaN(date.getTime())) return "";
+     formatFullDateRange1(startString, showDay = true) {
+
+      const startDate = new Date(startString);
+
+      // Define English month names explicitly
       const months = [
         "January",
         "February",
@@ -337,7 +716,12 @@ export default {
         "November",
         "December",
       ];
-      return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+
+      const startDay = startDate.getDate();
+      const startMonth = months[startDate.getMonth()];
+      const year = startDate.getFullYear();
+      const startFormatted = showDay ? `${startDay} ${startMonth} ${year}` : `${startMonth} ${year}`;
+      return `${startFormatted}`;
     },
     getCompanyList(id) {
       this.$api
@@ -351,22 +735,27 @@ export default {
         });
     },
     getCongressInfo() {
+      this.loading = true
       this.$api
         .websiteCongressList({
           page: 1,
           pageSize: 1,
           publishStatus: 1,
           title: this.categoryName,
+          congressType: 'Congress'
         })
         .then((res) => {
           if (!res || (res.code !== 200 && res.code !== 0) || !res.data || !Array.isArray(res.data.list)) {
             this.firstCarouseData = {}
             this.carouselListData = []
             this.topData = []
+            setTimeout(() => {
+              this.loading = false
+            }, 500)
             return
           }
           this.carouselListData = res.data.list || []; /**兼容异常格式返回引起渲染问题 */
-          this.firstCarouseData = this.carouselListData[0] || {};
+          this.firstCarouseData = this.carouselListData?.[0];
           (this.firstCarouseData.bannerImageList || []).forEach((item) => {
             this.topData.push({
               img: item.url,
@@ -381,7 +770,9 @@ export default {
               desc: item.desc,
             });
           });
-
+          setTimeout(() => {
+            this.loading = false
+          }, 500)
           // this.getCompanyList(res.data.list[0].id)
           // this.getCongressInfoById(1)
         });
@@ -407,10 +798,111 @@ export default {
       // else {
       //   this.$message.info('Not get the programme from server!')
       // }
-    }
+    },
+    async participateClick() {
+      if (!this.isLogin) {
+        this.dialogObj.visible = true;
+        return;
+      }
+      if (this.isProfileIncomplete()) {
+        this.profileDialogVisible = true;
+        return;
+      }
+      try {
+        const imageRes = await this.$api.getImageContestPage({
+          congressId: this.firstCarouseData.id,
+          pageSize: 1,
+        });
+        if (!imageRes || (imageRes.code !== 200 && imageRes.code !== 0)) return;
+        const hasSubmitted = imageRes.data && imageRes.data.total > 0;
+        if (hasSubmitted) {
+          this.imageContestUploadedDialog = true;
+          return;
+        }
+        this.goto('/participate?id=' + this.firstCarouseData.id, '/participate');
+      } catch {
+        // 全局拦截器已处理鉴权失败等错误，此处不再重复提示
+      }
+    },
   },
-  created() {
-    this.getCongressInfo();
+  async created() {
+    const localYears = [...this.$dataCom.years].sort((a, b) => Number(b.year) - Number(a.year))
+    // 本地详情数据（data.json 中以年份为 key 的 data 对象）
+    const localData = this.$dataCom.data || {}
+
+    try {
+      const res = await this.$api.getWebsiteAbstracts()
+      if (res && (res.code === 200 || res.code === 0) && res.data) {
+        // res.data.years: [{year, hasDetails, city, country}, ...]
+        const apiYears = Array.isArray(res.data.years) ? res.data.years : []
+        // res.data.data: { "2026": { year, abstracts, dataList, ... }, ... }
+        const apiData = res.data.data || {}
+
+        // 以年份为 key 建立 Map，方便 O(1) 查找
+        const apiYearMap = new Map(apiYears.map(item => [String(item.year), item]))
+
+        // 以本地数据为基础构建年份 Map
+        const mergedMap = new Map(localYears.map(c => [String(c.year), c]))
+        // 接口中有但本地没有的年份补充进来
+        apiYears.forEach(item => {
+          if (!mergedMap.has(String(item.year))) {
+            mergedMap.set(String(item.year), item)
+          }
+        })
+
+        // 合并年份列表
+        this.previousCongresses = [...mergedMap.values()]
+          .sort((a, b) => Number(b.year) - Number(a.year))
+          .map(c => {
+            const apiItem = apiYearMap.get(String(c.year))
+            return {
+              ...c,
+              city: (apiItem && apiItem.city) || c.city,
+              country: (apiItem && apiItem.country) || c.country,
+              hasAbstracts: !!(apiItem && apiItem.hasDetails) || !!c.hasDetails
+            }
+          })
+
+        // 合并详情数据：本地为基础，接口数据优先覆盖
+        const mergedData = { ...localData }
+        Object.keys(apiData).forEach(year => {
+          const localYearData = localData[year] || {}
+          const apiYearData = apiData[year] || {}
+
+          // 非 dataList 字段：API 优先覆盖
+          const yearData = { ...localYearData, ...apiYearData }
+
+          // dataList 排序：本地有则以本地顺序为准，API 独有条目追加到末尾
+          const localList = Array.isArray(localYearData.dataList) ? localYearData.dataList : []
+          const apiList = Array.isArray(apiYearData.dataList) ? apiYearData.dataList : []
+          if (localList.length > 0) {
+            const localMenuSet = new Set(localList.map(item => item.Menu))
+            const apiExtras = apiList.filter(item => !localMenuSet.has(item.Menu))
+            yearData.dataList = [...localList, ...apiExtras]
+          } else {
+            yearData.dataList = apiList
+          }
+
+          if (Array.isArray(yearData.dataList)) {
+            yearData.dataList = this.normalizeDataList(yearData.dataList)
+          }
+          mergedData[year] = yearData
+        })
+
+        this.$store.dispatch('congress/setPreviousCongresses', this.previousCongresses)
+        this.$store.dispatch('congress/setCongressData', mergedData)
+      } else {
+        this.previousCongresses = localYears.map(c => ({ ...c, hasAbstracts: !!c.hasDetails }))
+        this.$store.dispatch('congress/setPreviousCongresses', this.previousCongresses)
+        this.$store.dispatch('congress/setCongressData', localData)
+      }
+    } catch {
+      this.previousCongresses = localYears.map(c => ({ ...c, hasAbstracts: !!c.hasDetails }))
+      this.$store.dispatch('congress/setPreviousCongresses', this.previousCongresses)
+      this.$store.dispatch('congress/setCongressData', localData)
+    }
+
+    this.getCongressInfo()
   },
 };
 </script>
@@ -418,310 +910,949 @@ export default {
 <style lang="scss" scoped>
 .worldcongress {
   background-color: #ffffff;
+  &-fmf {
+    display: flex;
+    .carousel-empty {
+      flex-shrink: 0;
+      background: #eee;
+      width: 600px;
+      height: 338px;
+      object-fit: contain;
+    }
+    .carousel-form {
+      width: 100%;
+      margin-left: 48px;
+      .carousel-icon {
+        width: 56px;
+        height: 56px;
+        margin-right: 12px;
+        margin-top: 24px;
+      }
+      .carousel-label {
+        font-weight: bold;
+        font-size: 18px;
+        color: #0e3045;
+        margin-top: 24px;
+      }
+      .carousel-value {
+        font-weight: 400;
+        font-size: 18px;
+        color: #656b6f;
+        margin-top: 10px;
+      }
+      .carousel-link {
+        margin-top: 40px;
+        font-weight: 400;
+        font-size: 18px;
+        color: #036fc0;
+        cursor: pointer;
+      }
+      .noFile{
+        color: #999;
+        cursor: no-drop;
+      }
+    }
+    
+    .carousel-container {
+      width: 600px;
+      flex-shrink: 0;
+      .el-carousel__arrow {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 18px;
+      }
+      .el-carousel__indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: rgba(0, 0, 0, 0.3);
+        &.is-active {
+          background-color: #3b97ff;
+        }
+      }
+      .carousel-img {
+        max-width: 600px;
+        width: 600px;
+        height: 338px;
+        object-fit: contain;
+        border-radius: 10px;
+        overflow: hidden;
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          // background-color: rgba($color: #036FC0, $alpha: .3);
+        }
+      }
+    }
+  }
   .main-container {
-    width: 100%;
-    max-width: 1180px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 24px;
-    padding-right: 24px;
-    box-sizing: border-box;
-    padding-top: 36px;
-    padding-bottom: 64px;
+    padding-top: 40px;
+    margin-bottom: 40px;
   }
-  .congress-hero {
-    background: #f5f7f9;
+  .congress-info {
+    .info-header {
+      font-size: 18px;
+      color: #8a9094;
+      text-align: center;
+      .info-title {
+        font-weight: bold;
+        font-size: 40px;
+        color: #036FC0;
+        margin-bottom: 40px;
+      }
+      .info-subTitle {
+        font-weight: 400;
+        font-size: 18px;
+        color: #036FC0;
+        margin-bottom: 40px;
+      }
+    }
+    
   }
-  .congress-main {
-    background: #ffffff;
-  }
-  .congress-main-title {
-    text-align: center;
-    font-size: 24px;
-    font-weight: 700;
-    color: #0b5ea8;
-    margin-bottom: 20px;
-  }
-  .congress-summary {
-    display: grid;
-    grid-template-columns: minmax(0, 520px) minmax(0, 1fr);
-    gap: 24px;
-    align-items: start;
-    margin: 0 auto 22px;
-    max-width: 920px;
-  }
-  .congress-summary-media {
-    background: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 22px rgba(15, 42, 67, 0.08);
-  }
-  .summary-image {
-    width: 100%;
-    height: 280px;
-    display: block;
-  }
-  .summary-placeholder {
-    width: 100%;
-    height: 280px;
-    background: #eaf2f9;
-  }
-  .congress-summary-details {
-    display: grid;
-    gap: 16px;
-    align-content: start;
-  }
-  .summary-item {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  .summary-icon {
-    width: 36px;
-    height: 36px;
+  .congress-about {
+    // height: 212px;
+    background-color: #eff9ff;
     border-radius: 8px;
-    background: #e6f2ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    img {
-      width: 18px;
-      height: 18px;
-      object-fit: contain;
+    padding: 32px;
+    margin: 0 auto 40px;
+    color: #0e3045;
+    .about-title {
+      font-weight: bold;
+      font-size: 24px;
+      color: #0e3045;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .about-desc {
+      font-weight: 400;
+      font-size: 24px;
+      color: #0e3045;
+      line-height: 36px;
+      text-align: justify;
+      display: block;
     }
   }
-  .summary-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: #0e3045;
-    margin-bottom: 4px;
-  }
-  .summary-value {
-    font-size: 13px;
-    color: #5d6570;
-    line-height: 18px;
-  }
-  .congress-about-card {
-    background: #eaf4ff;
-    border-radius: 10px;
-    padding: 20px 26px;
-    text-align: center;
-    box-shadow: 0 8px 18px rgba(15, 42, 67, 0.06);
-    max-width: 920px;
-    margin: 0 auto;
-  }
-  .about-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: #0e3045;
-    margin-bottom: 10px;
-  }
-  .about-desc {
-    font-size: 13px;
-    color: #4b5662;
-    line-height: 20px;
-  }
-
   .congress-registration {
-    background: linear-gradient(180deg, #f7fbff 0%, #ffffff 100%);
-  }
-  .registration-title {
-    text-align: center;
-    font-size: 22px;
-    font-weight: 700;
-    color: #0b5ea8;
-    margin-bottom: 8px;
-  }
-  .registration-subtitle {
-    text-align: center;
-    font-size: 13px;
-    color: #6b7380;
-    margin-bottom: 12px;
-  }
-  .registration-info {
-    max-width: 900px;
-    margin: 0 auto 24px;
-    font-size: 12px;
-    color: #4b5662;
-    line-height: 20px;
-    text-align: center;
-  }
-  .registration-cards {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px;
-    max-width: 920px;
-    margin: 0 auto;
-  }
-  .registration-card {
-    background: #ffffff;
-    border-radius: 8px;
-    padding: 22px 22px 20px;
-    box-shadow: 0 10px 20px rgba(15, 42, 67, 0.08);
-    border: 1px solid #e8f0f8;
-    text-align: center;
-  }
-  .card-icon {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 10px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #e9f4ff;
-    img {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-    }
-    &.abstract {
-      background: #e9f8f1;
-    }
-  }
-  .card-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: #0e3045;
-    margin-bottom: 4px;
-  }
-  .card-subtitle {
-    font-size: 12px;
-    color: #7a848f;
-    margin-bottom: 12px;
-  }
-  .card-features {
-    display: grid;
-    gap: 8px;
-    margin-bottom: 14px;
-    text-align: left;
-  }
-  .card-feature {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    color: #4b5662;
-    img {
-      width: 16px;
-      height: 16px;
-    }
-  }
-  .card-callout {
-    background: #eef7ff;
-    border-radius: 8px;
-    padding: 12px 10px;
-    margin-bottom: 16px;
-  }
-  .callout-main {
-    font-size: 18px;
-    font-weight: 700;
-    color: #0f5aa4;
-    margin-bottom: 4px;
-  }
-  .callout-sub {
-    font-size: 11px;
-    color: #5d6570;
-  }
-  .card-button {
     width: 100%;
-    height: 38px;
+    // height: 1080px;
+    background: linear-gradient(135deg, #ffffff 0%, #effbff 100%);
+    .section-title {
+      font-weight: bold;
+      font-size: 40px;
+      color: #036fc0;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .section-subtitle {
+      height: 26px;
+      font-weight: 400;
+      font-size: 24px;
+      color: #8a9094;
+      line-height: 20px;
+      text-align: center;
+      font-style: normal;
+      margin-bottom: 32px;
+    }
+    .registration-info {
+      font-weight: 400;
+      font-size: 18px;
+      color: #0e3045;
+      line-height: 26px;
+      margin-bottom: 45px;
+      text-align: justify;
+    }
+    .registration-options {
+      height: 728px;
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      .option-card {
+        flex: 1;
+        min-width: 320px;
+        background-color: white;
+        border-radius: 8px;
+        padding: 42px 48px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        &:hover {
+          transform: translateY(-2px);
+        }
+        .option-header {
+          text-align: center;
+          margin-bottom: 20px;
+          .option-icon {
+            font-size: 24px;
+            color: #3b97ff;
+            margin-bottom: 16px;
+          }
+          .option-title {
+            font-weight: bold;
+            font-size: 24px;
+            color: #0e3045;
+            line-height: 28px;
+            text-align: center;
+            margin-bottom: 12px;
+          }
+          .option-subtitle {
+            font-weight: 400;
+            font-size: 18px;
+            color: #8a9094;
+            line-height: 28px;
+          }
+        }
+        .option-body {
+          height: 160px;
+          margin-bottom: 32px;
+          .option-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            .option-feature-icon {
+              width: 20px;
+              height: 20px;
+              margin-right: 16px;
+            }
+            span {
+              font-weight: 400;
+              font-size: 18px;
+              color: #23272a;
+              line-height: 28px;
+            }
+          }
+        }
+        .option-price {
+          width: 100%;
+          height: 120px;
+          padding: 18px;
+          background: #f2faff;
+          border-radius: 8px 8px 8px 8px;
+          text-align: center;
+          margin-bottom: 48px;
+          span:first-child {
+            font-weight: bold;
+            font-size: 40px;
+            color: #036fc0;
+            height: 52px;
+            line-height: 52px;
+            text-align: center;
+            margin-bottom: 8px;
+            span {
+              font-weight: bold;
+              font-size: 18px;
+              color: #036fc0;
+            }
+          }
+          span:last-child {
+            height: 28px;
+
+            font-weight: 400;
+            font-size: 18px;
+            color: #23272a;
+            line-height: 28px;
+            text-align: center;
+          }
+        }
+        .option-button {
+          width: 100%;
+          height: 64px;
+          border-radius: 8px 8px 8px 8px;
+          text-align: center;
+          font-weight: bold;
+          font-size: 18px;
+          color: #ffffff;
+          &.attendee {
+            background: #0c63d5;
+            &:hover {
+              background: rgba($color: #0c63d5, $alpha: 0.85);
+            }
+            &:active {
+              background: #0c63d5;
+            }
+          }
+          &.abstract {
+            background: #078f6a;
+            &:hover {
+              background: rgba($color: #078f6a, $alpha: 0.85);
+            }
+            &:active {
+              background: #078f6a;
+            }
+          }
+          &.image-contest-btn {
+            background: #6D28D9;
+            border-color: #6D28D9;
+            &:hover {
+              background: rgba($color: #6D28D9, $alpha: 0.85);
+              border-color: rgba($color: #6D28D9, $alpha: 0.85);
+            }
+            &:active {
+              background: #6D28D9;
+            }
+          }
+        }
+      }
+      .attendee {
+        border: 1px solid #e0e0e0;
+      }
+      .abstract {
+        border: 1px solid #e0e0e0;
+      }
+      .image-contest {
+        border: 1px solid #e0e0e0;
+        .option-icon--image-contest {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          background: linear-gradient(180deg, #A78BFA 0%, #6D28D9 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 auto 16px;
+        }
+        .option-price--purple {
+          background: #F5F0FF;
+          span:first-child {
+            color: #6D28D9 !important;
+          }
+        }
+        .option-feature-icon--purple {
+          filter: hue-rotate(200deg) saturate(1.5);
+        }
+      }
+    }
+  }
+  .sponsors-section {
+    background-color: white;
     border-radius: 8px;
-    font-weight: 600;
-    color: #ffffff;
-    font-size: 12px;
-    &.attendee {
-      background: #0f5aa4;
-      border-color: #0f5aa4;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    .section-title {
+      font-size: 24px;
+      font-weight: bold;
+      color: #0e3045;
+      text-align: center;
+      margin-bottom: 10px;
     }
-    &.abstract {
-      background: #0b8f6a;
-      border-color: #0b8f6a;
+    .section-subtitle {
+      font-size: 18px;
+      color: #8a9094;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .sponsors-list {
+      text-align: center;
+      .sponsor-category {
+        margin-bottom: 20px;
+        span {
+          font-size: 18px;
+          font-weight: bold;
+          color: #0e3045;
+          margin-bottom: 10px;
+          display: block;
+        }
+        .sponsor-row {
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+          flex-wrap: wrap;
+          .sponsor-item {
+            flex: 1;
+            min-width: 150px;
+            padding: 10px;
+            img {
+              width: 100%;
+              height: auto;
+              max-height: 50px;
+            }
+          }
+        }
+      }
     }
   }
+  .previous-congresses {
+    background: linear-gradient(135deg, #ffffff 0%, #effbff 100%);
+    .section-title {
+      height: 64px;
 
+      font-weight: bold;
+      font-size: 40px;
+      color: #036fc0;
+      text-align: center;
+      font-style: normal;
+      margin-bottom: 10px;
+    }
+    .section-subtitle {
+      font-size: 18px;
+      color: #8a9094;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .congress-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(228px, 1fr));
+      gap: 16px;
+      margin-bottom: 56px;
+      &.emptyBox {
+        min-height: 200px;
+        background: #ffffff;
+      }
+      .congress-item {
+        background-color: #ffffff;
+        border: 1px solid #e1f4ff;
+        padding: 10px;
+      }
+    }
+    .view-more {
+      width: 288px;
+      height: 19px;
+      font-weight: 400;
+      font-size: 18px;
+      color: #036fc0;
+      text-align: center;
+      font-style: normal;
+      cursor: pointer;
+      margin: 0 auto;
+    }
+  }
+  .block {
+    background: #fff;
+  }
   .previous-world-congresses {
-    background: #f7fbff;
-  }
-  .previous-title {
-    text-align: center;
-    font-size: 20px;
-    font-weight: 700;
-    color: #0b5ea8;
-    margin-bottom: 6px;
-  }
-  .previous-subtitle {
-    text-align: center;
-    font-size: 12px;
-    color: #7a848f;
-    margin-bottom: 18px;
-  }
-  .previous-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-    max-width: 920px;
-    margin: 0 auto;
-  }
-  .previous-card {
-    background: #ffffff;
-    border: 1px solid #e6f1fb;
-    border-radius: 4px;
-    padding: 10px 12px;
-    box-shadow: none;
-  }
-  .previous-year {
-    font-size: 11px;
-    color: #0f5aa4;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .previous-city {
-    font-size: 12px;
-    font-weight: 700;
-    color: #0e3045;
-    margin-bottom: 2px;
-  }
-  .previous-country {
-    font-size: 11px;
-    color: #7a848f;
-    margin-bottom: 8px;
-  }
-  .previous-link {
-    font-size: 11px;
-    color: #0f5aa4;
-    font-weight: 600;
-  }
-
-  @media (max-width: 1024px) {
     .main-container {
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-top: 40px;
+      margin-bottom: 0;
     }
-    .registration-cards {
-      grid-template-columns: 1fr;
+    .section-title {
     }
-    .previous-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+    .section-subtitle {
+      height: 26px;
+
+      font-weight: 400;
+      font-size: 24px;
+      color: #8a9094;
+      line-height: 28px;
+      text-align: center;
+      font-style: normal;
+      text-transform: none;
+    }
+    .congress-grid {
+      .congress-item {
+        padding: 18px 20px;
+        // height: 160px;
+        .congress-year {
+          font-size: 18px;
+          font-weight: bold;
+          color: #036fc0;
+          margin-bottom: 12px;
+        }
+        .congress-city {
+          font-size: 18px;
+          font-weight: bold;
+          color: #0e3045;
+          margin-bottom: 6px;
+        }
+        .congress-country {
+          font-size: 18px;
+          color: #8a9094;
+          margin-bottom: 5px;
+        }
+        .congress-link {
+          font-size: 18px;
+          color: #036fc0;
+          cursor: pointer;
+        }
+        .congress-dw {
+          width: 40px;
+          height: 40px;
+          margin-left: 10px;
+          object-fit: contain;
+        }
+      }
     }
   }
 
-  @media (max-width: 768px) {
-    .congress-main-title {
-      font-size: 22px;
+  .imgBox {
+    overflow: hidden;
+    .logoBox {
+      position: relative;
+      width: 288px;
+      height: 120px;
+      display: inline-block;
+      margin-right: 10px;
+      img {
+        position: absolute;
+        height: 60%;
+        max-width: 80%;
+        margin: auto;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
     }
-    .congress-summary {
-      grid-template-columns: 1fr;
+    .congress-grid {
+      height: 120px;
+      display: block;
+      text-align: center;
+      overflow: hidden;
+      .congress-item {
+        overflow: hidden;
+      }
     }
-    .summary-image,
-    .summary-placeholder {
-      height: 220px;
+    .topMark {
+      .mark {
+        font-weight: bold;
+        color: #0e3045;
+        font-size: 18px;
+        text-align: center;
+      }
+
+      .line {
+        width: 120px;
+        height: 3px;
+        background: linear-gradient(
+          45deg,
+          #ffffff 0%,
+          #32b3ff 55.24%,
+          #ffffff 100%
+        );
+        border-radius: 0px 0px 0px 0px;
+        margin: 10px auto;
+      }
+      .line2 {
+        background: linear-gradient(
+          45deg,
+          #fffdf9 0%,
+          #ffad32 55.24%,
+          #ffffff 100%
+        );
+      }
+      .line3 {
+        background: linear-gradient(
+          45deg,
+          #fffdf9 0%,
+          #c3c3c3 55.24%,
+          #ffffff 100%
+        );
+      }
     }
-    .previous-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    &.diamondSponsors {
+      .mark {
+        font-size: 32px;
+      }
+      img {
+        height: 72px;
+      }
+    }
+    &.goldSponsors {
+      .mark {
+        font-size: 24px;
+      }
+      img {
+        height: 56px;
+      }
+    }
+    &.silverSponsors {
+      .mark {
+        font-size: 18px;
+      }
+      img {
+        height: 40px;
+      }
     }
   }
-  
+
+  /* ============================================================
+     RESPONSIVE BREAKPOINTS
+     ============================================================ */
+
+  /* Tablet: 768px ~ 1279px */
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 32px !important;
+      padding-right: 32px !important;
+    }
+
+    .congress-info .info-header .info-title {
+      font-size: 30px;
+      margin-bottom: 28px;
+    }
+
+    &-fmf {
+      .carousel-container,
+      .carousel-empty {
+        width: 48%;
+        flex-shrink: 0;
+      }
+      .carousel-container ::v-deep .carousel-img {
+        width: 100%;
+        max-width: 100%;
+      }
+      .carousel-form {
+        margin-left: 24px;
+        .carousel-label { font-size: 16px; }
+        .carousel-value { font-size: 16px; }
+        .carousel-link  { font-size: 16px; }
+        .carousel-icon  { width: 40px; height: 40px; }
+      }
+    }
+
+    .congress-about {
+      .about-title { font-size: 20px; }
+      .about-desc  { font-size: 18px; line-height: 28px; }
+    }
+
+    .congress-registration {
+      .section-title    { font-size: 32px; }
+      .section-subtitle { font-size: 18px; height: auto; }
+      .registration-info { font-size: 16px; }
+      .registration-options {
+        height: auto;
+        flex-wrap: wrap;
+        .option-card {
+          flex: 1 1 280px;
+          padding: 32px 32px;
+          .option-body   { height: auto; }
+          .option-price  { height: auto; span:first-child { font-size: 32px; } }
+          .option-button { height: 52px; font-size: 16px; }
+        }
+      }
+    }
+
+    .previous-congresses {
+      .section-title    { font-size: 32px; height: auto; }
+      .section-subtitle { font-size: 16px; }
+    }
+
+    .previous-world-congresses {
+      .section-subtitle { font-size: 18px; height: auto; }
+      .congress-grid .congress-item {
+        .congress-year, .congress-city, .congress-country, .congress-link { font-size: 15px; }
+      }
+    }
+  }
+
+  /* Large phone: 480px ~ 767px */
+  @media (min-width: 480px) and (max-width: 767px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+
+    .congress-info {
+      .info-header .info-title {
+        font-size: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+    }
+
+    &-fmf {
+      flex-direction: column;
+      .carousel-container {
+        width: 100%;
+        flex-shrink: 0;
+        ::v-deep .el-carousel__container { height: 200px !important; }
+        ::v-deep .carousel-img {
+          width: 100%;
+          max-width: 100%;
+          height: 200px;
+        }
+      }
+      .carousel-empty {
+        width: 100%;
+        height: 200px;
+      }
+      .carousel-form {
+        width: 100%;
+        height: auto !important;   /* override inline style="height:100%" */
+        margin-left: 0;
+        margin-top: 16px;
+        .carousel-icon  { width: 36px; height: 36px; margin-top: 12px; }
+        .carousel-label { font-size: 14px; margin-top: 12px; }
+        .carousel-value { font-size: 14px; margin-top: 6px; }
+        .carousel-link  { font-size: 14px; margin-top: 20px; }
+      }
+    }
+
+    .congress-about {
+      padding: 20px 16px;
+      margin-bottom: 24px;
+      .about-title { font-size: 17px; margin-bottom: 12px; }
+      .about-desc  { font-size: 14px; line-height: 22px; }
+    }
+
+    .congress-registration {
+      .section-title    { font-size: 24px; }
+      .section-subtitle { font-size: 14px; height: auto; line-height: 1.4; margin-bottom: 16px; }
+      .registration-info { font-size: 13px; line-height: 20px; margin-bottom: 24px; }
+      .registration-options {
+        height: auto;
+        flex-direction: column;
+        gap: 16px;
+        .option-card {
+          min-width: unset;
+          padding: 24px 20px;
+          .option-title   { font-size: 18px; }
+          .option-subtitle { font-size: 14px; }
+          .option-body {
+            height: auto;
+            margin-bottom: 16px;
+            .option-feature {
+              margin-bottom: 10px;
+              span { font-size: 14px; line-height: 20px; }
+            }
+          }
+          .option-price {
+            height: auto;
+            padding: 12px;
+            margin-bottom: 24px;
+            span:first-child { font-size: 28px; height: auto; line-height: 1.2; }
+            span:last-child  { font-size: 14px; height: auto; }
+          }
+          .option-button { height: 48px; font-size: 15px; }
+        }
+      }
+    }
+
+    .previous-congresses {
+      .section-title    { font-size: 24px; height: auto; }
+      .section-subtitle { font-size: 14px; }
+      .imgBox {
+        .congress-grid { height: auto; }
+        .logoBox       { width: 140px; height: 80px; }
+        &.diamondSponsors img { height: 44px; }
+        &.goldSponsors img   { height: 36px; }
+        &.silverSponsors img { height: 28px; }
+      }
+    }
+
+    .previous-world-congresses {
+      .section-subtitle { font-size: 14px; height: auto; line-height: 1.5; }
+      .congress-grid    { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .congress-item {
+        padding: 12px 12px;
+        .congress-year, .congress-city, .congress-country { font-size: 13px; }
+        .congress-link { font-size: 12px; white-space: nowrap; }
+      }
+    }
+  }
+
+  /* Small phone: 360px ~ 479px */
+  @media (min-width: 360px) and (max-width: 479px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+    }
+
+    .congress-info .info-header .info-title { font-size: 18px; }
+
+    &-fmf {
+      flex-direction: column;
+      .carousel-container {
+        width: 100%;
+        ::v-deep .el-carousel__container { height: 180px !important; }
+        ::v-deep .carousel-img { width: 100%; max-width: 100%; height: 180px; }
+      }
+      .carousel-empty { width: 100%; height: 180px; }
+      .carousel-form {
+        width: 100%;
+        height: auto !important;   /* override inline style="height:100%" */
+        margin-left: 0;
+        margin-top: 14px;
+        .carousel-icon  { width: 32px; height: 32px; margin-top: 10px; }
+        .carousel-label { font-size: 13px; margin-top: 10px; }
+        .carousel-value { font-size: 13px; }
+        .carousel-link  { font-size: 13px; }
+      }
+    }
+
+    .congress-about {
+      padding: 16px 12px;
+      .about-title { font-size: 16px; }
+      .about-desc  { font-size: 13px; line-height: 20px; }
+    }
+
+    .congress-registration {
+      .section-title    { font-size: 20px; }
+      .section-subtitle { font-size: 13px; height: auto; line-height: 1.4; }
+      .registration-info { font-size: 12px; line-height: 18px; }
+      .registration-options {
+        height: auto;
+        flex-direction: column;
+        gap: 14px;
+        .option-card {
+          min-width: unset;
+          padding: 20px 16px;
+          .option-title   { font-size: 16px; }
+          .option-subtitle { font-size: 13px; }
+          .option-body {
+            height: auto;
+            .option-feature span { font-size: 13px; }
+          }
+          .option-price {
+            height: auto;
+            span:first-child { font-size: 24px; }
+            span:last-child  { font-size: 13px; }
+          }
+          .option-button { height: 44px; font-size: 14px; }
+        }
+      }
+    }
+
+    .previous-congresses {
+      .section-title    { font-size: 20px; height: auto; }
+      .section-subtitle { font-size: 13px; }
+      .imgBox {
+        .congress-grid { height: auto; }
+        .logoBox       { width: 120px; height: 70px; }
+        &.diamondSponsors img { height: 38px; }
+        &.goldSponsors img   { height: 30px; }
+        &.silverSponsors img { height: 24px; }
+      }
+    }
+
+    .previous-world-congresses {
+      .section-subtitle { font-size: 13px; height: auto; }
+      .congress-grid    { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+      .congress-item {
+        padding: 10px 10px;
+        .congress-year, .congress-city, .congress-country { font-size: 12px; }
+        .congress-link { font-size: 11px; white-space: nowrap; }
+      }
+    }
+  }
+
+  /* Very small: < 360px */
+  @media (max-width: 359px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+    }
+
+    .congress-info .info-header .info-title { font-size: 16px; }
+
+    &-fmf {
+      flex-direction: column;
+      .carousel-container {
+        width: 100%;
+        ::v-deep .el-carousel__container { height: 160px !important; }
+        ::v-deep .carousel-img { width: 100%; max-width: 100%; height: 160px; }
+      }
+      .carousel-empty { width: 100%; height: 160px; }
+      .carousel-form {
+        width: 100%;
+        height: auto !important;   /* override inline style="height:100%" */
+        margin-left: 0;
+        margin-top: 12px;
+        .carousel-icon  { width: 28px; height: 28px; margin-top: 8px; }
+        .carousel-label { font-size: 12px; margin-top: 8px; }
+        .carousel-value { font-size: 12px; }
+        .carousel-link  { font-size: 12px; }
+      }
+    }
+
+    .congress-about {
+      padding: 14px 10px;
+      .about-title { font-size: 14px; }
+      .about-desc  { font-size: 12px; line-height: 18px; }
+    }
+
+    .congress-registration {
+      .section-title    { font-size: 18px; }
+      .section-subtitle { font-size: 12px; height: auto; }
+      .registration-info { font-size: 12px; }
+      .registration-options {
+        height: auto;
+        flex-direction: column;
+        gap: 12px;
+        .option-card {
+          min-width: unset;
+          padding: 16px 12px;
+          .option-title   { font-size: 15px; }
+          .option-subtitle { font-size: 12px; }
+          .option-body {
+            height: auto;
+            .option-feature span { font-size: 12px; line-height: 18px; }
+          }
+          .option-price {
+            height: auto;
+            span:first-child { font-size: 22px; }
+            span:last-child  { font-size: 12px; }
+          }
+          .option-button { height: 40px; font-size: 13px; }
+        }
+      }
+    }
+
+    .previous-congresses {
+      .section-title    { font-size: 18px; height: auto; }
+      .section-subtitle { font-size: 12px; }
+      .imgBox {
+        .congress-grid { height: auto; }
+        .logoBox       { width: 100px; height: 60px; }
+        &.diamondSponsors img { height: 32px; }
+        &.goldSponsors img   { height: 26px; }
+        &.silverSponsors img { height: 20px; }
+      }
+    }
+
+    .previous-world-congresses {
+      .section-subtitle { font-size: 12px; height: auto; }
+      .congress-grid    { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); }
+      .congress-item {
+        padding: 8px 8px;
+        .congress-year, .congress-city, .congress-country { font-size: 11px; }
+        .congress-link { font-size: 10px; white-space: nowrap; }
+      }
+    }
+  }
+
+}
+</style>
+
+<style lang="scss">
+.congress-login-dialog-body {
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+::v-deep .el-dialog.congress-login-dialog {
+  width: min(620px, calc(100vw - 24px)) !important;
+  max-width: calc(100vw - 16px);
+  margin-left: auto !important;
+  margin-right: auto !important;
+  transform: none !important;
+  box-sizing: border-box;
+}
+
+::v-deep .el-dialog.congress-login-dialog .el-dialog__body {
+  padding: 0 !important;
+  max-height: min(76vh, calc(100vh - 120px));
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 480px) {
+  .congress-login-dialog-body {
+    padding: 12px;
+  }
+  ::v-deep .el-dialog.congress-login-dialog {
+    width: calc(100vw - 16px) !important;
+    margin-top: 3vh !important;
+  }
 }
 </style>

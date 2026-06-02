@@ -1,28 +1,43 @@
 <template>
-  <el-carousel
-    v-if="height"
-    :height="height"
-    arrow="never"
-    indicator-position="none"
-    type="fade"
-    :autoplay="true"
-    :interval="5000"
-    :loop="true">
-    <template v-if="listData.length > 0">
-      <el-carousel-item v-for="(item, index) in listData" :key="index">
-        <div class="top-banner">
-          <div class="top-banner-bg" :style="{backgroundImage: `url(${item.img})`}"></div>
-          <div class="top-banner-content"> 
-            <div class="title single-line">{{ listData[0].title || '' }}</div>
-            <div class="subtitle" v-if="item.subTitle">{{ listData[0].subTitle }}</div>
-            <div class="desc" v-if="item.desc">{{ listData[0].desc }}</div>
-            <div class="desc homeMark" v-if="listData[0].homeMark">The main sources of income for The Fetal Medicine Foundation are <a style="color: #036fc0;" target="_blank" href="http://fetalmedicine.com/">The Fetal Medicine Centre</a> and <a target="_blank" style="color: #036fc0;" href="https://www.kingsfertility.co.uk/">King's Fertility</a> .</div>
+  <div class="top-banner-wrapper">
+    <!-- Banner image + overlaid title/subtitle -->
+    <div class="top-banner-container" :style="{ height: bannerHeight }">
+      <el-carousel
+        v-if="height"
+        :height="bannerHeight"
+        arrow="never"
+        indicator-position="none"
+        type="fade"
+        :autoplay="true"
+        :interval="8200"
+        :loop="true"
+        :initialIndex="0"
+        ref="carouselRef"
+        @change="handleCarouselChange"
+        >
+        <template v-if="listData.length > 0">
+          <el-carousel-item v-for="(item, index) in listData" :key="index">
+            <div class="top-banner-bg" :class="{needAnimate}" :style="{'background-image': `url('${item.img}')`}"></div>
+          </el-carousel-item>
+        </template>
+      </el-carousel>
+
+      <!-- Title & subtitle overlaid on the image, centered -->
+      <div class="top-banner-content-fixed">
+        <div class="vcontainer vcenter top-banner-content">
+          <span class="title" v-html="listData[0]?.title"></span>
+          <div class="vcontainer">
+            <span class="subtitle" v-html="listData[0]?.subTitle"></span>
+            <!-- desc shown here on desktop/tablet only -->
+            <span class="desc desktop-desc" v-html="listData[0]?.desc"></span>
           </div>
         </div>
-      </el-carousel-item>
-    </template>
-    
-  </el-carousel>
+      </div>
+    </div>
+
+    <!-- Description shown below the image on mobile only -->
+    <div class="mobile-desc-below" v-if="listData[0] && listData[0].desc" v-html="listData[0].desc"></div>
+  </div>
 </template>
 
 <script>
@@ -36,31 +51,64 @@
       listData: {
         type: Array,
         default: () => {
-          return [{
-            img: require('@/assets/img/home_top1.jpg'),
-            title: 'Welcome to The Fetal Medicine Foundation',
-            desc: 'The Fetal Medicine Foundation (FMF) is a Registered Charity that aims to improve the health of pregnant women and their babies through research and training in fetal medicine. The FMF with the support of an international group of experts, has introduced an educational programme both for healthcare professionals and doctors and in the last 30 years the FMF has donated more than £75 million for scholarships, research grants and setting up fetal medicine units in developing countries.',
-            homeMark: true
-          },
-          {
-            img: require('@/assets/img/home_top2.jpg'),
-            title: 'Welcome to The Fetal Medicine Foundation',
-            desc: 'The Fetal Medicine Foundation (FMF) is a Registered Charity that aims to improve the health of pregnant women and their babies through research and training in fetal medicine. The FMF with the support of an international group of experts, has introduced an educational programme both for healthcare professionals and doctors and in the last 30 years the FMF has donated more than £75 million for scholarships, research grants and setting up fetal medicine units in developing countries.',
-            homeMark: true
-          },
-          {
-            img: require('@/assets/img/home_top3.jpg'),
-            title: 'Welcome to The Fetal Medicine Foundation',
-            desc: 'The Fetal Medicine Foundation (FMF) is a Registered Charity that aims to improve the health of pregnant women and their babies through research and training in fetal medicine. The FMF with the support of an international group of experts, has introduced an educational programme both for healthcare professionals and doctors and in the last 30 years the FMF has donated more than £75 million for scholarships, research grants and setting up fetal medicine units in developing countries.',
-            homeMark: true
-          }]
+          return []
         }
       }
+    },
+    data() {
+      return {
+        isActiveIndex: 0,
+        animationKey: 0,
+        windowWidth: window.innerWidth,
+      }
+    },
+    computed: {
+      needAnimate() {
+        let routers = ['/', '/congress', '/fmf-advances-courses']
+        return routers.includes(this.$route.path)
+      },
+      /* Responsive banner height — replaces the broken Vue-2 v-bind(height) in CSS.
+         On mobile the value controls both the carousel image and the overlaid title area. */
+      bannerHeight() {
+        const w = this.windowWidth
+        if (w < 360)  return '180px'
+        if (w < 480)  return '200px'
+        if (w < 768)  return '220px'
+        if (w < 1280) return '360px'
+        return this.height   // ≥1280px: use the prop value unchanged
+      }
+    },
+    mounted() {
+      this.isActiveIndex = 0
+      window.addEventListener('resize', this.onResize)
+    },
+    beforeDestroy() {
+      window.removeEventListener('resize', this.onResize)
+    },
+    methods: {
+      onResize() {
+        this.windowWidth = window.innerWidth
+      },
+      handleCarouselChange(index) {
+        this.isActiveIndex = index
+        this.animationKey += 1
+      },
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  .top-banner-wrapper {
+    width: 100%;
+  }
+
+  .top-banner-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    /* height is set via :style binding (Vue 2 compatible) */
+  }
+  
   .el-carousel {
     background-color: #eee !important;
   }
@@ -75,138 +123,185 @@
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
+    opacity: 1;
+    transition: opacity 2s ease-in-out;
     
     &.is-active {
       opacity: 1;
     }
   }
   
-  .top-banner {
-    position: relative;
+  .top-banner-bg {
     width: 100%;
     height: 100%;
-    color: #ffffff;
-    overflow: hidden;
-    
-    .top-banner-bg {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: scale(1);
+    will-change: transform;
+    &::after {
+      content: '';
       position: absolute;
       inset: 0;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-      transform: scale(1);
-      transition: transform 10s ease;
+      pointer-events: none;
     }
+  }
 
-    .el-carousel__item.is-active & .top-banner-bg {
-      transform: scale(1.05);
-    }
+  .el-carousel ::v-deep .el-carousel__item.is-active .needAnimate {
+    animation: bannerScale 8s ease-out forwards;
+  }
 
+  @keyframes bannerScale {
+    from { transform: scale(1); }
+    to   { transform: scale(1.08); }
+  }
+  
+  .top-banner-content-fixed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2000;
+    
     .top-banner-content {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 1120px;
+      width: 1200px;
       height: 100%;
       margin: 0 auto;
-      padding: 0 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      align-items: stretch;
-      text-align: left;
+      pointer-events: auto;
       justify-content: center;
+      
       .title {
-        font-size: 46px;
-        font-weight: 700;
-        font-family: Helvetica;
-        letter-spacing: 0.3px;
+        font-size: 52px;
+        font-weight: bold;
         text-align: center;
-        text-align-last: center;
-      }
-      .title.single-line {
-        white-space: nowrap;
+        font-family: Helvetica;
+        margin-bottom: 32px;
+        color: #ffffff;
       }
       .subtitle {
-        font-size: 20px;
-        font-weight: 600;
-        color: rgba(255, 255, 255, 0.9);
+        font-size: 24px;
+        color: #ffffff;
       }
       .desc {
-        width: 100%;
         font-family: Helvetica;
         font-weight: 400;
-        font-size: 16px;
-        color: rgba(255, 255, 255, 0.85);
-        line-height: 24px;
-        text-align: left;
-        text-align-last: left;
+        font-size: 18px;
+        color: #FFFFFF;
+        line-height: 26px;
+        text-align: justify;
         font-style: normal;
         text-transform: none;
       }
-      .homeMark{
-        width: 100%;
+      .homeMark {
         margin-top: 15px;
-        text-align: left;
-        text-align-last: left;
-        a{
-          font-weight: 400;
-        }
+        a { pointer-events: auto; }
       }
     }
   }
 
-  @media (max-width: 1024px) {
-    .top-banner .top-banner-content {
-      padding: 0 20px;
-    }
-    .top-banner .top-banner-content .title {
-      font-size: 36px;
-    }
-    .top-banner .top-banner-content .title.single-line {
-      white-space: normal;
-    }
-    .top-banner .top-banner-content .subtitle {
-      font-size: 17px;
-    }
-    .top-banner .top-banner-content .desc,
-    .top-banner .top-banner-content .homeMark {
-      font-size: 14px;
-      line-height: 22px;
+  /* Description below the banner — mobile only */
+  .mobile-desc-below {
+    display: none;
+  }
+
+  /* ============================================================
+     RESPONSIVE BREAKPOINTS
+     ============================================================ */
+
+  /* Tablet: 768px ~ 1279px */
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .top-banner-content-fixed {
+      .top-banner-content {
+        width: 100%;
+        padding: 0 32px;
+
+        .title {
+          font-size: 38px;
+          margin-bottom: 20px;
+        }
+        .subtitle { font-size: 20px; }
+        .desc { font-size: 16px; line-height: 24px; }
+      }
     }
   }
 
-  @media (max-width: 768px) {
-    .top-banner .top-banner-content {
-      padding: 0 16px;
-      align-items: center;
-      text-align: center;
+  /* Mobile common: < 768px
+     - Banner image keeps its fixed height (from bannerHeight)
+     - Title/subtitle stay overlaid and centered on the image
+     - .desktop-desc is hidden inside the overlay
+     - .mobile-desc-below flows below the image */
+  @media (max-width: 767px) {
+    .top-banner-content-fixed {
+      .top-banner-content {
+        width: 100%;
+        padding: 0 20px;
+        justify-content: center;
+
+        .title {
+          font-size: 20px;
+          margin-bottom: 6px;
+          text-align: center;
+        }
+        .subtitle {
+          font-size: 14px;
+          text-align: center;
+        }
+        /* Hide desc from the overlay on mobile */
+        .desktop-desc {
+          display: none;
+        }
+      }
     }
-    .top-banner .top-banner-content .title {
-      font-size: 28px;
-    }
-    .top-banner .top-banner-content .subtitle {
-      font-size: 15px;
-    }
-    .top-banner .top-banner-content .desc,
-    .top-banner .top-banner-content .homeMark {
+
+    /* Show full description below the banner */
+    .mobile-desc-below {
+      display: block;
+      background: rgb(235, 242, 254);
+      color: #333;
       font-size: 13px;
-      line-height: 20px;
-      text-align: center;
-      text-align-last: auto;
+      line-height: 1.7;
+      padding: 16px 20px;
+      text-align: left;
+      word-break: break-word;
+
+      ::v-deep a {
+        color: #036fc0;
+        pointer-events: auto;
+      }
+      ::v-deep p {
+        margin: 0 0 8px;
+      }
     }
   }
 
-  @media (max-width: 480px) {
-    .top-banner .top-banner-content .title {
-      font-size: 24px;
+  /* Large phone: 480px ~ 767px */
+  @media (min-width: 480px) and (max-width: 767px) {
+    .top-banner-content-fixed .top-banner-content {
+      .title    { font-size: 20px; }
+      .subtitle { font-size: 14px; }
     }
-    .top-banner .top-banner-content .desc,
-    .top-banner .top-banner-content .homeMark {
-      font-size: 12px;
-      line-height: 18px;
+    .mobile-desc-below { font-size: 13px; padding: 16px 20px; }
+  }
+
+  /* Small phone: 360px ~ 479px */
+  @media (min-width: 360px) and (max-width: 479px) {
+    .top-banner-content-fixed .top-banner-content {
+      padding: 0 16px;
+      .title    { font-size: 18px; }
+      .subtitle { font-size: 13px; }
     }
+    .mobile-desc-below { font-size: 12px; padding: 14px 16px; }
+  }
+
+  /* Very small: < 360px */
+  @media (max-width: 359px) {
+    .top-banner-content-fixed .top-banner-content {
+      padding: 0 12px;
+      .title    { font-size: 16px; }
+      .subtitle { font-size: 12px; }
+    }
+    .mobile-desc-below { font-size: 11px; padding: 12px 12px; }
   }
 </style>

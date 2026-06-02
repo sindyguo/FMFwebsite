@@ -6,7 +6,7 @@ const originalPush = VueRouter.prototype.push
 const originalReplace = VueRouter.prototype.replace
 
 // 重写push
-VueRouter.prototype.push = function push(location, onResolve, onReject) {
+VueRouter.prototype.push = function push (location, onResolve, onReject) {
   if (onResolve || onReject) {
     return originalPush.call(this, location, onResolve, onReject)
   }
@@ -16,7 +16,7 @@ VueRouter.prototype.push = function push(location, onResolve, onReject) {
 }
 
 // 重写replace
-VueRouter.prototype.replace = function replace(location, onResolve, onReject) {
+VueRouter.prototype.replace = function replace (location, onResolve, onReject) {
   if (onResolve || onReject) {
     return originalReplace.call(this, location, onResolve, onReject)
   }
@@ -31,7 +31,6 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'MainPage',
     component: () => import(/* webpackChunkName: 'MainPage' */ '../views/MainPage.vue'),
     meta: {
       title: 'MainPage',
@@ -43,7 +42,7 @@ const routes = [
         name: 'home',
         component: () => import(/* webpackChunkName: 'home' */ '../views/Home.vue'),
         meta: {
-          title: 'Home',
+          title: 'Fetal Medicine Foundation',
           requiresAuth: false
         }
       },
@@ -52,16 +51,26 @@ const routes = [
         name: 'congress',
         component: () => import(/* webpackChunkName: 'congress' */ '../views/WorldCongress.vue'),
         meta: {
-          title: 'World Congress',
+          title: 'Fetal Medicine Foundation',
           requiresAuth: false
         }
       },
+      {
+        path: '/privacy-notice',
+        name: 'PrivacyNotice',
+        component: () => import(/* webpackChunkName: 'PrivacyNotice' */ '../views/PrivacyNotice.vue'),
+        meta: {
+          title: 'Privacy Notice',
+          requiresAuth: false
+        }
+      },
+      
       {
         path: '/education',
         name: 'Education',
         component: () => import(/* webpackChunkName: 'Education' */ '../views/Education.vue'),
         meta: {
-          title: 'Education',
+          title: 'Fetal Medicine Foundation',
           requiresAuth: false
         }
       },
@@ -79,7 +88,7 @@ const routes = [
         name: 'courseDetail',
         component: () => import(/* webpackChunkName: 'courseDetail' */ '../views/CourseDetail.vue'),
         meta: {
-          title: 'CourseDetail',
+          title: 'Fetal Medicine Foundation',
           requiresAuth: false
         }
       },
@@ -88,16 +97,16 @@ const routes = [
         name: 'Certs',
         component: () => import(/* webpackChunkName: 'Certs' */ '../views/Certs.vue'),
         meta: {
-          title: 'Certs',
+          title: 'Fetal Medicine Foundation',
           requiresAuth: false
         }
       },
       {
         path: '/mine',
         name: 'Mine',
-        component: () => import(/* webpackChunkName: 'Mine' */ '../views/Mine.vue'),
+        component: () => import(/* webpackChunkName: 'Mine' */ '../views/Mine/Index.vue'),
         meta: {
-          title: 'Mine',
+          title: 'Fetal Medicine Foundation',
           requiresAuth: true
         }
       },
@@ -106,7 +115,34 @@ const routes = [
         name: 'MineReg',
         component: () => import(/* webpackChunkName: 'MineReg' */ '../views/MineReg.vue'),
         meta: {
-          title: 'MineReg',
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/myUploadImages',
+        name: 'MyUploadImages',
+        component: () => import(/* webpackChunkName: 'MyUploadImages' */ '../views/Mine/MyUploadImages.vue'),
+        meta: {
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/myUploadImageDetail',
+        name: 'MyUploadImageDetail',
+        component: () => import(/* webpackChunkName: 'MyUploadImageDetail' */ '../views/Mine/MyUploadImageDetail.vue'),
+        meta: {
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: true
+        }
+      },
+      {
+        path: '/updateMyUploadImage',
+        name: 'UpdateMyUploadImage',
+        component: () => import(/* webpackChunkName: 'UpdateMyUploadImage' */ '../views/Mine/UpdateMyUploadImage.vue'),
+        meta: {
+          title: 'Fetal Medicine Foundation',
           requiresAuth: true
         }
       },
@@ -115,7 +151,16 @@ const routes = [
         name: 'OrderDetail',
         component: () => import(/* webpackChunkName: 'OrderDetail' */ '../views/OrderDetail.vue'),
         meta: {
-          title: 'OrderDetail',
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/personalInformation',
+        name: 'PersonalInformation',
+        component: () => import(/* webpackChunkName: 'OrderDetail' */ '../views/Mine/PersonalInformation.vue'),
+        meta: {
+          title: 'Fetal Medicine Foundation',
           requiresAuth: false
         }
       },
@@ -124,7 +169,7 @@ const routes = [
         name: 'ReviewDetail',
         component: () => import(/* webpackChunkName: 'ReviewDetail' */ '../views/ReviewDetail.vue'),
         meta: {
-          title: 'ReviewDetail',
+          title: 'Fetal Medicine Foundation',
           requiresAuth: false
         }
       },
@@ -133,7 +178,7 @@ const routes = [
         name: 'Speech',
         component: () => import(/* webpackChunkName: 'Speech' */ '../views/Speech.vue'),
         meta: {
-          title: 'Speech',
+          title: 'Fetal Medicine Foundation',
           requiresAuth: true
         }
       },
@@ -142,65 +187,99 @@ const routes = [
         name: 'Sponsor',
         component: () => import(/* webpackChunkName: 'Sponsor' */ '../views/Sponsor.vue'),
         meta: {
-          title: 'Sponsor',
+          title: 'Fetal Medicine Foundation',
           requiresAuth: false
         }
-      },
-      {
-        path: '/look-for-life',
-        name: 'SupportDevelopingCountries',
-        component: () => import(/* webpackChunkName: 'SupportDevelopingCountries' */ '../views/SupportDevelopingCountries.vue'),
-        meta: {
-          title: 'Look for Life',
-          requiresAuth: false
-        }
-      },
-      {
-        path: '/look-for-life-developed',
-        redirect: '/look-for-life'
       },
       {
         path: '/congressSignUp',
         name: 'CongressSignUp',
         component: () => import(/* webpackChunkName: 'CongressSignUp' */ '../views/CongressSignUp.vue'),
         meta: {
-          title: 'CongressSignUp',
-          requiresAuth: true
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: false
         }
       },
       {
-        path: '/fmf-supported-course',
-        name: 'FmfSupportedCourse',
-        component: () => import(/* webpackChunkName: 'FmfSupportedCourse' */ '../views/BalticSymposium.vue'),
+        path: '/quickSignUp',
+        name: 'QuickSignUp',
+        component: () => import(/* webpackChunkName: 'QuickSignUp' */ '../views/QuickSignUp.vue'),
         meta: {
-          title: 'Baltic Symposium',
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: false
+        }
+      },
+
+      {
+        path: '/congressHistory',
+        name: 'congressHistory',
+        component: () => import(/* webpackChunkName: 'congressHistory' */ '../views/CongressHistory.vue'),
+        meta: {
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/imageContest',
+        name: 'imageContest',
+        component: () => import(/* webpackChunkName: 'imageContest' */ '../views/ImageContest.vue'),
+        meta: {
+          title: 'FMF Clinical Image Contest',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/participate',
+        name: 'participate',
+        component: () => import(/* webpackChunkName: 'participate' */ '../views/Participate.vue'),
+        meta: {
+          title: 'FMF Clinical Image Contest - Participate',
           requiresAuth: false
         }
       },
       {
         path: '/fmf-supported-courses',
         name: 'FmfSupportedCourses',
-        component: () => import(/* webpackChunkName: 'FmfSupportedCourses' */ '../views/SupportedCourses.vue'),
+        component: () => import(/* webpackChunkName: 'FmfSupportedCourse' */ '../views/SupportedCourses.vue'),
         meta: {
           title: 'FMF Supported Courses',
           requiresAuth: false
         }
       },
       {
-        path: '/fellowships',
-        name: 'Fellowships',
-        component: () => import(/* webpackChunkName: 'Fellowships' */ '../views/Fellowships.vue'),
+        path: '/fmf-supported-course-detail',
+        name: 'FmfSupportedCourses',
+        component: () => import(/* webpackChunkName: 'FmfSupportedCourse' */ '../views/SupportedCourseDetail.vue'),
         meta: {
-          title: 'FMF fellowships',
+          title: 'FMF Supported Course Detail',
           requiresAuth: false
         }
       },
       {
-        path: '/research',
-        name: 'Research',
-        component: () => import(/* webpackChunkName: 'Research' */ '../views/Research.vue'),
+        path: '/fmf-advances-courses',
+        name: 'AdvancesCourses',
+        component: () => import(/* webpackChunkName: 'FmfSupportedCourses' */ '../views/AdvancesCourses.vue'),
         meta: {
-          title: 'Research',
+          title: 'FMF Advances Courses',
+          requiresAuth: false
+        }
+      },
+      {
+
+        path: '/fellowships',
+        name: 'Fellowships',
+        component: () => import(/* webpackChunkName: 'Fellowships' */ '../views/Fellowships.vue'),
+        meta: {
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/fmf-affiliations/:country?',
+        name: 'FMFAffiliations',
+        component: () => import(/* webpackChunkName: 'FMFAffiliations' */ '../views/FMFAffiliations.vue'),
+        meta: {
+          title: 'FMF Affiliations',
           requiresAuth: false
         }
       },
@@ -209,7 +288,43 @@ const routes = [
         name: 'Calculators',
         component: () => import(/* webpackChunkName: 'Calculators' */ '../views/Calculators.vue'),
         meta: {
-          title: 'Calculators',
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/research',
+        name: 'Research',
+        component: () => import(/* webpackChunkName: 'Research' */ '../views/Research.vue'),
+        meta: {
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/research-publications',
+        name: 'ResearchPublications',
+        component: () => import(/* webpackChunkName: 'ResearchPublications' */ '../views/ResearchPublications.vue'),
+        meta: {
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/look-for-life',
+        name: 'SupportDevelopingCountries',
+        component: () => import(/* webpackChunkName: 'SupportDevelopingCountries' */ '../views/SupportDevelopingCountries.vue'),
+        meta: {
+          title: 'Fetal Medicine Foundation',
+          requiresAuth: false
+        }
+      },
+      {
+        path: '/look-for-life-developed',
+        name: 'SupportDevelopedCountries',
+        component: () => import(/* webpackChunkName: 'SupportDevelopedCountries' */ '../views/SupportDevelopedCountries.vue'),
+        meta: {
+          title: 'Fetal Medicine Foundation',
           requiresAuth: false
         }
       },
@@ -222,23 +337,15 @@ const routes = [
           requiresAuth: false
         }
       },
-      {
-        path: '/research-publications',
-        name: 'ResearchPublications',
-        component: () => import(/* webpackChunkName: 'ResearchPublications' */ '../views/ResearchPublications.vue'),
-        meta: {
-          title: 'Research publications',
-          requiresAuth: false
-        }
-      },
     ]
   },
+ 
   {
     path: '/exam',
     name: 'Exam',
     component: () => import(/* webpackChunkName: 'Exam' */ '../views/Exam.vue'),
     meta: {
-      title: 'Exam',
+      title: 'Fetal Medicine Foundation',
       requiresAuth: false
     }
   },
@@ -247,7 +354,7 @@ const routes = [
     name: 'Registration',
     component: () => import(/* webpackChunkName: 'Registration' */ '../views/Registration.vue'),
     meta: {
-      title: 'Registration',
+      title: 'Fetal Medicine Foundation',
       requiresAuth: false
     }
   },
@@ -256,7 +363,7 @@ const routes = [
     name: 'login',
     component: () => import(/* webpackChunkName: 'login' */ '../views/login.vue'),
     meta: {
-      title: 'Login',
+      title: 'Fetal Medicine Foundation',
       requiresAuth: false
     }
   },
@@ -265,7 +372,16 @@ const routes = [
     name: 'ResetPwd',
     component: () => import(/* webpackChunkName: 'ResetPwd' */ '../views/ResetPwd.vue'),
     meta: {
-      title: 'ResetPwd',
+      title: 'Fetal Medicine Foundation',
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/changeEamil',
+    name: 'ChangeEamil',
+    component: () => import(/* webpackChunkName: 'ResetPwd' */ '../views/ChangeEmail.vue'),
+    meta: {
+      title: 'Fetal Medicine Foundation',
       requiresAuth: false
     }
   },
@@ -275,16 +391,7 @@ const routes = [
     name: 'Cme',
     component: () => import(/* webpackChunkName: 'Cme' */ '../views/Cme.vue'),
     meta: {
-      title: 'Certs',
-      requiresAuth: false
-    }
-  },
-  {
-    path: '/template-preview',
-    name: 'TemplatePreview',
-    component: () => import(/* webpackChunkName: 'TemplatePreview' */ '../views/TemplatePreview.vue'),
-    meta: {
-      title: 'Template Preview',
+      title: 'Fetal Medicine Foundation',
       requiresAuth: false
     }
   },
@@ -293,23 +400,33 @@ const routes = [
     name: 'payCom',
     component: () => import(/* webpackChunkName: 'payCom' */ '../views/payCom.vue'),
     meta: {
-      title: 'payCom',
+      title: 'Fetal Medicine Foundation',
       requiresAuth: false
     }
   },
   {
-    path: '/help-admin',
-    name: 'HelpDeskAdmin',
-    component: () => import(/* webpackChunkName: 'HelpDeskAdmin' */ '../views/HelpDeskAdmin.vue'),
+    path: '/payResult',
+    name: 'payResult',
+    component: () => import(/* webpackChunkName: 'payResult' */ '../views/PayResult.vue'),
     meta: {
-      title: 'Help Desk Admin',
+      title: 'Fetal Medicine Foundation',
       requiresAuth: false
     }
   },
   {
-    path: '*',
-    redirect: '/'
-  }
+    path: '/previousWorldCongresses',
+    name: 'previousWorldCongresses',
+    component: () => import(/* webpackChunkName: 'payCom' */ '../views/previousWorldCongresses.vue'),
+    meta: {
+      title: 'Fetal Medicine Foundation',
+      requiresAuth: false
+    }
+  },
+  
+  // {
+  //   path: '*',
+  //   redirect: '/'
+  // }
 ]
 
 // 创建路由实例
@@ -336,7 +453,7 @@ router.onError(error => {
     })
     return false
   }
-
+  
   if (error.message && error.message.includes('Loading chunk')) {
     console.warn('Loading chunk error, and reload page')
     window.location.reload()
@@ -344,15 +461,23 @@ router.onError(error => {
   }
 })
 
+// 不需要记录跳转来源的路由
+const noRedirectPaths = ['/login', '/resetPwd', '/registration', '/changeEamil']
+
 // 全局路由守卫
 router.beforeEach(async (to, from, next) => {
   // 设置页面标题
   if (to.meta.title) {
     document.title = to.meta.title
   }
+  // 同步记录当前目标路径，供登录后回跳使用（排除登录类页面自身）
+  if (!noRedirectPaths.includes(to.path)) {
+    localStorage.setItem('currentUrl', to.fullPath)
+  }
   // 认证检查
   if (to.meta.requiresAuth) {
-    const isAuthenticated = sessionStorage.getItem('token')
+    
+    const isAuthenticated = localStorage.getItem('token')
     if (!isAuthenticated) {
       try {
         const result = await MessageBox.confirm('Not currently logged in, do you want to log in now?', 'Tip', {
@@ -362,7 +487,7 @@ router.beforeEach(async (to, from, next) => {
         })
         if (result) {
           next('/login')
-        } else {
+        } else { 
           next(false)
         }
       } catch (error) {

@@ -87,18 +87,24 @@
           <a href="mailto:support@refractionx.com">support@refractionx.com</a>
         </div>
         <div class="download-grid">
-          <a class="platform-link" :href="macDownloadUrl" target="_blank" rel="noopener" aria-label="Download for macOS">
+          <div class="platform-link" :disabled="isOM" @click="goto(macDownloadUrl)" rel="noopener" aria-label="Download for macOS">
             <svg class="platform-icon apple-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M16.18 12.01c.01-2.2 1.8-3.26 1.88-3.3-1.03-1.5-2.64-1.71-3.21-1.73-1.35-.14-2.65.8-3.34.8-.7 0-1.75-.78-2.88-.76-1.48.02-2.86.88-3.62 2.2-1.57 2.7-.4 6.69 1.1 8.87.75 1.07 1.62 2.26 2.76 2.22 1.1-.04 1.52-.7 2.86-.7 1.33 0 1.73.7 2.87.67 1.2-.02 1.95-1.08 2.67-2.16.86-1.23 1.2-2.45 1.21-2.51-.03-.01-2.29-.88-2.3-3.6zM13.97 5.55c.6-.74 1.01-1.74.9-2.76-.87.04-1.95.6-2.58 1.33-.56.65-1.06 1.7-.93 2.68.98.07 1.99-.5 2.61-1.25z" />
             </svg>
             <span class="platform-label">macOS</span>
-          </a>
-          <a class="platform-link" :href="windowsDownloadUrl" target="_blank" rel="noopener" aria-label="Download for Windows 11">
+          </div>
+          <div class="platform-link" :disabled="isOM" rel="noopener" @click="goto(windowsDownloadUrl)" aria-label="Download for Windows 11">
             <svg class="platform-icon windows-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M2 4.6l9.2-1.3v8.1H2V4.6zm10.4-1.5L22 1.8v9.6h-9.6V3.1zM2 12.6h9.2v8.1L2 19.4v-6.8zm10.4 0H22v9.6l-9.6-1.4v-8.2z" />
             </svg>
             <span class="platform-label">Windows 11</span>
-          </a>
+          </div>
+        </div>
+
+        <div class="tsa-text" v-if="isOM">
+          They also to have the restriction for download within the EU economic area and have the message: <br>  
+ 
+          This software is temporarily unavailable in your region as part of our compliance with European regulatory requirements. The Fetal Medicine Foundation is committed to ensuring that all our clinical tools meet the highest standards of safety, quality, and regulatory approval. We are actively working through the formal CE marking process with our regulatory partners. We appreciate your understanding during this period and will provide updates as soon as the software becomes available again.
         </div>
       </div>
     </div>
@@ -121,8 +127,42 @@
           img: require('@/assets/img/software_header.jpeg'),
           title: '',
           desc: ''
-        }]
+        }],
+        omList: [
+          'AT','BE','BG','CY','CZ','HR','DK','EE','FI','FR','DE',
+          'GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT',
+          'RO','SK','SI','ES','SE', // 欧盟27国
+          'IS','LI','NO', // EEA 3国
+          'GB' // 英国
+        ],
+        mark: null,
+        isOM: false,
       }
+    },
+    methods: {
+      async getCountryByIP() {
+        try {
+          const response = await fetch('http://ip-api.com/json/');
+          const data = await response.json();
+          return data.countryCode; // 返回国家代码，如 'CN', 'US'
+        } catch (error) {
+          console.error('获取IP信息失败:', error);
+          return null;
+        }
+      },
+      goto(e){
+        window.open(e)
+      }
+    },
+    created() {
+      this.getCountryByIP().then(countryCode => {
+        console.log('当前国家代码:', countryCode);
+        // 判断国家代码是否存在omList中
+        if (this.omList.includes(countryCode)) {
+          this.mark = countryCode;
+          this.isOM = true;
+        }
+      })
     }
   }
 </script>
@@ -286,60 +326,105 @@
   .support-line a:hover {
     text-decoration: underline;
   }
-
-  @media (max-width: 1000px) {
-    .feature-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .requirements-grid {
-      grid-template-columns: 1fr;
-    }
+  .tsa-text{
+    font-size: 16px;
+    line-height: 26px;
   }
 
-  @media (max-width: 768px) {
-    .software-page {
-      font-size: 16px;
-    }
+  .platform-link{
+    cursor: pointer;
+  }
 
-    .section {
-      padding: 18px;
-    }
+  /* ============================================================
+     RESPONSIVE BREAKPOINTS
+     ============================================================ */
 
-    .hero-title {
-      font-size: 26px;
+  /* Tablet: 768px ~ 1279px */
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 32px !important;
+      padding-right: 32px !important;
     }
+    .software-content   { gap: 24px; }
+    .hero-title         { font-size: 26px; }
+    .section-title      { font-size: 20px; }
+    .subsection-title   { font-size: 17px; }
+    .feature-title      { font-size: 17px; }
+    /* 3 cols ok on laptop, switch to 2 on narrow tablet */
+    .feature-grid       { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .requirements-grid  { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
 
-    .section-title {
-      font-size: 22px;
+  /* Large phone: 480px ~ 767px */
+  @media (min-width: 480px) and (max-width: 767px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
     }
+    .software-content  { gap: 16px; padding: 16px 0 0; }
+    .section           { padding: 16px; }
+    .hero-title        { font-size: 22px; margin-bottom: 12px; }
+    .section-title     { font-size: 18px; }
+    .subsection-title  { font-size: 15px; }
+    .feature-title     { font-size: 15px; margin-bottom: 8px; }
+    .section-list      { font-size: 14px; line-height: 22px; }
+    .feature-grid,
+    .requirements-grid,
+    .download-grid     { grid-template-columns: 1fr; gap: 12px; min-height: 0; }
+    .platform-link     { min-height: 100px; flex-direction: row; gap: 16px; justify-content: flex-start; padding: 0 20px; }
+    .platform-icon     { width: 52px; height: 52px; flex-shrink: 0; }
+    .platform-label    { font-size: 18px; }
+    .support-line      { font-size: 14px; }
+    .tsa-text          { font-size: 14px; line-height: 22px; }
+  }
 
-    .subsection-title {
-      font-size: 19px;
+  /* Small phone: 360px ~ 479px */
+  @media (min-width: 360px) and (max-width: 479px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
     }
+    .software-content  { gap: 14px; padding: 12px 0 0; }
+    .section           { padding: 14px 12px; }
+    .hero-title        { font-size: 20px; margin-bottom: 10px; }
+    .section-title     { font-size: 16px; }
+    .subsection-title  { font-size: 14px; }
+    .feature-title     { font-size: 14px; margin-bottom: 6px; }
+    .section-list      { font-size: 13px; line-height: 20px; }
+    .feature-grid,
+    .requirements-grid,
+    .download-grid     { grid-template-columns: 1fr; gap: 10px; min-height: 0; }
+    .platform-link     { min-height: 90px; flex-direction: row; gap: 14px; justify-content: flex-start; padding: 0 16px; }
+    .platform-icon     { width: 46px; height: 46px; flex-shrink: 0; }
+    .platform-label    { font-size: 16px; }
+    .support-line      { font-size: 13px; }
+    .tsa-text          { font-size: 13px; line-height: 20px; }
+  }
 
-    .download-grid {
-      grid-template-columns: 1fr;
-      min-height: 0;
-      gap: 6px;
+  /* Very small: < 360px */
+  @media (max-width: 359px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 10px !important;
+      padding-right: 10px !important;
     }
-
-    .platform-link {
-      min-height: 120px;
-    }
-
-    .platform-icon {
-      width: 64px;
-      height: 64px;
-    }
-
-    .platform-label {
-      font-size: 20px;
-    }
-
-    .support-line {
-      font-size: 16px;
-      margin-top: 8px;
-    }
+    .software-content  { gap: 12px; padding: 10px 0 0; }
+    .section           { padding: 12px 10px; }
+    .hero-title        { font-size: 18px; margin-bottom: 8px; }
+    .section-title     { font-size: 15px; }
+    .subsection-title  { font-size: 13px; }
+    .feature-title     { font-size: 13px; margin-bottom: 6px; }
+    .section-list      { font-size: 12px; line-height: 18px; }
+    .feature-grid,
+    .requirements-grid,
+    .download-grid     { grid-template-columns: 1fr; gap: 8px; min-height: 0; }
+    .platform-link     { min-height: 80px; flex-direction: row; gap: 12px; justify-content: flex-start; padding: 0 12px; }
+    .platform-icon     { width: 40px; height: 40px; flex-shrink: 0; }
+    .platform-label    { font-size: 15px; }
+    .support-line      { font-size: 12px; }
+    .tsa-text          { font-size: 12px; line-height: 18px; }
   }
 </style>

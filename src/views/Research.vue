@@ -42,28 +42,28 @@
             <div class="trial-title">
               Aspirin versus placebo in twin pregnancies for preeclampsia prevention (ASPRE-T)
             </div>
-            <div class="trial-desc">
+            <div class="trial-desc" style="text-align: justify;">
               Double-blind, randomized, placebo-controlled multicentre trial in dichorionic and monochorionic-diamniotic
               twin pregnancies at 11-13 weeks' gestation.
             </div>
             <ul class="trial-list">
-              <li>Aspirin 150 mg/day vs placebo from 11-14 to 36 weeks' gestation.</li>
-              <li>Aim: reduce preeclampsia with delivery &lt;37 weeks.</li>
-              <li>Powered for 50% reduction; 2,400 pregnancies (90% power).</li>
+              <li style="text-align: justify;">Aspirin 150 mg/day vs placebo from 11-14 to 36 weeks' gestation.</li>
+              <li style="text-align: justify;">Aim: reduce preeclampsia with delivery &lt;37 weeks.</li>
+              <li style="text-align: justify;">Powered for 50% reduction; 2,400 pregnancies (90% power).</li>
             </ul>
           </div>
           <div class="trial-card">
-            <div class="trial-title">
+            <div class="trial-title" style="text-align: justify;">
               Effects of dietary nitrate supplementation on pregnancies with chronic or new onset hypertension (BEET-BP)
             </div>
-            <div class="trial-desc">
+            <div class="trial-desc" style="text-align: justify;">
               Double-blind, placebo-controlled multicentre trial in participants with hypertension at 24-36 weeks'
               gestation.
             </div>
             <ul class="trial-list">
-              <li>70 mL beetroot juice concentrate vs nitrate-deplete placebo daily until delivery.</li>
-              <li>Primary outcome: gestational age at delivery due to preeclampsia.</li>
-              <li>Target sample size: 320 women (400 screened).</li>
+              <li style="text-align: justify;">70 mL beetroot juice concentrate vs nitrate-deplete placebo daily until delivery.</li>
+              <li style="text-align: justify;">Primary outcome: gestational age at delivery due to preeclampsia.</li>
+              <li style="text-align: justify;">Target sample size: 320 women (400 screened).</li>
             </ul>
           </div>
           <div class="trial-card">
@@ -74,10 +74,10 @@
               Open label, multicentre trial in Spain and UK.
             </div>
             <ul class="trial-list">
-              <li>Screening for preterm PE in singleton pregnancies at 11-13 weeks’ gestation and prophylactic aspirin in the 30% with the highest risk.</li>
-              <li>At 20 weeks randomization to either stop aspirin at 24 weeks or continue until 36 weeks.</li>
-              <li>Objective: to assess whether discontinuation at 24 weeks is non-inferior to treatment until 36 weeks.</li>
-              <li>Sample size: screening in about 40,000 and randomization in 12,000.</li>
+              <li style="text-align: justify;">Screening for preterm PE in singleton pregnancies at 11-13 weeks’ gestation and prophylactic aspirin in the 30% with the highest risk.</li>
+              <li style="text-align: justify;">At 20 weeks randomization to either stop aspirin at 24 weeks or continue until 36 weeks.</li>
+              <li style="text-align: justify;">Objective: to assess whether discontinuation at 24 weeks is non-inferior to treatment until 36 weeks.</li>
+              <li style="text-align: justify;">Sample size: screening in about 40,000 and randomization in 12,000.</li>
             </ul>
           </div>
           <div class="trial-card">
@@ -88,10 +88,10 @@
               Open label trial in the UK.
             </div>
             <ul class="trial-list">
-              <li>Screening for PE at 35-36 weeks and timed birth based on risk vs. usual care.</li>
-              <li>Those with risk of more than 1 in 100 will have elective delivery at 39 weeks.</li>
-              <li>Objective: to reduce preeclampsia.</li>
-              <li>Sample size: 8,000 women with singleton pregnancies.</li>
+              <li style="text-align: justify;">Screening for PE at 35-36 weeks and timed birth based on risk vs. usual care.</li>
+              <li style="text-align: justify;">Those with risk of more than 1 in 100 will have elective delivery at 39 weeks.</li>
+              <li style="text-align: justify;">Objective: to reduce preeclampsia.</li>
+              <li style="text-align: justify;">Sample size: 8,000 women with singleton pregnancies.</li>
             </ul>
           </div>
         </div>
@@ -282,6 +282,7 @@
     font-size: 16px;
     line-height: 26px;
     color: #4a5b67;
+    text-align: justify;
   }
 
   .inline-link {
@@ -307,10 +308,89 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  @media (max-width: 900px) {
-    .trial-grid-two {
-      grid-template-columns: 1fr;
+  /* ============================================================
+     RESPONSIVE BREAKPOINTS
+     ============================================================ */
+
+  /* Tablet: 768px ~ 1279px */
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 32px !important;
+      padding-right: 32px !important;
     }
+    .trial-grid     { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .trial-grid-two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  /* Mobile common: < 768px — remove justify alignment (inline styles need !important) */
+  @media (max-width: 767px) {
+    .section-desc,
+    .trial-desc,
+    .trial-list,
+    .trial-list li    { text-align: left !important; }
+  }
+
+  /* Large phone: 480px ~ 767px */
+  @media (min-width: 480px) and (max-width: 767px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+    .research-content { gap: 20px; padding: 16px 0 0; }
+    .section          { padding: 18px 16px; }
+    .hero-title       { font-size: 20px; }
+    .section-title    { font-size: 16px; }
+    .subsection-title { font-size: 15px; }
+    .trial-title      { font-size: 15px; }
+    .section-desc,
+    .trial-desc,
+    .trial-list       { font-size: 14px; line-height: 22px; }
+    .trial-grid       { grid-template-columns: 1fr; }
+    .trial-grid-two   { grid-template-columns: 1fr; }
+  }
+
+  /* Small phone: 360px ~ 479px */
+  @media (min-width: 360px) and (max-width: 479px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+    }
+    .research-content { gap: 16px; padding: 12px 0 0; }
+    .section          { padding: 14px 12px; }
+    .hero-title       { font-size: 18px; }
+    .section-title    { font-size: 15px; }
+    .subsection-title { font-size: 14px; }
+    .trial-title      { font-size: 13px; }
+    .section-desc,
+    .trial-desc,
+    .trial-list       { font-size: 13px; line-height: 20px; }
+    .trial-card       { padding: 12px; }
+    .trial-grid       { grid-template-columns: 1fr; gap: 12px; }
+    .trial-grid-two   { grid-template-columns: 1fr; }
+  }
+
+  /* Very small: < 360px */
+  @media (max-width: 359px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+    }
+    .research-content { gap: 12px; padding: 10px 0 0; }
+    .section          { padding: 12px 10px; }
+    .hero-title       { font-size: 17px; }
+    .section-title    { font-size: 14px; }
+    .subsection-title { font-size: 13px; }
+    .trial-title      { font-size: 12px; }
+    .section-desc,
+    .trial-desc,
+    .trial-list       { font-size: 12px; line-height: 18px; }
+    .trial-card       { padding: 10px; }
+    .trial-grid       { grid-template-columns: 1fr; gap: 10px; }
+    .trial-grid-two   { grid-template-columns: 1fr; }
   }
 
   .subsection {
@@ -332,6 +412,7 @@
   }
 
   .trial-title {
+    font-size: 16px;
     font-weight: 600;
     color: #0e3045;
     margin-bottom: 8px;

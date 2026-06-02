@@ -1,0 +1,38 @@
+/* Element UI MessageBox ($confirm / $alert / $prompt)
+ * Default vertical centering uses inline-block + ::after; it often sticks to the top on mobile Safari / narrow viewports.
+ * Flex centering is reliable; hide the legacy ::after shim. */
+
+/* Do NOT use display: ... !important here — MessageBox uses v-show, which sets inline display:none when closed.
+   !important would override that and leave the dialog visible after the v-modal mask is removed. */
+.el-message-box__wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+  box-sizing: border-box;
+}
+
+.el-message-box__wrapper::after {
+  display: none;
+  content: none;
+  height: 0;
+  width: 0;
+}
+
+.el-message-box {
+  max-width: calc(100vw - 32px) !important;
+  width: min(420px, calc(100vw - 32px)) !important;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .el-message-box__wrapper {
+    padding: 16px 12px;
+  }
+
+  .el-message-box {
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+}

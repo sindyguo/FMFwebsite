@@ -1,6 +1,26 @@
 <template>
-  <div class="fill hcontainer coursedetail">
+  <div class="fill hcontainer coursedetail" :class="{'mobile-drawer-open': showMobileMenu}">
+
+    <!-- Mobile top bar: visible only on mobile -->
+    <div class="mobile-topbar">
+      <button class="mobile-menu-btn" @click="showMobileMenu = true">
+        <i class="el-icon-s-unfold"></i>
+      </button>
+      <span class="mobile-chapter-title o-line-1">{{ chapterData.categoryTitle || chapterData.coursesTitle || (listFlatData[curChapterIndex] && listFlatData[curChapterIndex].categoryName) || '' }}</span>
+      <el-select v-show="languageOptions.length" v-model="curLanguage" size="mini" class="mobile-lang-sel" @change="websiteCourseFn">
+        <el-option v-for="item in languageOptions" :key="item" :label="item" :value="item"></el-option>
+      </el-select>
+    </div>
+
+    <!-- Backdrop for drawer -->
+    <div class="mobile-backdrop" v-show="showMobileMenu" @click="showMobileMenu = false"></div>
+
     <div class="vcontainer left-content">
+      <!-- Drawer header: visible only on mobile -->
+      <div class="drawer-header">
+        <span class="drawer-title o-line-1">{{ categoryName }}</span>
+        <button class="drawer-close-btn" @click="showMobileMenu = false"><i class="el-icon-close"></i></button>
+      </div>
       <div class="left-content-tree">
         <el-collapse v-model="activeName" accordion>
           <el-collapse-item name="1">
@@ -19,8 +39,10 @@
               @node-click="nodeClick">
               <div class="fill hcontainer vcenter flex-between chapter-item" slot-scope="{ node, data }">
                 <span :class="['fill', {'chapter-item-leaf': node.isLeaf}]" :title="data.categoryName">{{ data.categoryName }}</span>
-                <span v-if="data.level == 1">{{ courseData.learningCount || 0 }}/{{ courseData.totalCount || 0 }}</span>
-                <span v-else-if="node.isLeaf && data.hasLearning"><i class="el-icon-check"></i></span>
+                <template v-if="courseData.type != 'Webinar/Other records'">
+                  <span v-if="data.level == 1">{{ courseData.learningCount || 0 }}/{{ courseData.totalCount || 0 }}</span>
+                  <span v-else-if="node.isLeaf && data.hasLearning"><i class="el-icon-check"></i></span>
+                </template>
               </div>
             </el-tree>
           </el-collapse-item>
@@ -28,11 +50,14 @@
       </div>
       <div class="hcontainer vcenter hcenter exam-btn-container">
         <el-button
+          v-if="courseData.type != 'Webinar/Other records'"
           type="primary"
           plain
+          :class="['exam-btn',!(courseData.totalCount && courseData.learningCount == courseData.totalCount)?'disabledBtn':'']"
+          style="font-size: 14px !important;"
           :disabled="!(courseData.totalCount && courseData.learningCount == courseData.totalCount)"
           @click="rightBtnClick('exam')">
-          Take an exam
+          Final test
         </el-button>
       </div>
     </div>
@@ -44,14 +69,14 @@
           <span>Congratulations! You have completed all the lessons in your current course and are now eligible to take the final exam to earn your Course Completion Certificate. Upon obtaining the certificate, your name will be featured on our website's Global List of Completers!</span>
           <div class="hcontainer vcenter mt-55">
             <div class="right-btn" @click="rightBtnClick('learning')">Back to Course</div>
-            <div v-if="!chapterData.status" class="right-btn ml-20" @click="rightBtnClick('exam')">Start Exam</div>
+            <div v-if="!chapterData.status && courseData.type != 'Webinar/Other records'" class="right-btn ml-20" @click="rightBtnClick('exam')">Start Exam</div>
           </div>
         </div>
       </template>
       <template v-else>
         <div class="hcontainer vcenter flex-between right-top">
           <span class="right-title">{{ chapterData.categoryTitle || chapterData.coursesTitle || listFlatData[curChapterIndex]?.categoryName || '' }}</span>
-          <el-select v-model="curLanguage" size="mini" class="w-150" @change="websiteCourseFn">
+          <el-select v-model="curLanguage" size="mini" class="w-150 desktop-lang-sel" @change="websiteCourseFn">
             <el-option
               v-for="item in languageOptions"
               :key="item"
@@ -62,7 +87,7 @@
         </div>
         <div v-if="chapterData.content?.content || (chapterData.pictureList && chapterData.pictureList.length) || (chapterData.videoList && chapterData.videoList.length)"
           class="fill vcontainer">
-          <div class="fill hcontainer pr-20" style="overflow-y: auto" ref="contentContainerRef" @click="handleContentClick">
+          <div class="fill hcontainer pr-20 mainCenter" style="overflow-y: auto" ref="contentContainerRef" @click="handleContentClick">
             <RichView :content="chapterData.content?.content" class="fill"></RichView>
             <div :class="((chapterData.pictureList && chapterData.pictureList.length) || (chapterData.videoList && chapterData.videoList.length))? 'attachment-container': 'w-240'">
               <div
@@ -74,9 +99,13 @@
                   :key="item.id || item.url" 
                   :autoplay="index === 0"
                   :loop="index === 0"
-                  :preload="index === 0 ? 'auto' : 'none'" 
+                  :preload="index === 0 ? 'auto' : 'metadata'"
+                  :poster="item.posterUrl || item.generatedPoster"
                   class="attachment-video"
-                  controls>
+                  controls
+                  playsinline
+                  webkit-playsinline
+                  @loadedmetadata="generatePoster(index, item)">
                 </video>
                 <div v-if="item.note"
                   :class="['desc', {'collapsed': !expandedNotes[`video_${index}`] && item.note.length > 100}]"
@@ -119,7 +148,7 @@
               class="hcontainer vcenter flex-end mv-10 total-page"
               :current-page.sync="curPage"
               :page-size="1"
-              :pager-count="5"
+              :page-count="5"
               :total="chapterContentIds.length || 0"
               @current-change="websiteCourseFn">
             </el-pagination>
@@ -127,7 +156,7 @@
         </div>
         <el-empty v-else class="fill vcontainer vcenter" :image="require('@/assets/img/img_nodata.png')" description="No content"></el-empty>
         <div class="hcontainer vcenter flex-between right-bottom">
-          <div>
+          <div class="nav-prev">
             <div v-show="curChapterIndex > 0"
               class="vcontainer flex-start"
               style="cursor: pointer;"
@@ -136,8 +165,13 @@
               <span class="chapter-other">{{ listFlatData[curChapterIndex-1]?.categoryName || '' }}</span>
             </div>
           </div>
-          <div v-show="(listFlatData[curChapterIndex]?.categoryType == 'lesson' || chapterData.categoryType == 'lesson') && chapterData.content?.content && curPage === chapterContentIds.length" class="right-btn" @click="rightBtnClick('test')">Chapter Test</div>
-          <div>
+          <div class="nav-center">
+            <template v-if="courseData.type != 'Webinar/Other records'">
+              <div v-show="(listFlatData[curChapterIndex]?.categoryType == 'lesson' || chapterData.categoryType == 'lesson') && chapterData.content?.content && curPage === chapterContentIds.length && currentData.questionCount > 0" class="right-btn" @click="rightBtnClick('test')">Chapter Test</div>
+              <div v-show="currentData.questionCount < 1" class="right-btn" @click="rightBtnClick('test')">Lesson complete</div>
+            </template>
+          </div>
+          <div class="nav-next">
             <div v-show="curChapterIndex < listFlatData.length - 1"
               class="vcontainer flex-end align-end"
               style="cursor: pointer;"
@@ -191,6 +225,7 @@
     },
     data() {
       return {
+        currentData: {},
         categoryName: '',
         activeName: '1',
         curLanguage: '',
@@ -208,16 +243,62 @@
         showFullDialog: false,
         curAttachmentUrl: '',
         curAttachmentType: '',
-        time: 0
+        time: 0,
+        showMobileMenu: false
       }
     },
     methods: {
+      generatePoster(index, videoItem) {
+      // 仅为非自动播放的视频生成
+      if (index === 0 || videoItem.generatedPoster) return
+
+      const video = document.createElement('video')
+      video.src = videoItem.url
+      video.crossOrigin = 'anonymous'
+      video.preload = 'metadata'
+
+      video.onloadedmetadata = () => {
+        // 跳转到第一帧附近
+        video.currentTime = 0.1
+        video.onloadeddata = () => {
+          const canvas = document.createElement('canvas')
+          canvas.width = video.videoWidth || 338
+          canvas.height = video.videoHeight || 253
+          const ctx = canvas.getContext('2d')
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+          // 将生成的封面存入视频对象
+          videoItem.generatedPoster = canvas.toDataURL('image/png')
+        }
+      }
+    },
       scrollToTop() {
         this.$nextTick(() => {
-          if (this.$refs.contentContainerRef) {
-            this.$refs.contentContainerRef.scrollTop = 0
+          if (this.$refs.mainPage) {
+            this.$refs.mainPage.scrollTop = 0
           }
+          
         })
+          
+          
+        var mainPageDom = document.querySelector('.mainPage')
+        if (mainPageDom) {
+          mainPageDom.scrollTo(0, 0)
+        }
+
+
+        var mainCenter = document.querySelector('.mainCenter')
+        if (mainCenter) { 
+          mainCenter.scrollTop = 0
+        }
+      },
+      scrollToTopOfWindow() {
+        // 滚动整个窗口到顶部
+        // window.scrollTo({
+        //   top: 0,
+        //   behavior: 'smooth'
+        // });
+
+        
       },
       toggleNote(key) {
         this.$set(this.expandedNotes, key, !this.expandedNotes[key])
@@ -294,10 +375,13 @@
         setTimeout(() => {
           this.curChapterIndex = newChapterIndex
           const curChapterItem = this.listFlatData[newChapterIndex] || {}
-          this.$nextTick(() => {
-            this.$refs.courseTreeRef?.setCurrentKey(curChapterItem.id)
-            this.scrollToTreeNode()
-          })
+          this.currentData = curChapterItem
+          setTimeout(() => {
+            this.$nextTick(() => {
+              this.$refs.courseTreeRef?.setCurrentKey(curChapterItem.id)
+              this.scrollToTreeNode()
+            })
+          }, 600)
           if (!curChapterItem.contentIds) {
             this.curLanguage = ''
             this.languageOptions = []
@@ -324,10 +408,16 @@
           this.curLanguage = ''
           this.languageOptions = []
           this.websiteCourseFn()
+          this.$router.replace({ query: { ...this.$route.query, chapterId: curChapterItem.id } }).catch(() => {})
           this.scrollToTop()
         }, 100)
       },
       nodeClick(data) {
+        this.showMobileMenu = false
+        this.scrollToTopOfWindow();
+        console.log('点击的节点数据：', data);
+        this.currentData = data
+        
         this.curChapterIndex = this.listFlatData.findIndex(item => item.id === data.id)
         if (!data.contentIds) {
           this.curLanguage = ''
@@ -350,6 +440,7 @@
         this.curLanguage = ''
         this.languageOptions = []
         this.websiteCourseFn()
+        this.$router.replace({ query: { ...this.$route.query, chapterId: data.id } }).catch(() => {})
         this.scrollToTop()
         this.scrollToTreeNode()
       },
@@ -372,9 +463,12 @@
           // 提前调用一次接口，避免一进入测试弹框页面调用接口401又出现过期弹框
           this.$api.webuserCourseExercises({
             categoryId: this.chapterData.categoryId || this.listFlatData[this.curChapterIndex]?.id
-          }).then(res => {
-            if ((res.code === 200 || res.code === 0)) {
+          }).then(async (res) => {
+            if ((res.code === 200 || res.code === 0) && res.data.length > 0) {
               this.showChapterTestDialog = true
+            }else{
+              await this.websiteArticleNavigationFn(false);
+              this.chapterChange(this.curChapterIndex + 1,'next');
             }
           }).catch((err) => {
             console.log('err:', err)
@@ -438,13 +532,22 @@
             this.courseData = this.listData[0] || {}
             this.listFlatData = this.$utils.flatTree(this.listData, 'childrenList', false)
             if (isUpdateChapterData) {
-              this.$nextTick(() => {
-                this.$refs.courseTreeRef?.setCurrentKey(this.courseData.id)
-                this.scrollToTreeNode()
-              })
-              if (this.courseData.contentIds) {
-                this.chapterContentIds = this.courseData.contentIds.split(',')
-                this.websiteCourseFn()
+              const savedChapterId = this.$route.query.chapterId
+              const savedIdx = savedChapterId
+                ? this.listFlatData.findIndex(item => String(item.id) === String(savedChapterId))
+                : -1
+
+              if (savedIdx !== -1) {
+                this.chapterChange(savedIdx)
+              } else {
+                this.$nextTick(() => {
+                  this.$refs.courseTreeRef?.setCurrentKey(this.courseData.id)
+                  this.scrollToTreeNode()
+                })
+                if (this.courseData.contentIds) {
+                  this.chapterContentIds = this.courseData.contentIds.split(',')
+                  this.websiteCourseFn()
+                }
               }
             }
           } else {
@@ -463,6 +566,10 @@
       this.websiteArticleNavigationFn()
     },
     beforeRouteUpdate(to, from, next) {
+      if (to.query.categoryName === from.query.categoryName) {
+        next()
+        return
+      }
       this.resetData()
       this.categoryName = to.query.categoryName || ''
       this.websiteArticleNavigationFn()
@@ -477,7 +584,7 @@
 
 <style lang="scss" scoped>
   .coursedetail {
-    height: 100%;
+    height: calc(100% - 116px);
     // margin: 0 200px;
     width: 1488px;
     margin: 0 auto;
@@ -528,13 +635,17 @@
         .chapter-item {
           width: 100%;
           color: #0E3045;
-          font-size: 12pt;
+          font-size: 18px;
           .chapter-item-leaf {
             display: inline-block;
             width: 260px;
             line-height: 18px;
             color: #656B6F;
-            white-space: pre-wrap
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            // white-space: pre-wrap
+            // 超出省略号
           }
         }
         
@@ -546,7 +657,7 @@
       }
       .exam-btn-container {
         width: 100%;
-        height: 80px;
+        height: 110px;
       }
     }
     .right-content {
@@ -562,7 +673,7 @@
         border-radius: 4px;
         font-size: 14px;
         background-color: #036fc0;
-        font-weight: bold;
+        // font-weight: bold;
         cursor: pointer;
       }
       .changeBtn{
@@ -592,10 +703,34 @@
         color: #8A9094;
         border-top: 1PX solid #DCE4EA;
         margin-top: 10px;
+        .nav-prev,
+        .nav-next {
+          width: 220px;
+          flex-shrink: 0;
+          word-break: normal;
+          overflow-wrap: normal;
+        }
+        .nav-prev {
+          text-align: left;
+        }
+        .nav-next {
+          text-align: right;
+          .chapter-other {
+            text-align: right;
+          }
+        }
+        .nav-center {
+          flex: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
         .chapter-other {
-          font-weight: bold;
+          // font-weight: bold;
           font-size: 14px;
           color: #0E3045;
+          word-break: normal;
+          overflow-wrap: normal;
         }
       }
       .learning-finish {
@@ -670,9 +805,380 @@
       }
     }
   }
+
+
+  .attachment-video {
+    display: block;
+    width: 100%;
+    height: 253px;
+    background: #000;
+    object-fit: contain;
+    background-size: cover;
+    background-position: center;
+    &::-webkit-media-controls { opacity: 1 !important; }
+    &:focus { outline: none; }
+  }
+
+  // New elements: hidden on desktop by default
+  .mobile-topbar { display: none; }
+  .mobile-backdrop { display: none; }
+  .drawer-header { display: none; }
+
+  /* ===== 1024px ~ 1279px: laptops ===== */
+  @media (max-width: 1279px) {
+    .coursedetail {
+      width: 100% !important;
+      margin-top: 80px;
+      .left-content {
+        min-width: 280px;
+        max-width: 280px;
+        width: 280px;
+        padding: 20px 8px 0;
+        .left-content-tree {
+          .left-top .left-title { font-size: 16px; }
+          .chapter-item {
+            font-size: 16px;
+            .chapter-item-leaf { width: 200px; }
+          }
+        }
+      }
+      .right-content {
+        padding: 20px 16px 0;
+        .right-top .right-title { font-size: 20px; }
+      }
+    }
+  }
+
+  /* ===== 768px ~ 1023px: tablets ===== */
+  @media (max-width: 1023px) {
+    .coursedetail {
+      .left-content {
+        min-width: 220px;
+        max-width: 220px;
+        width: 220px;
+        padding: 16px 6px 0;
+        .left-content-tree {
+          .left-top .left-title { font-size: 15px; }
+          .chapter-item {
+            font-size: 14px;
+            .chapter-item-leaf { width: 152px; }
+          }
+        }
+        .exam-btn-container { height: 80px; }
+      }
+      .right-content {
+        padding: 16px 12px 0;
+        .right-top {
+          margin-bottom: 14px;
+          .right-title { font-size: 18px; }
+        }
+        .attachment-container {
+          width: 240px;
+          .attachment-item {
+            width: 240px;
+            .attachment-video { height: 180px; }
+          }
+        }
+      }
+    }
+  }
+
+  // ─────────────────────────────────────────────
+  // Shared drawer styles — reused across all mobile breakpoints
+  // ─────────────────────────────────────────────
+  @mixin mobile-drawer($drawer-width, $topbar-height) {
+    .coursedetail {
+      width: 100% !important;
+      // Let the page scroll naturally — no fixed height or overflow:hidden
+      height: auto !important;
+      overflow: visible !important;
+      flex-direction: column !important;
+      // MainPage.vue's .centerBox already has margin-top: 72px (header height)
+      // so no extra margin needed here
+      margin-top: 0 !important;
+
+      // ── Mobile top bar ──────────────────────────────
+      .mobile-topbar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 12px;
+        height: $topbar-height;
+        min-height: $topbar-height;
+        background: #0E3045;
+        color: #ffffff;
+        // Header is 72px; stick the topbar right below it when scrolling
+        position: sticky !important;
+        top: 72px !important;
+        z-index: 99 !important;
+
+        .mobile-menu-btn {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          background: none;
+          border: none;
+          color: #ffffff;
+          font-size: 12px;
+          font-weight: 600;
+          cursor: pointer;
+          white-space: nowrap;
+          padding: 5px 8px;
+          border-radius: 4px;
+          flex-shrink: 0;
+          i { font-size: 17px; margin-right: 2px; }
+          &:hover { background: rgba(255, 255, 255, 0.12); }
+        }
+
+        .mobile-chapter-title {
+          flex: 1;
+          min-width: 0;
+          font-size: 15px;
+          font-weight: 500;
+          color: #ffffff;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+
+        ::v-deep .mobile-lang-sel {
+          flex-shrink: 0;
+          width: 120px !important;
+          .el-input__inner {
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 255, 255, 0.28);
+            color: #ffffff;
+            height: 26px;
+            line-height: 26px;
+            font-size: 13px !important;
+            padding-right: 24px;
+          }
+          .el-select__caret { color: #ffffff; font-size: 13px !important; }
+        }
+      }
+
+      // ── Drawer backdrop ──────────────────────────────
+      .mobile-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 299;
+        background: rgba(0, 0, 0, 0.45);
+      }
+
+      // ── Left sidebar → slide-in drawer ──────────────
+      .left-content {
+        position: fixed !important;
+        left: -($drawer-width + 20px);
+        top: 0;
+        bottom: 0;
+        z-index: 300;
+        min-width: 0 !important;
+        max-width: $drawer-width !important;
+        width: $drawer-width !important;
+        height: 100% !important;
+        padding: 0 !important;
+        border-right: 1px solid #DCE4EA;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.22);
+        transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+        background: #ffffff;
+        display: flex !important;
+        flex-direction: column !important;
+
+        .drawer-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 10px 0 16px;
+          height: 52px;
+          min-height: 52px;
+          background: #f5f8fa;
+          border-bottom: 1px solid #DCE4EA;
+          flex-shrink: 0;
+
+          .drawer-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0E3045;
+            flex: 1;
+            min-width: 0;
+          }
+
+          .drawer-close-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: #8A9094;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            line-height: 1;
+            &:hover { color: #0E3045; background: #e8edf0; }
+          }
+        }
+
+        .left-content-tree {
+          flex: 1;
+          height: 0;
+          overflow-y: auto;
+          padding: 8px 6px 0;
+
+          ::v-deep .el-collapse-item__header { display: none !important; }
+          ::v-deep .el-collapse-item__wrap { border-bottom: none; }
+          ::v-deep .el-collapse-item__content { padding-bottom: 0; }
+
+          .left-top { display: none; }
+          .chapter-item {
+            font-size: 13px;
+            .chapter-item-leaf { width: 100%; }
+          }
+        }
+
+        .exam-btn-container {
+          height: 68px;
+          flex-shrink: 0;
+          border-top: 1px solid #DCE4EA;
+        }
+      }
+
+      &.mobile-drawer-open .left-content { left: 0; }
+
+      // ── Right content ────────────────────────────────
+      .right-content {
+        // Let content height be natural — page-level scroll
+        flex: none !important;
+        height: auto !important;
+        overflow: visible !important;
+        // top: 16px base + 46px topbar height so content clears the sticky bar
+        padding: 62px 14px 72px !important;
+
+        // Desktop title bar is hidden; title lives in mobile-topbar
+        .right-top { display: none !important; }
+        .desktop-lang-sel { display: none !important; }
+
+        // Inner flex content wrapper: stop flex-fill, let it grow naturally
+        > .vcontainer {
+          flex: none !important;
+          height: auto !important;
+        }
+
+        // Rich text + attachment row → stack as column
+        .mainCenter {
+          flex-direction: column !important;
+          flex: none !important;
+          height: auto !important;
+          // Override the inline style="overflow-y: auto"
+          overflow: visible !important;
+          overflow-x: visible !important;
+          overflow-y: visible !important;
+          padding-right: 0 !important;
+          .w-240 { display: none !important; }
+        }
+
+        .attachment-container {
+          width: 100% !important;
+          margin-left: 0 !important;
+          margin-top: 16px;
+          .attachment-item {
+            width: 100% !important;
+            .attachment-video { height: 196px; }
+          }
+        }
+
+        // Fixed bottom navigation bar
+        .right-bottom {
+          position: fixed !important;
+          bottom: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          z-index: 99 !important;
+          width: 100% !important;
+          height: auto !important;
+          box-sizing: border-box !important;
+          background: #ffffff;
+          border-top: 1px solid #DCE4EA;
+          padding: 10px 14px 12px !important;
+          margin-top: 0 !important;
+          .nav-prev, .nav-next { width: 130px; }
+          .chapter-other { font-size: 12px; }
+        }
+
+        .right-btn {
+          min-width: 110px;
+          height: 38px;
+          line-height: 38px;
+          font-size: 13px;
+          padding: 0 12px;
+        }
+        .changeBtn { font-size: 13px; }
+        .page-tip { font-size: 11pt; }
+        .total-page { font-size: 13px; }
+
+        .learning-finish {
+          margin-top: 24px;
+          padding: 0 8px;
+          font-size: 13px;
+          .finished-title { font-size: 17px; margin-bottom: 20px; }
+          .succ-img { width: 150px; height: auto; }
+          .mt-55 { margin-top: 24px !important; }
+        }
+      }
+    }
+  }
+
+  /* ===== < 768px: phones — drawer + page-scroll ===== */
+  @media (max-width: 767px) {
+    @include mobile-drawer(290px, 46px);
+  }
+
+  /* ===== < 480px: smaller phones ===== */
+  @media (max-width: 479px) {
+    @include mobile-drawer(270px, 44px);
+    .coursedetail {
+      .mobile-topbar {
+        padding: 0 10px;
+        .mobile-menu-btn { font-size: 11px; padding: 4px 6px; }
+        .mobile-chapter-title { font-size: 14px; }
+        ::v-deep .mobile-lang-sel { width: 110px !important; }
+      }
+      .left-content {
+        .left-content-tree .chapter-item { font-size: 12px; }
+        .exam-btn-container { height: 60px; }
+      }
+      .right-content {
+        padding: 72px 12px 68px !important;
+        .right-btn { min-width: 96px; height: 36px; line-height: 36px; font-size: 12px; padding: 0 10px; }
+        .changeBtn { font-size: 12px; }
+        .right-bottom .nav-prev, .right-bottom .nav-next { width: 112px; }
+        .right-bottom .chapter-other { font-size: 12px; }
+        .learning-finish {
+          .finished-title { font-size: 15px; }
+          .succ-img { width: 130px; }
+        }
+      }
+    }
+  }
+
+  /* ===== < 360px: very small phones ===== */
+  @media (max-width: 359px) {
+    @include mobile-drawer(250px, 42px);
+    .coursedetail {
+      .right-content {
+        padding: 52px 10px 64px !important;
+        .right-btn { min-width: 84px; height: 34px; line-height: 34px; font-size: 11px; padding: 0 8px; }
+        .right-bottom .chapter-other { font-size: 11px; }
+      }
+    }
+  }
 </style>
 
 <style lang="scss">
+  /* Mobile language selector dropdown option font size */
+  .mobile-lang-sel + .el-select-dropdown .el-select-dropdown__item {
+    font-size: 13px !important;
+  }
+
   .el-tree-node__content {
     height: auto !important;
     min-height: 36px !important;
@@ -697,6 +1203,71 @@
           display: none;
         }
       }
+    }
+  }
+  .exam-btn{
+    background: #036fc0 !important;
+    color: #fff !important;
+    line-height: 48px;
+    height: 48px;
+    padding: 0 20px;
+  }
+  .disabledBtn{
+    background: #c0c0c0 !important;
+    border: #c0c0c0 solid 1px;
+    border-color: #c0c0c0 !important;
+  }
+  .preview-content *{
+    // font-size: 18px !important;
+  }
+
+  /* ── Mobile: force fixed bottom nav & sticky topbar (global, no scoped attr issues) ── */
+  @media (max-width: 767px) {
+    /* Fixed bottom navigation bar — always at viewport bottom */
+    .coursedetail .right-content .right-bottom {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      z-index: 200 !important;
+      background: #ffffff !important;
+      border-top: 1px solid #DCE4EA !important;
+      padding: 10px 14px 12px !important;
+      height: auto !important;
+      margin-top: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Sticky topbar: header is 72px on all mobile sizes, so always top: 72px */
+    .coursedetail .mobile-topbar {
+      position: sticky !important;
+      top: 72px !important;
+      z-index: 150 !important;
+    }
+
+    /* No extra margin on coursedetail — MainPage.vue's .centerBox handles it */
+    .coursedetail {
+      margin-top: 0 !important;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .coursedetail .right-content .right-bottom {
+      padding: 8px 12px 10px !important;
+    }
+  }
+
+  /* Override text-align:justify in rich text content on mobile */
+  @media (max-width: 767px) {
+    .coursedetail .right-content .mainCenter * {
+      text-align: left !important;
+    }
+    .coursedetail .right-content .mainCenter h1,
+    .coursedetail .right-content .mainCenter h2,
+    .coursedetail .right-content .mainCenter h3,
+    .coursedetail .right-content .mainCenter h4 {
+      text-align: left !important;
     }
   }
 </style>

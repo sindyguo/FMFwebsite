@@ -1,7 +1,6 @@
 import { Message, MessageBox } from 'element-ui'
 import store from '@/store'
 import router from '@/router'
-
 export default {
   // 检测是否登录，未登录则询问是否跳转到登录页
   checkLoginAndContinue(continueFunc = null) {
@@ -20,8 +19,8 @@ export default {
   // 开始考试
   startExam(courseId, courseTitle) {
     const { origin, pathname } = window.location 
-    sessionStorage.setItem('courseId', courseId)
-    sessionStorage.setItem('courseTitle', courseTitle)
+    localStorage.setItem('courseId', courseId)
+    localStorage.setItem('courseTitle', courseTitle)
     window.open(`${origin}${pathname}#/exam`, '_blank')
   },
   // 验证表单的多个字段(formRef - 表单引用 (this.$refs.form), fields - 要验证的字段名数组)
@@ -103,7 +102,7 @@ export default {
   },
   // 下载文件地址
   downloadUrl(fileUrl, fileName) {
-    const token = store.state.token || sessionStorage.getItem('token')
+    const token = store.state.token || localStorage.getItem('token')
     const headers = {}
     if (token) {
       headers.Authorization = `Bearer ${token}`
@@ -124,5 +123,33 @@ export default {
     }).catch(errMsg => {
       Message.error(errMsg || 'Download failed')
     })
+  },
+  numberToEnglish(num) {
+    const belowTwenty = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"];
+    const tens = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];
+    const thousands = ["", "thousand", "million", "billion"];
+
+    if (num === 0) return "zero";
+
+    function helper(n) {
+      let str = "";
+      if (n >= 100) str += belowTwenty[Math.floor(n / 100)] + " hundred ";
+      if (n % 100 >= 20) {
+          str += tens[Math.floor((n % 100) / 10)] + " ";
+          n %= 10;
+      }
+      if (n % 100 > 0 && n < 20) str += belowTwenty[n % 100] + " ";
+      return str.trim();
+    }
+
+    let result = "";
+    for (let i = 0; num > 0; i++) {
+        if (num % 1000 !== 0) {
+            // 核心简化：利用数组下标直接拿 thousand/million 单位
+            result = helper(num % 1000) + " " + thousands[i] + " " + result;
+        }
+        num = Math.floor(num / 1000);
+    }
+    return result.trim();
   }
 }

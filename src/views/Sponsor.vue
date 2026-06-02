@@ -157,7 +157,23 @@
 
 <style lang="scss" scoped>
   .sponsor {
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
     background-color: #ffffff;
+
+    /* Override global .main-container fixed 1200px */
+    .main-container {
+      width: 100% !important;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      box-sizing: border-box;
+      min-width: 0;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
     .sponsor-middle {
       background: linear-gradient(135deg, #FCFFFF 0%, #F6FBFF 100%);
     }
@@ -186,6 +202,8 @@
         gap: 30px;
         text-align: justify;
         text-justify: inter-word;
+        align-items: flex-start;
+        min-width: 0;
         .sponsor-img {
           min-width: 389px;
           width: 389px;
@@ -201,8 +219,12 @@
       font-size: 16px;
       line-height: 28px;
       color: #656B6F;
+      min-width: 0;
+      word-break: break-word;
     }
     .companyBox{
+      flex-shrink: 0;
+      min-width: 0;
       .linkInfo{
         padding: 20px 0;
         background: #EFF5F8;
@@ -220,6 +242,94 @@
           color: #036FC0;
           margin-top: 10px;
           cursor: pointer;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .sponsor {
+      .main-container {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+      .sponsor-container {
+        margin-top: 24px;
+        .sponsor-title {
+          font-size: 32px;
+          margin: 16px 0;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .sponsor {
+      .main-container {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      .sponsor-container {
+        margin-top: 18px;
+        .sponsor-title {
+          font-size: 24px;
+          margin: 12px 0;
+        }
+        .sponsor-item {
+          flex-direction: column;
+          gap: 14px;
+          margin-bottom: 28px;
+
+          /* Ensure logo box is always first on mobile */
+          .companyBox { order: 0; width: 100%; }
+          > span.fill { order: 1; }
+
+          .sponsor-img {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            height: auto;
+            padding: 14px;
+            box-sizing: border-box;
+          }
+        }
+      }
+      .fill{
+        font-size: 14px;
+        line-height: 24px;
+      }
+      .companyBox{
+        .linkInfo{
+          padding: 14px 0;
+          .companyName{
+            font-size: 18px;
+            padding: 0 10px;
+            word-break: break-word;
+          }
+          .officialWebsite{
+            font-size: 14px;
+            padding: 0 10px;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .sponsor {
+      .main-container {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .sponsor-container {
+        .sponsor-title {
+          font-size: 20px;
+        }
+        .sponsor-item {
+          gap: 12px;
+          .sponsor-img { padding: 12px; }
         }
       }
     }
