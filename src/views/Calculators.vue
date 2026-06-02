@@ -28,6 +28,7 @@
       <div class="calc-modal-card">
         <div class="calc-modal-header">
           <div class="calc-modal-title">{{ selectedCalculator.name }}</div>
+          {{ selectedCalculator.url }}
           <button class="calc-modal-close" type="button" @click="closeModal">Close</button>
         </div>
         <div class="calc-modal-body">
@@ -67,12 +68,12 @@
         {
           title: 'Assessment / management',
           items: [
-            { name: 'Pregnancy dating', url: 'https://www.fetalmedicine.org/research/pregnancyDating' },
-            { name: 'Nuchal translucency', url: 'https://www.fetalmedicine.org/research/assess/nt' },
-            { name: 'Fetal growth', url: 'https://www.fetalmedicine.org/research/assess/growth' },
-            { name: 'Birth weight', url: 'https://www.fetalmedicine.org/research/assess/bw' },
-            { name: 'Fetal Doppler', url: 'https://www.fetalmedicine.org/research/doppler' },
-            { name: 'Uterine artery PI', url: 'https://www.fetalmedicine.org/research/utpi' },
+            { name: 'Pregnancy dating', url: 'https://archive.fetalmedicine.org/research/pregnancyDating' },
+            { name: 'Nuchal translucency', url: 'https://archive.fetalmedicine.org/research/assess/nt' },
+            { name: 'Fetal growth', url: 'https://archive.fetalmedicine.org/research/assess/growth' },
+            { name: 'Birth weight', url: 'https://archive.fetalmedicine.org/research/assess/bw' },
+            { name: 'Fetal Doppler', url: 'https://archive.fetalmedicine.org/research/doppler' },
+            { name: 'Uterine artery PI', url: 'https://archive.fetalmedicine.org/research/utpi' },
             { name: 'Fetal anemia', url: 'https://fmf.refractionx.com/calculators?embed=true&bigpicture=true&id=fetalanemia' }
           ]
         }
@@ -262,19 +263,81 @@
     margin: 0 auto;
   }
 
-  @media (max-width: 1200px) {
+  /* ============================================================
+     RESPONSIVE BREAKPOINTS
+     ============================================================ */
+
+  /* Tablet: 768px ~ 1279px */
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 32px !important;
+      padding-right: 32px !important;
+    }
     .category-grid {
       grid-template-columns: repeat(2, minmax(220px, 1fr));
+      max-width: 100%;
     }
   }
 
-  @media (max-width: 720px) {
-    .category-grid {
-      grid-template-columns: 1fr;
+  /* Large phone: 480px ~ 767px */
+  @media (min-width: 480px) and (max-width: 767px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
     }
-    .embed-wrapper,
-    .embed-frame {
-      min-height: 560px;
+    .calculators-content { padding: 16px 0 0; gap: 16px; }
+    .section              { padding: 16px; }
+    .category-grid        { grid-template-columns: 1fr; max-width: 100%; gap: 12px; }
+    .category-title       { font-size: 16px; }
+    .calc-btn             { font-size: 14px; padding: 9px 12px; }
+
+    .calc-modal           { padding: 12px; }
+    .calc-modal-card      { border-radius: 12px; }
+    .calc-modal-title     { font-size: 16px; }
+    .calc-modal-body      { height: min(85vh, 700px); }
+  }
+
+  /* Small phone: 360px ~ 479px */
+  @media (min-width: 360px) and (max-width: 479px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
     }
+    .calculators-content { padding: 12px 0 0; gap: 12px; }
+    .section              { padding: 14px 12px; }
+    .category-grid        { grid-template-columns: 1fr; max-width: 100%; gap: 10px; }
+    .category-title       { font-size: 15px; }
+    .calc-btn             { font-size: 13px; padding: 8px 10px; }
+
+    .calc-modal           { padding: 8px; }
+    .calc-modal-card      { border-radius: 10px; }
+    .calc-modal-header    { padding: 12px 14px; }
+    .calc-modal-title     { font-size: 14px; }
+    .calc-modal-close     { padding: 6px 12px; font-size: 12px; }
+    .calc-modal-body      { height: min(82vh, 600px); }
+  }
+
+  /* Very small: < 360px */
+  @media (max-width: 359px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+    }
+    .calculators-content { padding: 10px 0 0; gap: 10px; }
+    .section              { padding: 12px 10px; }
+    .category-grid        { grid-template-columns: 1fr; max-width: 100%; gap: 8px; }
+    .category-title       { font-size: 14px; }
+    .calc-btn             { font-size: 12px; padding: 7px 10px; }
+
+    .calc-modal           { padding: 6px; }
+    .calc-modal-card      { border-radius: 8px; }
+    .calc-modal-header    { padding: 10px 12px; }
+    .calc-modal-title     { font-size: 13px; }
+    .calc-modal-close     { padding: 5px 10px; font-size: 11px; }
+    .calc-modal-body      { height: min(80vh, 520px); }
   }
 </style>

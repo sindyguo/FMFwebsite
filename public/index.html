@@ -4,13 +4,23 @@
     <meta charset="utf-8">
     <meta name="data-spm" content="a2cl9">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="aplus-waiting" content="MAN">
-    <meta name="viewport" content="width=1488, maximum-scale=2.0, user-scalable=no">
+    <!-- <meta name="viewport" content="width=1488, maximum-scale=2.0, user-scalable=no"> -->
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <script src="<%= BASE_URL %>styleClassHandler.js"></script>
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <script src="https://web.e.test.connect.paymentsense.cloud/assets/js/client.js"></script>
+    <% if (process.env.NODE_ENV === 'production') { %>
+      <!-- production paymentsense -->
+      <script src="https://web.e.connect.paymentsense.cloud/assets/js/client.js"></script>
+      <% } else { %>
+        <!-- test paymentsense -->
+        <script src="https://web.e.test.connect.paymentsense.cloud/assets/js/client.js"></script>
+        <!-- 确保引入正确的测试环境SDK -->
+        <!-- <script src="https://test.connect.paymentsense.cloud/connect-e/v2/connect-e.js"></script> -->
+    <% } %>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   </head>
   <body>
     <noscript>

@@ -1,42 +1,57 @@
 <template>
   <div class="fill vcontainer exam">
+    <!-- 考试通过喝彩动效（与 ChapterTestDialog 一致） -->
+    <div v-if="showCelebration" class="celebration-container">
+      <div class="confetti" v-for="i in 80" :key="i" :style="{
+        left: `${Math.random() * 100}%`,
+        backgroundColor: ['#FF5252', '#FFD740', '#40C4FF', '#69F0AE', '#EA80FC', '#FF8A65', '#9C27B0'][Math.floor(Math.random() * 7)],
+        animationDelay: `${Math.random() * 1.5}s`,
+        animationDuration: `${1.5 + Math.random() * 1.5}s`,
+        transform: `rotate(${Math.random() * 360}deg)`
+      }"></div>
+      <div class="celebration-text">
+        <span>Congratulations! You have passed the test!</span>
+      </div>
+    </div>
+
     <div class="hcontainer vcenter flex-between header">
       <span>Exam Details</span>
       <span class="tip">Do not refresh the page while taking the exam</span>
       <div class="exit-btn" @click="closeClick">Exit</div>
     </div>
     <div class="fill vcontainer content">
-      <span class="title">{{ title }}</span>
-      <div v-if="isExamFinish" class="vcontainer content-top">
-        <span :class="['result-message', (isExamPass ? 'mb-10 correct': 'mb-20 error')]">
-          {{ isExamPass ? 'Congratulations on completing all lessons in this course and successfully passing the examination!' : 'Unfortunately, you did not pass this exam, Keep pushing forward!' }}
-        </span>
-        <template v-if="isExamPass">
-          <span class="pass-tip">We will award you a Course Completion Certificate and add your name to the global list of course graduates.</span>
-          <span class="pass-tip mb-20">Please <a href="#" class="download-link" @click="downloadClick">click here</a> to download your certificate</span>
-        </template>
-        <el-descriptions
-          title=""
-          direction="vertical"
-          :column="6"
-          :border="true"
-          :label-style="{backgroundColor: '#DCE4EA', color: '#1E2224', fontWeight: 'bold', textAlign: 'center', border: 0}"
-          :content-style="{color: '#1E2224', fontWeight: 'bold', textAlign: 'center'}">
-          <el-descriptions-item label="Total">{{ resultData.total }}</el-descriptions-item>
-          <el-descriptions-item label="Correct" :content-style="{color: '#00BB5E', fontWeight: 'bold', textAlign: 'center'}">{{ resultData.correct }}</el-descriptions-item>
-          <el-descriptions-item label="Incorrect" :content-style="{color: '#C40000', fontWeight: 'bold', textAlign: 'center'}">{{ resultData.incorrect }}</el-descriptions-item>
-          <el-descriptions-item label="PassingStandard">{{ resultData.passingStandard | percentF }}</el-descriptions-item>
-          <el-descriptions-item label="answerAccuracy">{{ resultData.answerAccuracy | percentF }}</el-descriptions-item>
-          <el-descriptions-item label="ExamResults" :content-style="{color: isExamPass ? '#00BB5E': '#C40000', fontWeight: 'bold', textAlign: 'center'}">{{ isExamPass ? 'Pass' : 'Failed' }}</el-descriptions-item>
-        </el-descriptions>
-      </div>
-      <div v-else class="hcontainer vcenter flex-between content-top">
-        <div class="hcontainer vcenter timer">
-          <i class="el-icon-time"></i>
-          <span>{{ timeStr }}</span>
+      <div class="content-scroll">
+        <span class="title">{{ title }}</span>
+        <div v-if="isExamFinish" class="vcontainer content-top">
+          <span :class="['result-message', (isExamPass ? 'mb-10 correct': 'mb-20 error')]">
+            {{ isExamPass ? 'Congratulations on completing all lessons in this course and successfully passing the examination!' : 'Unfortunately, you did not pass this exam, Keep pushing forward!' }}
+          </span>
+          <template v-if="isExamPass">
+            <span class="pass-tip">We will award you a Course Completion Certificate and add your name to the global list of course graduates.</span>
+            <span class="pass-tip mb-20">Please <a href="#" class="download-link" @click="downloadClick">click here</a> to download your certificate</span>
+          </template>
+          <el-descriptions
+            title=""
+            direction="vertical"
+            :column="resultDescColumns"
+            :border="true"
+            :label-style="{backgroundColor: '#DCE4EA', color: '#1E2224', fontWeight: 'bold', textAlign: 'center', border: 0}"
+            :content-style="{color: '#1E2224', fontWeight: 'bold', textAlign: 'center'}">
+            <el-descriptions-item label="Total">{{ resultData.total }}</el-descriptions-item>
+            <el-descriptions-item label="Correct" :content-style="{color: '#00BB5E', fontWeight: 'bold', textAlign: 'center'}">{{ resultData.correct }}</el-descriptions-item>
+            <el-descriptions-item label="Incorrect" :content-style="{color: '#C40000', fontWeight: 'bold', textAlign: 'center'}">{{ resultData.incorrect }}</el-descriptions-item>
+            <el-descriptions-item label="PassingStandard">{{ resultData.passingStandard | percentF }}</el-descriptions-item>
+            <el-descriptions-item label="answerAccuracy">{{ resultData.answerAccuracy | percentF }}</el-descriptions-item>
+            <el-descriptions-item label="ExamResults" :content-style="{color: isExamPass ? '#00BB5E': '#C40000', fontWeight: 'bold', textAlign: 'center'}">{{ isExamPass ? 'Pass' : 'Failed' }}</el-descriptions-item>
+          </el-descriptions>
         </div>
-      </div>
-      <div class="fill vcontainer content-container">
+        <div v-else class="hcontainer vcenter flex-between content-top">
+          <div class="hcontainer vcenter timer">
+            <i class="el-icon-time"></i>
+            <span>{{ timeStr }}</span>
+          </div>
+        </div>
+        <div class="vcontainer content-container">
         <div v-for="(item, index) in listData" :key="item.id" class="vcontainer item-container">
           <div class="hcontainer vcenter flex-between">
             <div class="hcontainer flex-start">
@@ -77,15 +92,16 @@
             </template>
           </el-radio-group>
           <div v-if="isExamFinish" class="vcontainer result-section">
-            <span :class="[(resultData.userQuestionSaveReqVOList && resultData.userQuestionSaveReqVOList[index]?.correctAnswer == selectedAnswers[index] ? 'correct': 'error')]">Correct Answer: {{ item.correctAnswer }}</span>
+            <span :class="[(resultData.userQuestionSaveReqVOList && resultData.userQuestionSaveReqVOList[index]?.correctAnswer == selectedAnswers[index] ? 'correct': 'error')]">Correct Answer: {{ resultData.userQuestionSaveReqVOList[index]?.correctAnswer }}</span>
             <span class="explanation"><p class="tip">Explanation: </p>{{ resultData.userQuestionSaveReqVOList && resultData.userQuestionSaveReqVOList[index]?.explanation || '' }}</span>
           </div>
+        </div>
         </div>
       </div>
       <div class="hcontainer hcenter vcenter footer">
         <el-button class="footer-btn w-180" v-if="listData.length && !isExamFinish" @click="submitExam">Done</el-button>
-        <el-button class="w-200 mr-50" v-if="isExamFinish" @click="goToEducation">Back To Education</el-button>
-        <el-button class="footer-btn w-180" v-if="isExamFinish" @click="webuserCourseExaminationFn">Retake Exam</el-button>
+        <el-button :class="['w-200', 'mr-50', isExamPass ? 'footer-btn' : '']" v-if="isExamFinish" @click="goToEducation">Back to education</el-button>
+        <el-button class="footer-btn w-180" v-if="isExamFinish && !isExamPass" @click="webuserCourseExaminationFn">Retake test</el-button>
       </div>
     </div>
   </div>
@@ -96,7 +112,7 @@
     name: 'ExamPage',
     data() {
       return {
-        title: sessionStorage.getItem('courseTitle') || 'Education Exam',
+        title: localStorage.getItem('courseTitle') || 'Education Exam',
         leftTime: 1800,
         timer: null,
         resultData: {
@@ -109,7 +125,9 @@
         },
         listData: [],
         selectedAnswers: [],
-        isExamFinish: false
+        isExamFinish: false,
+        showCelebration: false,
+        resultDescColumns: 6
       }
     },
     filters: {
@@ -138,7 +156,7 @@
         }
         this.leftTime = 1800
         this.timer = setInterval(() => {
-          if (this.left <= 0) {
+          if (this.leftTime <= 0) {
             clearInterval(this.timer)
             this.leftTime = 0
             this.submitExam()
@@ -156,7 +174,7 @@
           })
         })
         const reqData = {
-          coursesId: sessionStorage.getItem('courseId'),
+          coursesId: localStorage.getItem('courseId'),
           userQuestionSaveReqVOList: userQuestionSaveReqVOList
 
         }
@@ -168,27 +186,43 @@
               clearInterval(this.timer)
               this.timer = null
             }
+            // 考试通过时显示喝彩动效，4秒后自动消失
+            if (this.resultData.examResults === 1) {
+              this.showCelebration = true
+              setTimeout(() => {
+                this.showCelebration = false
+              }, 4000)
+            }
           }
         }).catch(err => {
           this.$message.error('Error submitting exam: ' + err.message)
         })
       },
       closeClick() {
-        sessionStorage.removeItem('courseId')
-        sessionStorage.removeItem('courseTitle')
+        localStorage.removeItem('courseId')
+        localStorage.removeItem('courseTitle')
         window.close()
       },
       goToEducation() {
         this.$router.push('/course?categoryName=Education')
       },
       downloadClick() {
-        const courseId = sessionStorage.getItem('courseId')
+        const courseId = localStorage.getItem('courseId')
         const fileUrl = process.env.VUE_APP_BASE_API + '/app-api/fmf/webuser/courseCompletionCertificate/' + courseId
         this.$utils.downloadUrl(fileUrl, this.title)
       },
+      updateResultDescColumns() {
+        if (typeof window === 'undefined') return
+        const w = window.innerWidth
+        if (w <= 480) this.resultDescColumns = 1
+        else if (w <= 640) this.resultDescColumns = 2
+        else if (w <= 900) this.resultDescColumns = 3
+        else if (w <= 1100) this.resultDescColumns = 4
+        else this.resultDescColumns = 6
+      },
       webuserCourseExaminationFn() {
         this.isExamFinish = false
-        const courseId = sessionStorage.getItem('courseId')
+        const courseId = localStorage.getItem('courseId')
         if (!courseId) {
           this.$message.warning('Please start new exam from main page!')
           return
@@ -214,7 +248,12 @@
     created() {
       this.webuserCourseExaminationFn()
     },
+    mounted() {
+      this.updateResultDescColumns()
+      window.addEventListener('resize', this.updateResultDescColumns)
+    },
     beforeDestroy() {
+      window.removeEventListener('resize', this.updateResultDescColumns)
       if (this.timer) {
         clearInterval(this.timer)
         this.timer = null
@@ -226,7 +265,11 @@
 <style lang="scss" scoped>
   .exam {
     height: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
     .header {
+      flex-shrink: 0;
       color: #0E3045;
       font-size: 16px;
       font-weight: bold;
@@ -235,6 +278,7 @@
       border-bottom: 1px solid #e4e7ed;
       .tip {
         color: #C40000;
+        font-weight: normal;
       }
       .exit-btn {
         color: #036fc0;
@@ -246,8 +290,22 @@
     .content {
       background-color: #ffffff;
       padding: 32px 72px 0;
-      width: 1200px;
+      width: 100%;
+      max-width: 1200px;
       margin: 0 auto;
+      box-sizing: border-box;
+      min-height: 0;
+      overflow: hidden;
+
+      .content-scroll {
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 8px;
+      }
+
       .error {
         color: #C40000;
       }
@@ -290,14 +348,21 @@
         }
       }
       .content-container {
-        height: 100%;
         word-break: break-word;
-        overflow-y: auto;
         .item-container {
           color: #0E3045;
           font-size: 14px;
           font-weight: bold;
           margin-top: 15px;
+          > .hcontainer.flex-between {
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 8px 12px;
+            > .hcontainer.flex-start {
+              flex: 1 1 0;
+              min-width: 0;
+            }
+          }
           .item-header {
             margin-bottom: 10px;
           }
@@ -306,9 +371,16 @@
             white-space: normal !important;
             color: #0E3045 !important;
             margin-top: 10px;
+            align-items: flex-start;
             .item-option-question {
               min-width: 15PX;
             }
+          }
+          ::v-deep .el-radio-group {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
           }
         }
         .result-section {
@@ -324,11 +396,156 @@
         }
       }
       .footer {
+        flex-shrink: 0;
         margin: 10px 0;
+        padding-bottom: 24px;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
         .footer-btn {
           background-color: #036fc0;
           color: #ffffff;
         }
+        ::v-deep .el-button {
+          max-width: 100%;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 992px) {
+    .exam {
+      .header {
+        padding: 16px 24px;
+        flex-wrap: wrap;
+        row-gap: 10px;
+        column-gap: 12px;
+        .tip {
+          order: 3;
+          flex: 1 0 100%;
+          text-align: center;
+          font-size: 14px;
+        }
+        .exit-btn {
+          margin-left: auto;
+        }
+      }
+      .content {
+        padding: 24px 28px 0;
+        .title {
+          font-size: 22px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .exam {
+      .header {
+        padding: 14px 16px;
+        font-size: 15px;
+        .tip {
+          font-size: 13px;
+        }
+      }
+      .content {
+        padding: 20px 16px 0;
+        .title {
+          font-size: 20px;
+        }
+        .content-top .result-message {
+          font-size: 15px;
+        }
+        .content-container .item-container {
+          > .hcontainer.flex-between > .hcontainer.flex-start {
+            flex: 1 1 100%;
+          }
+        }
+        .footer {
+          flex-direction: column;
+          align-items: stretch;
+          ::v-deep .el-button {
+            width: 100%;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .exam {
+      .content {
+        padding: 16px 12px 0;
+        .title {
+          font-size: 18px;
+        }
+      }
+    }
+  }
+
+  // 喝彩动效（与 ChapterTestDialog 一致）
+  .celebration-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .confetti {
+    position: absolute;
+    width: 8px;
+    height: 20px;
+    border-radius: 3px;
+    top: -20px;
+    opacity: 0.8;
+    animation: confetti-fall linear forwards;
+  }
+
+  @keyframes confetti-fall {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(100vh) rotate(720deg);
+      opacity: 0;
+    }
+  }
+
+  .celebration-text {
+    text-align: center;
+    z-index: 10;
+    padding: 20px 40px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: calc(100vw - 32px);
+    box-sizing: border-box;
+
+    span {
+      font-size: 32px;
+      font-weight: 800;
+      color: #036fc0;
+      display: block;
+      margin: 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .celebration-text {
+      padding: 16px 20px;
+      span {
+        font-size: 22px;
       }
     }
   }

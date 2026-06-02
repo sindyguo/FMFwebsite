@@ -11,10 +11,10 @@
               <img src="@/assets/img/icon/icon_jt.png" alt="">
             </div>
           </div>
-          <p>If you want to proceed with the course, please register. Required fields are highlighted in red.</p>
+          <!-- <p>If you want to proceed with the course, please register. Required fields are highlighted in red.</p> -->
         </div>
         <el-tabs :value="currentStep">
-          <el-tab-pane label="①Set login name" name="1" disabled>
+          <el-tab-pane label="①Create login credentials" name="1" disabled>
             <RegistrationStep1 @nextSuccess="step1NextSuccess"></RegistrationStep1>
           </el-tab-pane>
           <el-tab-pane label="②Supplemental information" name="2" disabled>
@@ -26,8 +26,8 @@
         </el-tabs>
       </div>
       <div class="hcontainer vcenter flex-between footer">
-        <span>© 2025 The Fetal Medicine Foundation</span>
-        <div class="contact"><a href="#">Contact us</a></div>
+        <span>© 2026 The Fetal Medicine Foundation</span>
+        <!-- <div class="contact"><a href="#">Contact us</a></div> -->
       </div>
     </div>
   </div>
@@ -49,15 +49,16 @@
       return {
         currentStep: '1',
         registrationForm: {
-          username: '',
-          password: ''
+          password: '',
+          email: ''
         }
       }
     },
     methods: {
-      step1NextSuccess(username, password) {
-        this.registrationForm.username = username;
+      step1NextSuccess(password, email) {
+        console.log('password:', password, 'email:', email)
         this.registrationForm.password = password;
+        this.registrationForm.email = email
         this.currentStep = '2'
       },
       step2NextSuccess(registrationData) {
@@ -79,192 +80,203 @@
 </script>
 
 <style lang="scss" scoped>
+/* ── Page shell ─────────────────────────────────────────── */
 .registration {
   width: 100%;
   height: 100%;
   overflow: auto;
   display: flex;
-  background-color: #f5f7fa;
-  &-content {
-    width: 920px;
-    margin: 95px auto 0;
-    &-box {
-      width: 100%;
-      height: 847px;
-      padding: 30px 40px;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      &-header {
-        h1 {
-          font-size: 24px;
-          color: #0E3045;
-          margin: 0;
-          font-weight: 600;
-        }
-        p {
-          font-size: 14px;
-          color: #8A9094;
-          margin: 16px 0;
-        }
-        &-top {
-          display: flex;
-          justify-content: space-between;
-          .login-link {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            font-size: 14px;
-            color: #8A9094;
-            margin-top: 10px;
-            a {
-              color: #036fc0;
-              text-decoration: none;
-              font-weight: 600;
-              margin-left: 5px;
-              &:hover {
-                text-decoration: underline;
-              }
-            }
-          }
-        }
-      }
+  background: linear-gradient(160deg, #eef4fb 0%, #f5f7fa 60%);
+}
+
+/* ── Content wrapper ─────────────────────────────────────── */
+.registration-content {
+  width: 100%;
+  max-width: 960px;
+  padding: 0 20px 40px;
+  margin: 80px auto 0;
+  box-sizing: border-box;
+}
+
+/* ── Main card ───────────────────────────────────────────── */
+.registration-content-box {
+  width: 100%;
+  height: auto;
+  padding: 36px 48px 32px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(14, 48, 69, 0.09), 0 2px 8px rgba(14, 48, 69, 0.05);
+  overflow: visible;
+}
+
+/* ── Card header ─────────────────────────────────────────── */
+.registration-content-box-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #0e3045;
+    margin: 0;
+    letter-spacing: -0.3px;
+  }
+
+  .login-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 15px;
+    color: #8a9094;
+    flex-shrink: 0;
+
+    a {
+      color: #036fc0;
+      font-weight: 600;
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
+    }
+
+    img {
+      width: 14px;
+      opacity: 0.7;
     }
   }
 }
 
-// .step-number {
-//   width: 20px;
-//   height: 20px;
-//   border-radius: 50%;
-//   background-color: #036fc0;
-//   color: white;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-weight: bold;
-//   margin-bottom: 5px;
-// }
-
-// .step-text {
-//   font-size: 14px;
-//   color: #8A9094;
-// }
-
-// .form-content {
-//   flex: 1;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-// }
-
-// .step-form {
-//   display: block;
-//   margin: 80px auto;
-// }
-
-// .el-form-item__label {
-//   font-weight: normal;
-//   color: #0E3045;
-// }
-
-// .el-form-item__content {
-//   margin-left: 120px;
-// }
-
-// .el-input {
-//   width: 100%;
-// }
-
-// .el-button--primary {
-//   background-color: #036fc0;
-//   border-color: #036fc0;
-//   color: white;
-// }
-
-// .el-button--primary:hover {
-//   background-color: #005a9c;
-//   border-color: #005a9c;
-// }
-
-// .el-button--default {
-//   background-color: #fff;
-//   border-color: #dcdfe6;
-//   color: #606266;
-// }
-
-// .step-buttons {
-//   display: flex;
-//   justify-content: flex-end;
-//   margin-top: 30px;
-// }
-
-// .completion-screen {
-//   text-align: center;
-//   padding: 40px;
-// }
-
-// .success-icon {
-//   font-size: 60px;
-//   color: #4CAF50;
-//   margin-bottom: 20px;
-// }
-
-// .success-message {
-//   font-size: 24px;
-//   color: #0E3045;
-//   margin-bottom: 20px;
-// }
-
-// .confirmation-text {
-//   font-size: 14px;
-//   color: #8A9094;
-//   margin-bottom: 30px;
-//   line-height: 1.5;
-// }
-
-// .action-buttons {
-//   display: flex;
-//   justify-content: center;
-// }
-
+/* ── Footer ──────────────────────────────────────────────── */
 .footer {
-  padding: 20px 0;
-  border-top: 1px solid #e4e7ed;
-  font-size: 14px;
-  color: #8A9094;
-  .contact a {
-    color: #8A9094;
-    text-decoration: none;
-    &:hover {
-      color: #036fc0;
-      text-decoration: underline;
-    }
-  }
+  padding: 18px 0;
+  margin-top: 16px;
+  border-top: 1px solid #e8edf3;
+  font-size: 13px;
+  color: #aab3bc;
+  text-align: center;
+}
+
+/* ── El-Tabs — step bar ──────────────────────────────────── */
+::v-deep .el-tabs {
+  width: 100%;
+}
+
+::v-deep .el-tabs__header {
+  margin-bottom: 0;
+  border-bottom: none !important;
+}
+
+::v-deep .el-tabs__nav-wrap {
+  background: #f0f5fb;
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 8px;
+
+  &::after { display: none !important; }
 }
 
 ::v-deep .el-tabs__nav {
   width: 100%;
-}
-::v-deep .el-tabs {
-  width: 100%;
-}
-::v-deep .el-tabs__item {
-  width: 33.33%;
-  text-align: center;
+  border: none !important;
+  border-radius: 10px;
+  display: flex;
 }
 
-/* 覆盖禁用状态的样式，使其看起来和正常状态一样 */
-::v-deep .el-tabs__item.is-disabled {
-  color: #303133;
-  /* 正常状态下的字体颜色 */
-  cursor: not-allowed;
-  /* 或者 default，根据需要 */
+::v-deep .el-tabs__item {
+  flex: 1;
+  width: 33.33%;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 8px;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.35;
+  height: auto;
+  color: #7a8b99 !important;
+  border: none !important;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover { color: #036fc0 !important; }
 }
-/* 如果需要，也可以覆盖激活状态的样式 */
-::v-deep .el-tabs__item.is-active.is-disabled {
-  color: #409EFF;
-  /* 激活状态下的颜色 */
+
+::v-deep .el-tabs__item.is-active {
+  background: #ffffff !important;
+  color: #036fc0 !important;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(3, 111, 192, 0.15);
+}
+
+::v-deep .el-tabs__item.is-disabled {
+  cursor: default;
+}
+
+::v-deep .el-tabs__active-bar {
+  display: none !important;
+}
+
+::v-deep .el-form-item {
+  margin-bottom: 20px !important;
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+/* Tablet: ≤ 960px */
+@media (max-width: 960px) {
+  .registration-content {
+    margin-top: 56px;
+  }
+  .registration-content-box {
+    padding: 28px 32px 28px;
+  }
+}
+
+/* Mobile: ≤ 767px */
+@media (max-width: 767px) {
+  .registration-content {
+    margin-top: 24px;
+    padding: 0 12px 32px;
+  }
+  .registration-content-box {
+    padding: 20px 18px 24px;
+    border-radius: 12px;
+  }
+  .registration-content-box-header-top {
+    margin-bottom: 20px;
+    h1 { font-size: 20px; }
+    .login-link { font-size: 13px; }
+  }
+
+  ::v-deep .el-tabs__item {
+    font-size: 12px;
+    padding: 8px 4px;
+  }
+  ::v-deep .el-tabs__nav-wrap {
+    border-radius: 10px;
+    padding: 3px;
+  }
+}
+
+/* Small mobile: ≤ 479px */
+@media (max-width: 479px) {
+  .registration-content {
+    margin-top: 16px;
+    padding: 0 8px 24px;
+  }
+  .registration-content-box {
+    padding: 16px 14px 20px;
+    border-radius: 10px;
+  }
+  .registration-content-box-header-top {
+    h1 { font-size: 18px; }
+  }
+
+  ::v-deep .el-tabs__item {
+    font-size: 11px;
+    padding: 6px 2px;
+  }
 }
 </style>

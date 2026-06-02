@@ -246,7 +246,8 @@ export default {
         const response = await this.$api.createPayToken({
           amount: this.tokenForm.amount,
           currency: this.tokenForm.currency,
-          transactionType: this.tokenForm.transactionType
+          transactionType: this.tokenForm.transactionType,
+          orderId: "2013259140120244226"
         }).catch(err => err)
 
         const data = response.data;
@@ -424,7 +425,7 @@ export default {
         const refundTokenResponse = await this.$axios.post('/api/create-refund-token', {
           token: this.currentTokenId,
           amount: this.refundForm.amount || this.tokenForm.amount,
-          currency: this.currentCurrency || this.tokenForm.currency
+          currency: this.currentCurrency || this.tokenForm.currency,
         });
 
         const refundTokenData = refundTokenResponse.data;

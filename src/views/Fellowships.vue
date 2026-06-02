@@ -62,7 +62,7 @@
           <img class="map-icon" src="@/assets/img/icons/map-world-icon.jpg.avif" alt="" aria-hidden="true" />
           To view the list of healthcare professionals who have completed or are still engaged in training fellowships in
           fetal medicine please
-          <button class="inline-link inline-button" type="button" @click="openMap('Fellowship completers')">click here</button>.
+          <button class="inline-link inline-button" type="button" @click="openMap('FMF training fellowships', 'fellowship')">click here</button>.
         </div>
       </div>
 
@@ -75,7 +75,7 @@
         <div class="section-desc">
           <img class="map-icon" src="@/assets/img/icons/map-world-icon.jpg.avif" alt="" aria-hidden="true" />
           To view the list of healthcare professionals who have obtained the Diploma in Fetal Medicine please
-          <button class="inline-link inline-button" type="button" @click="openMap('Diploma holders')">click here</button>.
+          <button class="inline-link inline-button" type="button" @click="openMap('Diploma in fetal medicine',  'diploma')">click here</button>.
         </div>
       </div>
 
@@ -150,21 +150,45 @@
               </div>
               <div class="completion-list-subtitle">Click a country to view the list.</div>
               <div class="completion-list-content">
-                <div v-if="!mapCountryPeople.length" class="completion-empty-state">
+                <div v-if="mapCountryListLoading" class="completion-empty-state">Loading...</div>
+                <div v-else-if="!mapCountryPeople.length" class="completion-empty-state">
                   Select a country to see the list.
+                </div>
+                <div v-else class="people-list">
+                  <div
+                    v-for="(person, idx) in mapCountryPeople"
+                    :key="idx"
+                    class="person-item"
+                    @mouseenter="showTooltip($event, person)"
+                    @mouseleave="hideTooltip"
+                  >
+                    <!-- 姓名区：first_name 正常，last_name 加粗 -->
+                    <span class="person-name">
+                      {{ capitalize(person.first_name) }}&nbsp;<strong>{{ capitalize(person.last_name) }}</strong>
+                    </span>
+                    <!-- Fellowship：右侧显示起止年份 -->
+                    <span v-if="mapIdentity === 'fellowship'" class="person-years">
+                      {{ extractYear(person.fellowship_started) }} – {{ extractYear(person.fellowship_completed, 'ongoing') }}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+    <!-- fixed tooltip：脱离滚动容器，不被 overflow 裁剪 -->
+    <div v-if="tooltipPerson" class="person-tooltip-fixed" :style="tooltipFixedStyle">
+      <div class="person-tooltip-name">{{ capitalizeName(tooltipPerson.first_name, tooltipPerson.last_name) }}</div>
+      <div class="person-tooltip-id">FMF ID: {{ tooltipPerson.fmf_id }}</div>
+    </div>
     </div>
   </div>
 </template>
 
 <script>
   import TopBanner from '@/components/TopBanner.vue'
-  import * as echarts from 'echarts'
+  import * as echarts from 'echarts' // 修改为命名空间导入
 
   export default {
     name: 'FellowshipsPage',
@@ -180,9 +204,13 @@
         }],
         isMapModalOpen: false,
         selectedMapTitle: '',
+        mapIdentity: '',
         mapCountryLabel: 'No country selected',
         mapCountryCount: null,
         mapCountryPeople: [],
+        mapCountryListLoading: false,
+        tooltipPerson: null,
+        tooltipFixedStyle: {},
         mapChartInstance: null,
         mapCounts: {},
         mapWorld: null,
@@ -190,12 +218,23 @@
       }
     },
     methods: {
-      openMap(title) {
+      async openMap(title, identity) {
         this.selectedMapTitle = title
-        this.isMapModalOpen = true
+        this.mapIdentity = identity
         this.mapCountryLabel = 'No country selected'
         this.mapCountryCount = null
         this.mapCountryPeople = []
+        this.mapCounts = {}
+        // 先拉各国人数，拿到数据后再打开弹窗渲染地图
+        try {
+          const res = await this.$api.getUsersMapCountry({ identity })
+          if ((res.code === 0 || res.code === 200) && res.data && res.data.counts) {
+            this.mapCounts = res.data.counts
+          }
+        } catch (e) {
+          console.error('[Map] Failed to load country counts:', e)
+        }
+        this.isMapModalOpen = true
       },
       closeMap() {
         this.isMapModalOpen = false
@@ -258,7 +297,7 @@
               roam: true,
               zoom: 1.2,
               itemStyle: {
-                areaColor: '#ffffff',
+                areaColor: '#f3f9ff',
                 borderColor: '#C0D8E6',
                 borderWidth: 1,
                 shadowColor: 'rgba(95, 147, 194, 0.15)',
@@ -292,6 +331,7 @@
             this.mapCountryLabel = params.name || 'No country selected'
             this.mapCountryCount = values[code] ?? values[params.name] ?? 0
             this.mapCountryPeople = []
+            this.fetchCountryUserList(code)
           })
           this.mapChartInstance.getZr().on('click', (event) => {
             if (!event.target) {
@@ -308,11 +348,62 @@
           this.mapChartInstance.resize()
         }
       },
+      showTooltip(event, person) {
+        const rect = event.currentTarget.getBoundingClientRect()
+        this.tooltipPerson = person
+        this.$nextTick(() => {
+          const tip = document.querySelector('.person-tooltip-fixed')
+          const tipW = tip ? tip.offsetWidth : 160
+          // 优先显示在元素上方，水平与元素左对齐，防止超出视口右边
+          let left = rect.left
+          if (left + tipW > window.innerWidth - 8) {
+            left = window.innerWidth - tipW - 8
+          }
+          this.tooltipFixedStyle = {
+            top: (rect.top - 8) + 'px',
+            left: left + 'px',
+            transform: 'translateY(-100%)'
+          }
+        })
+      },
+      hideTooltip() {
+        this.tooltipPerson = null
+        this.tooltipFixedStyle = {}
+      },
+      capitalize(word) {
+        if (!word) return ''
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+      },
+      capitalizeName(first, last) {
+        return [first, last].map(w => this.capitalize(w)).filter(Boolean).join(' ')
+      },
+      extractYear(dateStr, fallback = '?') {
+        if (!dateStr) return fallback
+        // 支持 "1998-01-01 00:00:00" 或 "1998-01-01" 或纯年份 "1998"
+        return String(dateStr).split('-')[0].split('T')[0].trim()
+      },
+      async fetchCountryUserList(country) {
+        this.mapCountryListLoading = true
+        this.mapCountryPeople = []
+        try {
+          const res = await this.$api.getUsersMapCountryUserList({
+            identity: this.mapIdentity,
+            country
+          })
+          if ((res.code === 0 || res.code === 200) && res.data && res.data.people) {
+            this.mapCountryPeople = res.data.people
+          }
+        } catch (e) {
+          console.error('[Map] Failed to load country user list:', e)
+        } finally {
+          this.mapCountryListLoading = false
+        }
+      },
       async loadWorldMap() {
         if (this.mapWorld) {
           return this.mapWorld
         }
-        const resp = await fetch('https://raw.githubusercontent.com/apache/echarts-examples/gh-pages/public/data/asset/geo/world.json')
+        const resp = await fetch('/website/data/world.json')
         const data = await resp.json()
         this.mapWorld = data
         return data
@@ -573,7 +664,82 @@
     font-size: 13px;
   }
 
-  @media (max-width: 900px) {
+  .people-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 480px;
+    overflow-y: auto;
+  }
+
+  .person-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: #f5f9ff;
+    border-radius: 8px;
+    border: 1px solid #e3eef8;
+    cursor: default;
+  }
+
+  .person-name {
+    font-size: 13px;
+    color: #3a4a5c;
+  }
+
+  .person-years {
+    font-size: 12px;
+    color: #7a9ab5;
+    white-space: nowrap;
+    margin-left: 12px;
+  }
+
+  /* fixed tooltip：脱离滚动容器，不被 overflow 裁剪 */
+  .person-tooltip-fixed {
+    position: fixed;
+    background: rgba(14, 48, 69, 0.9);
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  }
+
+  .person-tooltip-fixed::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 20px;
+    border: 5px solid transparent;
+    border-top-color: rgba(14, 48, 69, 0.9);
+  }
+
+  .person-tooltip-name {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .person-tooltip-id {
+    font-size: 12px;
+    color: #b8d4ec;
+  }
+
+  /* ============================================================
+     RESPONSIVE BREAKPOINTS
+     ============================================================ */
+
+  /* Tablet: 768px ~ 1279px */
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 32px !important;
+      padding-right: 32px !important;
+    }
     .completion-map-layout {
       grid-template-columns: 1fr;
     }
@@ -581,14 +747,85 @@
     .completion-list-panel {
       min-height: 420px;
     }
-    .completion-map {
-      height: 420px;
-    }
+    .completion-map { height: 420px; }
   }
 
-  @media (max-width: 768px) {
-    .section {
-      padding: 20px;
+  /* Large phone: 480px ~ 767px */
+  @media (min-width: 480px) and (max-width: 767px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
     }
+    .fellowships-content { gap: 20px; padding: 16px 0 0; }
+    .section { padding: 18px 16px; }
+    .section-title    { font-size: 17px; }
+    .section-desc,
+    .section-list,
+    .criteria-list    { font-size: 14px; line-height: 22px; }
+
+    .map-modal        { padding: 12px; }
+    .map-modal-card   { border-radius: 12px; }
+    .completion-map-layout { grid-template-columns: 1fr; gap: 12px; }
+    .completion-map-panel,
+    .completion-list-panel { min-height: 300px; padding: 14px; }
+    .completion-map   { height: 300px; }
+  }
+
+  /* Small phone: 360px ~ 479px */
+  @media (min-width: 360px) and (max-width: 479px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+    }
+    .fellowships-content { gap: 16px; padding: 12px 0 0; }
+    .section { padding: 14px 12px; }
+    .section-title    { font-size: 16px; }
+    .section-desc,
+    .section-list,
+    .criteria-list    { font-size: 13px; line-height: 20px; }
+
+    .map-modal        { padding: 8px; }
+    .map-modal-card   { border-radius: 10px; }
+    .map-modal-header { padding: 12px 14px; }
+    .map-modal-title  { font-size: 14px; }
+    .map-modal-body   { padding: 10px 12px 14px; }
+    .completion-map-layout { grid-template-columns: 1fr; gap: 10px; }
+    .completion-map-panel,
+    .completion-list-panel { min-height: 260px; padding: 12px; }
+    .completion-map   { height: 260px; }
+    .people-list      { max-height: 320px; }
+  }
+
+  /* Very small: < 360px */
+  @media (max-width: 359px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+    }
+    .fellowships-content { gap: 12px; padding: 10px 0 0; }
+    .section { padding: 12px 10px; }
+    .section-title    { font-size: 15px; }
+    .section-desc,
+    .section-list,
+    .criteria-list    { font-size: 12px; line-height: 18px; }
+    .map-icon         { width: 28px; height: 28px; }
+    .download-icon    { width: 22px; height: 22px; }
+
+    .map-modal        { padding: 6px; }
+    .map-modal-card   { border-radius: 8px; }
+    .map-modal-header { padding: 10px 12px; }
+    .map-modal-title  { font-size: 13px; }
+    .map-modal-body   { padding: 8px 10px 12px; }
+    .completion-map-layout { grid-template-columns: 1fr; gap: 8px; }
+    .completion-map-panel,
+    .completion-list-panel { min-height: 220px; padding: 10px; }
+    .completion-map   { height: 220px; }
+    .people-list      { max-height: 260px; }
+    .person-item      { padding: 6px 8px; }
+    .person-name      { font-size: 12px; }
+    .person-years     { font-size: 11px; }
   }
 </style>

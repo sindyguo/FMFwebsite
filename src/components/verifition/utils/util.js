@@ -5,27 +5,27 @@ export function resetSize(vm) {
   let parentHeight = vm.$el.parentNode.offsetHeight || window.offsetHeight
 
   if (vm.imgSize.width.indexOf('%') !== -1) {
-    img_width = parseInt(this.imgSize.width) / 100 * parentWidth + 'px'
+    img_width = parseInt(vm.imgSize.width, 10) / 100 * parentWidth + 'px'
   } else {
-    img_width = this.imgSize.width
+    img_width = vm.imgSize.width
   }
 
   if (vm.imgSize.height.indexOf('%') !== -1) {
-    img_height = parseInt(this.imgSize.height) / 100 * parentHeight + 'px'
+    img_height = parseInt(vm.imgSize.height, 10) / 100 * parentHeight + 'px'
   } else {
-    img_height = this.imgSize.height
+    img_height = vm.imgSize.height
   }
 
   if (vm.barSize.width.indexOf('%') !== -1) {
-    bar_width = parseInt(this.barSize.width) / 100 * parentWidth + 'px'
+    bar_width = parseInt(vm.barSize.width, 10) / 100 * parentWidth + 'px'
   } else {
-    bar_width = this.barSize.width
+    bar_width = vm.barSize.width
   }
 
   if (vm.barSize.height.indexOf('%') !== -1) {
-    bar_height = parseInt(this.barSize.height) / 100 * parentHeight + 'px'
+    bar_height = parseInt(vm.barSize.height, 10) / 100 * parentHeight + 'px'
   } else {
-    bar_height = this.barSize.height
+    bar_height = vm.barSize.height
   }
 
   return { imgWidth: img_width, imgHeight: img_height, barWidth: bar_width, barHeight: bar_height }

@@ -1,49 +1,49 @@
 <template>
-  <div class="vcontainer supported-courses">
+  <div v-loading="loading" class="vcontainer supported-courses">
     <TopBanner class="supported-hero-banner" height="260px" :listData="topBannerList" />
 
 
     <section class="supported-list">
       <div class="main-container">
         <div class="course-list">
-          <div v-for="course in sortedCourses" :key="course.title" class="course-card">
+          <div v-for="course in courses" :key="course.title" class="course-card">
             <div class="course-image">
-              <img :src="course.image" :alt="course.title" />
+              <img :src="course.congressImageList[0].url" :alt="course.title" />
             </div>
             <div class="course-info">
               <div class="course-title">
                 <a
-                  v-if="course.external"
+                  v-if="course.registrationHostedBy == 1"
                   class="course-title-link"
-                  :href="course.link"
+                  :href="course.externalLinks"
                   target="_blank"
                   rel="noopener"
                 >
                   {{ course.title }}
                 </a>
-                <router-link v-else class="course-title-link" :to="course.link">
+                <el-link type="primary" v-else class="course-title-link" @click="handleRouter(course)">
                   {{ course.title }}
-                </router-link>
+                </el-link>
               </div>
               <div class="course-meta">
                 <div class="meta-item">
                   <span class="meta-label">Date</span>
-                  <span class="meta-value">{{ course.date }}</span>
+                  <span class="meta-value">{{ (course.startTime && course.endTime) ? formatFullDateRange(course.startTime, course.endTime) : 'Multiple dates' }}</span>
                 </div>
                 <div class="meta-item">
                   <span class="meta-label">Location</span>
-                  <span class="meta-value">{{ course.location }}</span>
+                  <span class="meta-value">{{ course.location }}({{ course.courseFormat }})</span>
                 </div>
               </div>
               <div v-if="course.email" class="course-email">Email: {{ course.email }}</div>
             </div>
             <div class="course-action">
-              <a v-if="course.external" class="course-link" :href="course.link" target="_blank" rel="noopener">
+              <a v-if="course.registrationHostedBy == 1" class="course-link" :href="course.externalLinks" target="_blank" rel="noopener">
                 <span class="course-arrow" aria-hidden="true"></span>
               </a>
-              <router-link v-else class="course-link" :to="course.link">
+              <el-link v-else class="course-link" @click="handleRouter(course)">
                 <span class="course-arrow" aria-hidden="true"></span>
-              </router-link>
+              </el-link>
             </div>
           </div>
         </div>
@@ -67,96 +67,75 @@
           title: 'FMF Supported Courses',
           desc: ''
         }],
-        courses: [
-          {
-            title: 'Baltic Symposium on Fetal and Maternal Medicine',
-            date: '16 May 2026',
-            startDate: '2026-05-16',
-            location: 'AC Hotel by Marriott Vilnius conference center, Vilnius, Lithuania',
-            email: '',
-            link: '/fmf-supported-course',
-            external: false,
-            image: require('@/assets/img/baltic_symposium_card.jpeg'),
-            displayOrder: 3
-          },
-          {
-            title: 'III Fundamentals and Updates in Fetal Medicine',
-            date: '20-21 March 2026',
-            startDate: '2026-03-20',
-            location: 'USA (Online and in-person)',
-            email: '',
-            link: 'https://cmetracker.net/NORTHWELL/Publisher?page=pubOpen#/EventID/104074/',
-            external: true,
-            image: require('@/assets/img/supported_courses/fundamentals_updates.png'),
-            displayOrder: 1
-          },
-          {
-            title: 'Fetal Ultrasound: From first trimester to advanced fetal anomalies',
-            date: '10-12 April 2026',
-            startDate: '2026-04-10',
-            location: 'USA (In-person only)',
-            email: '',
-            link: 'https://www.eventbrite.com/e/fetal-ultrasound-from-first-trimester-to-advanced-fetal-anomalies-tickets-1978301279381?aff=oddtdtcreator',
-            external: true,
-            image: require('@/assets/img/supported_courses/fetal_ultrasound_anomalies.png'),
-            displayOrder: 2
-          },
-          {
-            title: 'Diplomado de Tamizaje del 1er. Trimestre del Embarazo (FMF)',
-            date: '20 February 2026 - December 2026',
-            startDate: '2026-02-20',
-            location: 'Mexico City - Hybrid (Online and In Person)',
-            email: 'educacion@fmm-ac.org',
-            link: 'https://fetalmedicinemexico.com/diplomados-fmm/',
-            external: true,
-            image: require('@/assets/img/supported_courses/mexico_city.webp'),
-            displayOrder: 4
-          },
-          {
-            title: 'NT Courses - Australia',
-            date: 'Multiple dates',
-            startDate: '',
-            location: 'Australia',
-            email: '',
-            link: 'https://www.nuchaltrans.edu.au',
-            external: true,
-            image: require('@/assets/img/supported_courses/nt_courses.jpg'),
-            displayOrder: 5
-          },
-          {
-            title: 'NT Courses - USA',
-            date: 'Multiple dates',
-            startDate: '',
-            location: 'USA',
-            email: '',
-            link: 'https://www.fetalmedicineusa.com',
-            external: true,
-            image: require('@/assets/img/supported_courses/nt_courses.jpg'),
-            displayOrder: 6
-          }
-        ]
+        courses: [],
+        loading: false
       }
     },
-    computed: {
-      sortedCourses() {
-        const hasManualOrder = this.courses.some((course) => typeof course.displayOrder === 'number')
-        if (hasManualOrder) {
-          return [...this.courses].sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0))
-        }
-        const today = new Date()
-        return [...this.courses].sort((a, b) => {
-          const aDate = a.startDate ? new Date(a.startDate) : null
-          const bDate = b.startDate ? new Date(b.startDate) : null
-          const aFuture = aDate ? aDate >= today : false
-          const bFuture = bDate ? bDate >= today : false
-
-          if (aFuture !== bFuture) return aFuture ? -1 : 1
-          if (aDate && bDate) return aDate - bDate
-          if (aDate) return -1
-          if (bDate) return 1
-          return a.title.localeCompare(b.title)
+    methods: {
+      getCongressInfo() {
+        this.loading = true
+        this.$api
+        .websiteCongressList({
+          page: 1,
+          pageSize: 100,
+          publishStatus: 1,
+          congressType: 'Supported Courses'
         })
-      }
+        .then((res) => {
+          if (!res || (res.code !== 200 && res.code !== 0) || !res.data || !Array.isArray(res.data.list)) {
+            this.courses = []
+            setTimeout(() => {
+              this.loading = false
+            }, 500)
+            return
+          }
+          this.courses = res.data.list;
+          setTimeout(() => {
+            this.loading = false;
+          }, 500)
+        })
+      },
+      handleRouter(obj) {
+        this.$router.push(`/fmf-supported-course-detail?categoryName=${obj.title}`)
+      },
+      formatFullDateRange(startString, endString) {
+        if (!startString || !endString) return "";
+        const startDate = new Date(startString);
+        const endDate = new Date(endString);
+        // Define English month names explicitly
+        const months = [
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
+        ];
+        const startDay = startDate.getDate();
+        const startMonth = months[startDate.getMonth()];
+        const startYear = startDate.getFullYear();
+        const endDay = endDate.getDate();
+        const endMonth = months[endDate.getMonth()];
+        const endYear = endDate.getFullYear();
+        let startFormatted = `${startDay}`;
+        if(startMonth != endMonth || startYear != endYear) {
+          startFormatted = `${startFormatted} ${startMonth}`;
+        }
+        if(startYear != endYear) {
+          startFormatted = `${startFormatted} ${startYear}`;
+        }
+        const endFormatted = `${endDay} ${endMonth} ${endYear}`;
+        return `${startFormatted} - ${endFormatted}`;
+      },
+    },
+    created() {
+      this.getCongressInfo();
     }
   }
 </script>
@@ -164,7 +143,6 @@
 <style lang="scss" scoped>
   .supported-courses {
     background: #f7fbff;
-    padding-top: 72px;
   }
 
   ::v-deep .top-banner .top-banner-content .title {
@@ -217,6 +195,8 @@
   .course-title-link {
     color: inherit;
     text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
   }
 
   .course-meta {
@@ -265,13 +245,83 @@
     display: block;
   }
 
-  @media (max-width: 900px) {
+  /* ============================================================
+     RESPONSIVE BREAKPOINTS
+     ============================================================ */
+
+  /* Tablet: 768px ~ 1279px */
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 32px !important;
+      padding-right: 32px !important;
+    }
+    .course-card {
+      grid-template-columns: 160px minmax(0, 1fr) 40px;
+    }
+    .course-title-link { font-size: 16px; }
+    .course-meta       { font-size: 14px; }
+    .course-email      { font-size: 14px; }
+  }
+
+  /* Large phone: 480px ~ 767px */
+  @media (min-width: 480px) and (max-width: 767px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+    .supported-list { padding: 20px 0 32px; }
+    .course-card {
+      grid-template-columns: 130px minmax(0, 1fr) 36px;
+      gap: 12px;
+      padding: 12px;
+    }
+    .course-image img  { height: 90px; }
+    .course-title      { font-size: 15px; margin-bottom: 6px; }
+    .course-title-link { font-size: 15px; }
+    .course-meta       { font-size: 13px; grid-template-columns: 1fr; }
+    .course-email      { font-size: 13px; }
+  }
+
+  /* Small phone: 360px ~ 479px */
+  @media (min-width: 360px) and (max-width: 479px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+    }
+    .supported-list { padding: 16px 0 24px; }
+    .course-card {
+      grid-template-columns: 110px minmax(0, 1fr) 32px;
+      gap: 10px;
+      padding: 10px;
+    }
+    .course-image img  { height: 76px; }
+    .course-title      { font-size: 14px; margin-bottom: 4px; }
+    .course-title-link { font-size: 14px; }
+    .course-meta       { font-size: 12px; grid-template-columns: 1fr; gap: 4px; }
+    .course-email      { font-size: 12px; }
+  }
+
+  /* Very small: < 360px */
+  @media (max-width: 359px) {
+    .main-container {
+      width: 100% !important;
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+    }
+    .supported-list { padding: 12px 0 20px; }
     .course-card {
       grid-template-columns: 1fr;
+      gap: 10px;
+      padding: 10px;
     }
-
-    .course-action {
-      justify-content: flex-start;
-    }
+    .course-image img  { height: 140px; }
+    .course-action     { justify-content: flex-start; }
+    .course-title      { font-size: 14px; }
+    .course-title-link { font-size: 14px; }
+    .course-meta       { font-size: 12px; grid-template-columns: 1fr; }
+    .course-email      { font-size: 12px; }
   }
 </style>

@@ -21,14 +21,15 @@
     <!-- 公共部分 -->
     <div
       class="verify-bar-area"
-      :style="{width: setSize.imgWidth,
-               height: barSize.height,
-               'line-height':barSize.height}"
+      :style="{
+        width: setSize.imgWidth,
+        minHeight: barSize.height
+      }"
     >
       <span class="verify-msg" v-text="text" />
       <div
         class="verify-left-bar"
-        :style="{width: (leftBarWidth!==undefined)?leftBarWidth: barSize.height, height: barSize.height, 'border-color': leftBarBorderColor, transaction: transitionWidth}"
+        :style="{width: (leftBarWidth!==undefined)?leftBarWidth: barSize.height, 'border-color': leftBarBorderColor, transaction: transitionWidth}"
       >
         <span class="verify-msg" v-text="finishText" />
         <div

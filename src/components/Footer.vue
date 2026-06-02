@@ -1,19 +1,69 @@
 <template>
-  <div class="vcontainer vcenter footer">
-    <div class="fill hcontainer hcenter main-container footer-content">
-      <div class="footer-col footer-brand">The Fetal Medicine Foundation</div>
-      <div class="footer-col">
-        <div>137 Harley Street</div>
-        <div>London, W1G 6BG</div>
-        <div>United Kingdom</div>
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <img src="@/assets/img/logo.svg" alt="The Fetal Medicine Foundation">
+        </div>
+
+        <div class="footer-divider"></div>
+
+        <div class="footer-address">
+          <div>137 Harley Street</div>
+          <div>London, W1G 6BG</div>
+          <div>United Kingdom</div>
+        </div>
+
+        <div class="footer-divider"></div>
+
+        <div class="footer-contact">
+          <a href="tel:+442070343070">00 44 (0)207 034 3070</a>
+          <div>
+            <div>Education &amp; Events</div>
+            <a href="mailto:education@fetalmedicine.org">education@fetalmedicine.org</a>
+          </div>
+          <div>
+            <div>Certification &amp; Platform Support</div>
+            <a href="mailto:certification@fetalmedicine.org">certification@fetalmedicine.org</a>
+          </div>
+        </div>
+
+        <div class="footer-divider"></div>
+
+        <div class="footer-social">
+          <a
+            href="https://www.instagram.com/fetalmedicinefoundation"
+            target="_blank"
+            rel="noopener"
+            aria-label="FMF Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <circle cx="17.5" cy="6.5" r="1"></circle>
+            </svg>
+          </a>
+          <a
+            href="https://www.linkedin.com/company/the-fetal-medicine-foundation"
+            target="_blank"
+            rel="noopener"
+            aria-label="FMF LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+              <path d="M8 10v7"></path>
+              <path d="M8 7v.01"></path>
+              <path d="M12 17v-7"></path>
+              <path d="M12 13.5c0-2 1.2-3.5 3-3.5 1.7 0 3 1.2 3 3.5V17"></path>
+            </svg>
+          </a>
+        </div>
       </div>
-      <div class="footer-col">
-        <div>Telephone: 00 44 (0)207 034 3070</div>
-        <div>Email: education@fetalmedicine.org</div>
+
+      <div class="footer-copyright">
+        <span>© 2026 The Fetal Medicine Foundation. All rights reserved.</span>
+        <router-link class="privacy-link" to="/privacy-notice">Privacy Notice</router-link>
       </div>
     </div>
-    <span class="copyright">© 2026 The Fetal Medicine Foundation. All rights reserved.</span>
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -23,57 +73,154 @@
 </script>
 
 <style lang="scss" scoped>
-.footer {
-  width: 100%;
-  height: auto;
-  color: #ffffff;
-  font-size: 14px;
-  background-color: #0f3247;
-  font-family: 'Helvetica', Arial, sans-serif;
-  .main-container {
+  .footer {
     width: 100%;
-    max-width: 1280px;
+    background: linear-gradient(180deg, #f7fcff 0%, #eef8ff 100%);
+    color: #036FC0;
+    font-family: 'Helvetica', Arial, sans-serif;
+    border-top: 1px solid #b9c7d6;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 32px 24px;
-    box-sizing: border-box;
-    gap: 120px;
+    padding: 52px 24px 46px;
+  }
+
+  .footer-main {
+    display: grid;
+    grid-template-columns: minmax(250px, 1.15fr) 1px minmax(190px, 0.8fr) 1px minmax(280px, 1.15fr) 1px auto;
     align-items: center;
+    gap: 46px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid #b9c7d6;
   }
 
-  .footer-content {
-    flex-wrap: wrap;
-    justify-content: space-between;
+  .footer-brand img {
+    width: 245px;
+    max-width: 100%;
+    display: block;
   }
 
-  .footer-col {
-    font-size: 14px;
-    line-height: 22px;
-    color: rgba(255, 255, 255, 0.92);
+  .footer-divider {
+    width: 1px;
+    height: 140px;
+    background: #b9c7d6;
+  }
+
+  .footer-address,
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 18px;
+    line-height: 1.25;
+    font-weight: 500;
+  }
+
+  .footer-contact {
+    gap: 13px;
+  }
+
+  .footer-contact a {
+    color: #036FC0;
+    text-decoration: none;
+  }
+
+  .footer-contact a:hover {
+    text-decoration: underline;
+  }
+
+  .footer-social {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .footer-social a {
+    width: 32px;
+    height: 32px;
+    color: #036FC0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer-social svg {
+    width: 32px;
+    height: 32px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .footer-social a:hover {
+    color: #003f9f;
+  }
+
+  .footer-copyright {
+    padding-top: 40px;
     text-align: center;
-    min-width: 220px;
+    color: #036FC0;
+    font-size: 17px;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
   }
 
-  .footer-brand {
-    font-weight: 600;
+  .privacy-link {
+    color: #036FC0;
+    text-decoration: none;
     white-space: nowrap;
   }
 
-  .copyright {
-    width: 100%;
-    padding: 16px 24px;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.75);
-    text-align: center;
-    background-color: #0b283a;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  .privacy-link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1024px) {
+    .footer-main {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    .footer-divider {
+      width: 100%;
+      height: 1px;
+    }
+
+    .footer-social {
+      align-self: center;
+    }
   }
 
   @media (max-width: 768px) {
-    .main-container {
-      padding: 28px 20px;
-      flex-direction: column;
-      gap: 16px;
+    .footer-inner {
+      padding: 36px 20px 32px;
+    }
+
+    .footer-main {
+      padding-bottom: 32px;
+    }
+
+    .footer-brand img {
+      width: 220px;
+    }
+
+    .footer-address,
+    .footer-contact {
+      font-size: 16px;
+    }
+
+    .footer-copyright {
+      padding-top: 28px;
+      font-size: 14px;
     }
   }
-}
 </style>

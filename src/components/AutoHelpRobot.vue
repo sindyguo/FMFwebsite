@@ -1,18 +1,24 @@
 <template>
-  <div class="auto-help-robot">
+  <div
+    class="auto-help-robot"
+    :class="{ 'is-dragging': isDragging, 'panel-open': isOpen }"
+    :style="{ left: pos.x + 'px', top: pos.y + 'px' }"
+  >
     <button
       class="robot-trigger"
       type="button"
       :aria-expanded="String(isOpen)"
       aria-controls="auto-help-panel"
+      @mousedown="startDrag"
+      @touchstart.passive="startDragTouch"
       @click="togglePanel"
     >
       <i class="el-icon-service"></i>
-      <span>Help</span>
+      <span class="trigger-label">Help</span>
     </button>
 
     <transition name="panel-fade">
-      <section v-if="isOpen" id="auto-help-panel" class="robot-panel">
+      <section v-if="isOpen" id="auto-help-panel" class="robot-panel" :style="panelStyle">
         <header class="panel-header">
           <div>
             <h3>Smart Help Assistant</h3>
@@ -110,8 +116,22 @@ export default {
         { key: 'exam', label: 'Exam Questions' },
         { key: 'congress', label: 'Congress Registration' }
       ],
-      quickQuestionMap: {}
+      quickQuestionMap: {},
+      pos: { x: 0, y: 0 },
+      isDragging: false,
     }
+  },
+  mounted() {
+    this.pos = {
+      x: window.innerWidth - 18 - 44,
+      y: window.innerHeight - 18 - 44 - 120,
+    }
+  },
+  beforeDestroy() {
+    document.removeEventListener('mousemove', this._onDragMove)
+    document.removeEventListener('mouseup', this._onDragEnd)
+    document.removeEventListener('touchmove', this._onDragMoveTouch)
+    document.removeEventListener('touchend', this._onDragEndTouch)
   },
   created() {
     this.buildQuickQuestions()
@@ -120,7 +140,21 @@ export default {
   computed: {
     currentQuickQuestions() {
       return this.quickQuestionMap[this.activeCategory] || []
-    }
+    },
+    panelStyle() {
+      const gap = 8
+      const triggerH = 44
+      const isAbove = this.pos.y > window.innerHeight / 2
+      const style = { right: '18px' }
+      if (isAbove) {
+        style.bottom = (window.innerHeight - this.pos.y + gap) + 'px'
+        style.top = 'auto'
+      } else {
+        style.top = (this.pos.y + triggerH + gap) + 'px'
+        style.bottom = 'auto'
+      }
+      return style
+    },
   },
   watch: {
     isOpen(opened) {
@@ -137,7 +171,96 @@ export default {
   },
   methods: {
     togglePanel() {
+      if (this._wasDragged) {
+        this._wasDragged = false
+        return
+      }
       this.isOpen = !this.isOpen
+    },
+    startDrag(e) {
+      if (e.button !== 0) return
+      const rect = this.$el.getBoundingClientRect()
+      this._dragState = {
+        startX: e.clientX,
+        startY: e.clientY,
+        offsetX: e.clientX - rect.left,
+        offsetY: e.clientY - rect.top,
+      }
+      this._wasDragged = false
+      document.addEventListener('mousemove', this._onDragMove)
+      document.addEventListener('mouseup', this._onDragEnd)
+    },
+    startDragTouch(e) {
+      const touch = e.touches[0]
+      const rect = this.$el.getBoundingClientRect()
+      this._dragState = {
+        startX: touch.clientX,
+        startY: touch.clientY,
+        offsetX: touch.clientX - rect.left,
+        offsetY: touch.clientY - rect.top,
+      }
+      this.isDragging = false
+      document.addEventListener('touchmove', this._onDragMoveTouch, { passive: false })
+      document.addEventListener('touchend', this._onDragEndTouch)
+    },
+    _onDragMove(e) {
+      if (!this._dragState) return
+      const dx = e.clientX - this._dragState.startX
+      const dy = e.clientY - this._dragState.startY
+      if (Math.abs(dx) + Math.abs(dy) < 4) return
+      if (!this.isDragging) {
+        this.isDragging = true
+        document.body.style.cursor = 'grabbing'
+      }
+      let x = e.clientX - this._dragState.offsetX
+      let y = e.clientY - this._dragState.offsetY
+      const elW = this.$el.offsetWidth
+      const elH = this.$el.offsetHeight
+      x = Math.max(0, Math.min(x, window.innerWidth - elW))
+      y = Math.max(0, Math.min(y, window.innerHeight - elH))
+      this.pos = { x, y }
+    },
+    _onDragMoveTouch(e) {
+      if (!this._dragState) return
+      const touch = e.touches[0]
+      const dx = touch.clientX - this._dragState.startX
+      const dy = touch.clientY - this._dragState.startY
+      // 10px threshold to distinguish tap from drag on touch screens
+      if (Math.abs(dx) + Math.abs(dy) < 10) return
+      e.preventDefault()
+      if (!this.isDragging) {
+        this.isDragging = true
+      }
+      let x = touch.clientX - this._dragState.offsetX
+      let y = touch.clientY - this._dragState.offsetY
+      const elW = this.$el.offsetWidth
+      const elH = this.$el.offsetHeight
+      x = Math.max(0, Math.min(x, window.innerWidth - elW))
+      y = Math.max(0, Math.min(y, window.innerHeight - elH))
+      this.pos = { x, y }
+    },
+    _onDragEndTouch(e) {
+      // Always preventDefault to block the browser's synthetic ghost click
+      e.preventDefault()
+      const wasDragging = this.isDragging
+      this.isDragging = false
+      this._dragState = null
+      document.removeEventListener('touchmove', this._onDragMoveTouch)
+      document.removeEventListener('touchend', this._onDragEndTouch)
+      // Only toggle panel when it was a tap (not a drag)
+      if (!wasDragging) {
+        this.isOpen = !this.isOpen
+      }
+    },
+    _onDragEnd() {
+      if (this.isDragging) {
+        this._wasDragged = true
+      }
+      this.isDragging = false
+      this._dragState = null
+      document.body.style.cursor = ''
+      document.removeEventListener('mousemove', this._onDragMove)
+      document.removeEventListener('mouseup', this._onDragEnd)
     },
     submitCustomQuestion() {
       if (!this.inputText) return
@@ -169,6 +292,7 @@ export default {
       return guideMap[category] || 'Please tell me what problem you are facing, and I will help you troubleshoot it.'
     },
     trySmartNavigation(normalizedQuestion) {
+      console.log('normalizedQuestion:', normalizedQuestion)
       if (!normalizedQuestion) return
       if (
         normalizedQuestion.includes('password')
@@ -187,10 +311,10 @@ export default {
         this.pushActionMessage('Go to Courses', '/course')
         return
       }
-      if (normalizedQuestion.includes('exam') || normalizedQuestion.includes('test') || normalizedQuestion.includes('score')) {
-        this.pushActionMessage('Go to Exam', '/exam')
-        return
-      }
+      // if (normalizedQuestion.includes('exam') || normalizedQuestion.includes('test') || normalizedQuestion.includes('score')) {
+      //   this.pushActionMessage('Go to Exam', '/exam')
+      //   return
+      // }
       if (
         normalizedQuestion.includes('congress')
         || normalizedQuestion.includes('registration')
@@ -201,7 +325,7 @@ export default {
     },
     pushActionMessage(label, routePath) {
       this.pushBotMessage(`${label}: ${routePath}`)
-      this.$confirm(`Go to ${label} now?`, 'Quick Navigation', {
+      this.$confirm(`${label} now?`, 'Quick Navigation', {
         confirmButtonText: 'Go now',
         cancelButtonText: 'Later',
         type: 'info'
@@ -313,38 +437,68 @@ export default {
 <style lang="scss" scoped>
 .auto-help-robot {
   position: fixed;
-  right: 18px;
-  bottom: 18px;
   z-index: 3000;
+  user-select: none;
 }
 
 .robot-trigger {
   border: none;
-  min-width: 88px;
-  padding: 10px 14px;
-  border-radius: 24px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
   background: linear-gradient(135deg, #0079cf, #0f5aa4);
   color: #fff;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 18px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  gap: 0;
+  box-shadow: 0 4px 16px rgba(15, 90, 164, 0.35);
+  cursor: grab;
+  overflow: hidden;
+  transition: width 0.22s ease, border-radius 0.22s ease, gap 0.22s ease, padding 0.22s ease;
+  white-space: nowrap;
+}
+
+.robot-trigger .trigger-label {
+  font-size: 13px;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-width 0.22s ease, opacity 0.18s ease;
+  pointer-events: none;
+}
+
+.robot-trigger:hover .trigger-label,
+.auto-help-robot.panel-open .robot-trigger .trigger-label {
+  max-width: 60px;
+  opacity: 1;
+}
+
+.robot-trigger:hover,
+.auto-help-robot.panel-open .robot-trigger {
+  width: auto;
+  padding: 0 14px 0 10px;
+  border-radius: 24px;
   gap: 6px;
-  box-shadow: 0 12px 24px rgba(15, 90, 164, 0.25);
-  cursor: pointer;
+}
+
+.auto-help-robot.is-dragging .robot-trigger {
+  cursor: grabbing;
 }
 
 .robot-panel {
-  position: absolute;
-  right: 0;
-  bottom: 56px;
+  position: fixed;
   width: 360px;
-  max-width: calc(100vw - 24px);
+  max-width: calc(100vw - 36px);
   background: #fff;
   border-radius: 14px;
   border: 1px solid #d9e6f5;
   box-shadow: 0 18px 38px rgba(3, 26, 58, 0.2);
   overflow: hidden;
+  z-index: 3001;
 }
 
 .panel-header {
@@ -489,11 +643,6 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .auto-help-robot {
-    right: 10px;
-    bottom: 10px;
-  }
-
   .robot-panel {
     width: min(360px, calc(100vw - 12px));
   }
