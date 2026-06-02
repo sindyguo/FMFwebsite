@@ -3,6 +3,8 @@
     { "source": "/", "destination": "/website/", "permanent": false }
   ],
   "rewrites": [
+    { "source": "/app-api/:path*", "destination": "http://118.31.236.145/app-api/:path*" },
+    { "source": "/admin-api/:path*", "destination": "http://118.31.236.145/admin-api/:path*" },
     { "source": "/website/:path*", "destination": "/:path*" },
     { "source": "/website/(.*)", "destination": "/index.html" }
   ]
