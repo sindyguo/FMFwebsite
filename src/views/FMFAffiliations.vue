@@ -3,7 +3,7 @@
     <TopBanner height="260px" :listData="topBannerList" />
     <div class="vcontainer hcenter main-container affiliations-content">
       <div class="section intro-section">
-        <div class="section-title">FMF Affiliations</div>
+        <div class="section-title">FMF Affiliates</div>
         <div class="section-desc">
           FMF affiliate organisations provide local accreditation pathways in accordance with FMF standards. Select a
           country to view the relevant certification or accreditation process, resources, and contact details.
@@ -234,7 +234,7 @@
       return {
         topBannerList: [{
           img: require('@/assets/img/fmf_affiliations_header_v2.png'),
-          title: 'FMF Affiliations',
+          title: 'FMF Affiliates',
           desc: ''
         }],
         countries

@@ -279,7 +279,7 @@ const routes = [
         name: 'FMFAffiliations',
         component: () => import(/* webpackChunkName: 'FMFAffiliations' */ '../views/FMFAffiliations.vue'),
         meta: {
-          title: 'FMF Affiliations',
+          title: 'FMF Affiliates',
           requiresAuth: false
         }
       },

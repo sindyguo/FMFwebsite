@@ -410,14 +410,14 @@
             ]
             const affiliationsItem = data.find((item) => (item?.categoryName || '').toLowerCase() === 'fmf affiliations')
             if (affiliationsItem) {
-              affiliationsItem.categoryName = 'FMF Affiliations'
+              affiliationsItem.categoryName = 'FMF Affiliates'
               affiliationsItem.routePath = '/fmf-affiliations'
               affiliationsItem.childrenList = affiliationsChildren
               delete affiliationsItem.linkUrl
             } else {
               data.push({
                 id: 'fmf-affiliations',
-                categoryName: 'FMF Affiliations',
+                categoryName: 'FMF Affiliates',
                 routePath: '/fmf-affiliations',
                 childrenList: affiliationsChildren
               })

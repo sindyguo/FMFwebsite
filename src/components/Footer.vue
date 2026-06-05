@@ -3,18 +3,14 @@
     <div class="footer-inner">
       <div class="footer-main">
         <div class="footer-brand">
-          <img src="@/assets/img/logo.svg" alt="The Fetal Medicine Foundation">
+          <div class="footer-brand-name">The Fetal Medicine Foundation</div>
         </div>
-
-        <div class="footer-divider"></div>
 
         <div class="footer-address">
           <div>137 Harley Street</div>
           <div>London, W1G 6BG</div>
           <div>United Kingdom</div>
         </div>
-
-        <div class="footer-divider"></div>
 
         <div class="footer-contact">
           <a href="tel:+442070343070">00 44 (0)207 034 3070</a>
@@ -27,8 +23,6 @@
             <a href="mailto:certification@fetalmedicine.org">certification@fetalmedicine.org</a>
           </div>
         </div>
-
-        <div class="footer-divider"></div>
 
         <div class="footer-social">
           <a
@@ -89,23 +83,21 @@
 
   .footer-main {
     display: grid;
-    grid-template-columns: minmax(250px, 1.15fr) 1px minmax(190px, 0.8fr) 1px minmax(280px, 1.15fr) 1px auto;
+    grid-template-columns: minmax(300px, 1.15fr) minmax(190px, 0.8fr) minmax(280px, 1.15fr) auto;
     align-items: center;
     gap: 46px;
     padding-bottom: 48px;
     border-bottom: 1px solid #b9c7d6;
   }
 
-  .footer-brand img {
-    width: 245px;
-    max-width: 100%;
-    display: block;
-  }
-
-  .footer-divider {
-    width: 1px;
-    height: 140px;
-    background: #b9c7d6;
+  .footer-brand-name {
+    color: #036FC0;
+    font-size: 24px;
+    line-height: 1.25;
+    font-weight: 500;
+    letter-spacing: 0;
+    max-width: none;
+    white-space: nowrap;
   }
 
   .footer-address,
@@ -190,11 +182,6 @@
       align-items: flex-start;
     }
 
-    .footer-divider {
-      width: 100%;
-      height: 1px;
-    }
-
     .footer-social {
       align-self: center;
     }
@@ -209,8 +196,9 @@
       padding-bottom: 32px;
     }
 
-    .footer-brand img {
-      width: 220px;
+    .footer-brand-name {
+      font-size: 22px;
+      max-width: none;
     }
 
     .footer-address,
