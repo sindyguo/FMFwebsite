@@ -228,6 +228,62 @@
           ],
           email: 'contact@fmfindia.in',
           disclaimer: 'The FMFI certification and audit programme is a skill enhancement initiative and does not constitute an assessment of a practitioner\'s overall clinical performance or day-to-day practice and should not be referenced for any medico-legal purposes. All information, images, and documents submitted on this platform are used solely for certification and audit evaluation and will not be shared with any third party or used for commercial purposes.'
+        },
+        {
+          slug: 'italy',
+          name: 'Italy',
+          summary: 'SIEOG NT certification and annual audit pathway',
+          title: 'FMF Italy Certification Process',
+          description: [
+            'As an affiliate of the Fetal Medicine Foundation, SIEOG provides certification pathways for users in Italy in accordance with FMF standards.',
+            'According to the Italian National Guidelines, nuchal translucency measurement should be offered to all pregnant women, and operators performing first trimester ultrasound screening must be certified in this examination and undergo annual audits to ensure ongoing competence.'
+          ],
+          pathway: [
+            {
+              title: 'Register with FMF',
+              desc: 'Register on the FMF website to receive your FMF ID number.'
+            },
+            {
+              title: 'Complete online training',
+              desc: 'Complete the online course and receive the Certificate of Competence.'
+            },
+            {
+              title: 'Practical examination',
+              desc: 'Contact SIEOG to schedule the required practical examination at a designated referral centre.'
+            },
+            {
+              title: 'NT audit submission',
+              desc: 'Log in to your FMF page, submit the audit data file, and receive the assessment report.'
+            },
+            {
+              title: 'Listing and annual audit',
+              desc: 'Certified users are listed and continue to follow the annual audit process.'
+            }
+          ],
+          certifications: ['Nuchal Translucency'],
+          links: [
+            {
+              label: 'Certification details',
+              display: 'sieog.it/la-traslucenza-nucale',
+              url: 'https://www.sieog.it/la-traslucenza-nucale/'
+            },
+            {
+              label: 'SIEOG website',
+              display: 'sieog.it',
+              url: 'https://www.sieog.it'
+            },
+            {
+              label: 'Italian National Guidelines',
+              display: 'sieog.it/linee-guida2021',
+              url: 'https://www.sieog.it/linee-guida2021/'
+            }
+          ],
+          contact: [
+            'SIEOG',
+            'Contact SIEOG to schedule all practical examinations at a designated referral centre'
+          ],
+          email: 'fmf.sieog@gmail.com',
+          disclaimer: 'The annual clinical quality assurance by SIEOG signifies that a provider has met specific educational benchmarks and participated in the standardised data audit process, but it does not replace formal board certification or institutional medical staff requirements or guarantee clinical performance.'
         }
       ]
 

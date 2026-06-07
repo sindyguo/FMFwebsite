@@ -406,9 +406,17 @@
                 id: 'fmf-affiliations-india',
                 categoryName: 'India',
                 routePath: '/fmf-affiliations/india'
+              },
+              {
+                id: 'fmf-affiliations-italy',
+                categoryName: 'Italy',
+                routePath: '/fmf-affiliations/italy'
               }
             ]
-            const affiliationsItem = data.find((item) => (item?.categoryName || '').toLowerCase() === 'fmf affiliations')
+            const affiliationsItem = data.find((item) => {
+              const categoryName = (item?.categoryName || '').toLowerCase()
+              return categoryName === 'fmf affiliations' || categoryName === 'fmf affiliates'
+            })
             if (affiliationsItem) {
               affiliationsItem.categoryName = 'FMF Affiliates'
               affiliationsItem.routePath = '/fmf-affiliations'
