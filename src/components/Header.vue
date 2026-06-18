@@ -411,6 +411,11 @@
                 id: 'fmf-affiliations-italy',
                 categoryName: 'Italy',
                 routePath: '/fmf-affiliations/italy'
+              },
+              {
+                id: 'fmf-affiliations-czech-republic',
+                categoryName: 'Czech Republic',
+                routePath: '/fmf-affiliations/czech-republic'
               }
             ]
             const affiliationsItem = data.find((item) => {

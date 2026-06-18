@@ -22,7 +22,7 @@
       </div>
 
       <div class="section">
-        <div class="eyebrow">{{ selectedCountry.name }}</div>
+        <div class="country-heading">{{ selectedCountry.name }}</div>
         <div class="section-title">{{ selectedCountry.title }}</div>
         <div
           v-for="paragraph in selectedCountry.description"
@@ -33,7 +33,7 @@
       </div>
 
       <div class="section">
-        <div class="section-title">Accreditation pathway</div>
+        <div class="section-title">{{ pathwayTitle }}</div>
         <div class="pathway-grid">
           <div
             v-for="(step, index) in selectedCountry.pathway"
@@ -47,7 +47,7 @@
           </div>
         </div>
         <div v-if="selectedCountry.certifications.length" class="certification-band">
-          <div class="subsection-title">Certification areas</div>
+          <div class="subsection-title">{{ areasTitle }}</div>
           <div class="tag-list">
             <span
               v-for="item in selectedCountry.certifications"
@@ -59,7 +59,7 @@
         </div>
       </div>
 
-      <div class="section resources-section">
+      <div v-if="selectedCountry.links.length" class="section resources-section">
         <div class="section-title">Resources and links</div>
         <div class="resource-list">
           <a
@@ -112,9 +112,7 @@
           name: 'United States',
           summary: 'FMF USA accreditation for NT and/or PE users',
           title: 'FMF USA Accreditation Process',
-          description: [
-            'As an affiliate of the Fetal Medicine Foundation, FMF USA provides accreditation pathways for users in the United States in accordance with FMF standards.'
-          ],
+          description: [],
           pathway: [
             {
               title: 'First accreditation',
@@ -171,8 +169,7 @@
           title: 'The Fetal Medicine Foundation India Trust Certifications',
           description: [
             'As an affiliate of the Fetal Medicine Foundation, FMFI Trust provides accreditation pathways for users in India in accordance with FMF standards.',
-            'The FMFI Trust supports FMF certification through practical assessment and advances maternal-fetal healthcare by delivering internationally benchmarked education, training, and skills in fetal medicine and obstetric ultrasound.',
-            'Its mission is to increase the number of trained and certified fetal medicine professionals, ensuring that high-quality antenatal screening and diagnostic services are accessible to women nationwide.'
+            'The FMFI Trust supports FMF certification through workshops, image assessments, and practical assessments, advancing maternal-fetal healthcare by delivering internationally benchmarked education, training, and skills in fetal medicine and obstetric ultrasound. The FMFI Trust works to expand access to fetal medicine education and standardised protocols, while promoting improved pregnancy care and outcomes across India. Our mission is to increase the number of trained and certified fetal medicine professionals, ensuring that high-quality antenatal screening and diagnostic services are accessible to women nationwide.'
           ],
           pathway: [
             {
@@ -181,15 +178,19 @@
             },
             {
               title: 'Select certification',
-              desc: 'Choose the relevant certification area in the FMFI Trust portal.'
+              desc: 'Choose the relevant certification area in the FMFI Trust portal and complete required online theory courses on the FMF UK main website.'
+            },
+            {
+              title: 'Next steps',
+              desc: 'Submission of a set of images through the FMFI portal and The FMFI Comprehensive Onsite Workshop: A workshop designed to bridge knowledge with real-world practice.'
             },
             {
               title: 'Complete practical assessment',
-              desc: 'Follow the certification-specific guidance and complete the required practical assessment and audit submission.'
+              desc: 'Arrange practical assessment of scanning technique and procedure overseen by The FMFI approved examiners.'
             },
             {
               title: 'Certification and renewal',
-              desc: 'Successful users complete the structured pathway and manage renewals through the FMFI Trust portal.'
+              desc: 'Successful users complete the structured pathway, manage renewals and make payments through the FMFI Trust portal.'
             }
           ],
           certifications: [
@@ -235,7 +236,6 @@
           summary: 'SIEOG NT certification and annual audit pathway',
           title: 'FMF Italy Certification Process',
           description: [
-            'As an affiliate of the Fetal Medicine Foundation, SIEOG provides certification pathways for users in Italy in accordance with FMF standards.',
             'According to the Italian National Guidelines, nuchal translucency measurement should be offered to all pregnant women, and operators performing first trimester ultrasound screening must be certified in this examination and undergo annual audits to ensure ongoing competence.'
           ],
           pathway: [
@@ -284,6 +284,44 @@
           ],
           email: 'fmf.sieog@gmail.com',
           disclaimer: 'The annual clinical quality assurance by SIEOG signifies that a provider has met specific educational benchmarks and participated in the standardised data audit process, but it does not replace formal board certification or institutional medical staff requirements or guarantee clinical performance.'
+        },
+        {
+          slug: 'czech-republic',
+          name: 'Czech Republic',
+          summary: '11-14 weeks certification and anomaly scan pathway',
+          title: 'FMF Czech Republic Certification Process',
+          description: [
+            'According to the Czech Republic Health Ministry National Guidelines, nuchal translucency measurement should be offered to all pregnant women, and operators performing first trimester ultrasound screening must be certified in this examination and undergo annual audits to ensure ongoing competence.'
+          ],
+          pathway: [
+            {
+              title: 'First steps',
+              desc: 'Register on the FMF website to receive your FMF ID number and complete relevant online theory courses to receive the Certificate of Attendance.'
+            },
+            {
+              title: '11-14 weeks Certification',
+              desc: 'Attend the FMF practical in-person course and submit the logbook for NT-NB-DV-TR to FMF Czech Republic.'
+            },
+            {
+              title: '11-14 weeks Certification Renewal',
+              desc: 'Submit data for audit to the Czech Government annually.'
+            },
+            {
+              title: 'Anomaly scan',
+              desc: 'Complete the online courses Fetal Abnormalities, Neurosonogram, and Cardiac Scanning. Attend the FMF theoretical and practical course and submit the anomaly scan logbook to FMF Czech Republic. No renewal is required.'
+            },
+            {
+              title: 'Practical assessments',
+              desc: 'Contact FMF Czech Republic to schedule the required practical examination.'
+            }
+          ],
+          certifications: ['11-14 weeks Certification', 'Anomaly scan'],
+          links: [],
+          contact: [
+            'FMF Czech Republic'
+          ],
+          email: 'sekretar@gynultrazvuk.cz',
+          disclaimer: 'The annual clinical quality assurance by FMF Czech Republic signifies that a provider has met specific educational benchmarks and participated in the standardised data audit process, but it does not replace formal board certification or institutional medical staff requirements or guarantee clinical performance.'
         }
       ]
 
@@ -300,6 +338,15 @@
       selectedCountry() {
         const slug = (this.$route.params.country || 'usa').toLowerCase()
         return this.countries.find((item) => item.slug === slug) || this.countries[0]
+      },
+      processNoun() {
+        return this.selectedCountry.slug === 'usa' ? 'Accreditation' : 'Certification'
+      },
+      pathwayTitle() {
+        return `${this.processNoun} pathway`
+      },
+      areasTitle() {
+        return `${this.processNoun} areas`
       }
     },
     methods: {
@@ -372,13 +419,12 @@
     margin-bottom: 0;
   }
 
-  .eyebrow {
+  .country-heading {
     margin-bottom: 8px;
-    color: #6b8292;
-    font-size: 13px;
+    color: #0e3045;
+    font-size: 26px;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    line-height: 1.2;
   }
 
   .country-grid {
