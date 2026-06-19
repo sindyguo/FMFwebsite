@@ -112,7 +112,11 @@
           name: 'United States',
           summary: 'FMF USA accreditation for NT and/or PE users',
           title: 'FMF USA Accreditation Process',
-          description: [],
+          description: [
+            'As an affiliate of the Fetal Medicine Foundation, FMF USA provides accreditation pathways for users in the United States in accordance with FMF standards.',
+            'FMF USA advocates for excellence in women’s healthcare and champions the unique needs and perspectives of those practicing in the United States. Participation in critical studies, highlighting thought-leader updates, providing on-line and live education programs, and maintaining credible skill certifications are just a few examples of our contributions.',
+            'FMF USA continues offering our programs of education, credentialling, and ongoing quality assurance.'
+          ],
           pathway: [
             {
               title: 'First accreditation',
