@@ -416,6 +416,11 @@
                 id: 'fmf-affiliations-czech-republic',
                 categoryName: 'Czech Republic',
                 routePath: '/fmf-affiliations/czech-republic'
+              },
+              {
+                id: 'fmf-affiliations-asia-pacific',
+                categoryName: 'FMF Asia Pacific',
+                routePath: '/fmf-affiliations/asia-pacific'
               }
             ]
             const affiliationsItem = data.find((item) => {

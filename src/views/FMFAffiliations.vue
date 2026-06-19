@@ -84,7 +84,7 @@
             class="contact-line">
             {{ line }}
           </div>
-          <a class="inline-link contact-email" :href="`mailto:${selectedCountry.email}`">
+          <a v-if="selectedCountry.email" class="inline-link contact-email" :href="`mailto:${selectedCountry.email}`">
             {{ selectedCountry.email }}
           </a>
         </div>
@@ -234,22 +234,23 @@
           slug: 'italy',
           name: 'Italy',
           summary: 'SIEOG NT certification and annual audit pathway',
-          title: 'FMF Italy Certification Process',
+          title: 'Certification Process',
           description: [
+            'As an affiliate of the Fetal Medicine Foundation, SIEOG provides certification pathways for users in Italy in accordance with FMF standards.',
             'According to the Italian National Guidelines, nuchal translucency measurement should be offered to all pregnant women, and operators performing first trimester ultrasound screening must be certified in this examination and undergo annual audits to ensure ongoing competence.'
           ],
           pathway: [
             {
               title: 'Register with FMF',
-              desc: 'Register on the FMF website to receive your FMF ID number.'
+              desc: 'Register on the FMF website to obtain your FMF ID number, or log in using your existing FMF ID number.'
             },
             {
               title: 'Complete online training',
-              desc: 'Complete the online course and receive the Certificate of Competence.'
+              desc: 'Complete the online course and obtain the Certificate of Attendance. This requirement applies to both new applicants and existing users.'
             },
             {
               title: 'Practical examination',
-              desc: 'Contact SIEOG to schedule the required practical examination at a designated referral centre.'
+              desc: 'For first-time applicants only: Contact SIEOG to arrange the required practical examination at a designated referral centre. Existing FMF users who have successfully completed the practical assessment in the past are not required to repeat it. Their assessment records will be transferred automatically from the previous system.'
             },
             {
               title: 'NT audit submission',
@@ -257,7 +258,7 @@
             },
             {
               title: 'Listing and annual audit',
-              desc: 'Certified users are listed and continue to follow the annual audit process.'
+              desc: 'Certified users are listed and continue to follow the audit process by submitting data annually.'
             }
           ],
           certifications: ['Nuchal Translucency'],
@@ -322,6 +323,50 @@
           ],
           email: 'sekretar@gynultrazvuk.cz',
           disclaimer: 'The annual clinical quality assurance by FMF Czech Republic signifies that a provider has met specific educational benchmarks and participated in the standardised data audit process, but it does not replace formal board certification or institutional medical staff requirements or guarantee clinical performance.'
+        },
+        {
+          slug: 'asia-pacific',
+          name: 'FMF Asia Pacific',
+          summary: 'FMFAPAC certification pathways across Asia Pacific',
+          title: 'FMFAPAC Certifications',
+          description: [
+            'As an affiliate of the Fetal Medicine Foundation, FMFI Trust provides accreditation pathways for users in India in accordance with FMF standards.',
+            'The Fetal Medicine Foundation (FMF) Asia Pacific is dedicated to advancing fetal medicine through education, research, and clinical excellence. As the regional chapter of the internationally recognized FMF, we work to implement evidence-based practices, provide comprehensive training programs, and establish quality standards for fetal screening and diagnosis. This inaugural conference marks a significant milestone in our mission to create a robust network of fetal medicine specialists across the Asia Pacific region.'
+          ],
+          pathway: [
+            {
+              title: 'Register with FMF',
+              desc: 'Create both FMF UK and FMFAPAC accounts.'
+            },
+            {
+              title: 'Pre-exam requirements',
+              desc: 'Obtain the FMF Certificate of Attendance for all theoretical courses relevant to your certification.'
+            },
+            {
+              title: 'Complete practical assessment',
+              desc: 'Arrange practical assessment of scanning technique and procedure overseen by The FMFAPAC approved examiners.'
+            },
+            {
+              title: 'Certification',
+              desc: 'Successful candidates complete the structured pathway with face-to-face accreditation to receive Certificate of Completion and license without the need for renewals.'
+            }
+          ],
+          certifications: [
+            'Nuchal Translucency',
+            'Nasal Bone',
+            'Ductus Venosus Flow',
+            'Tricuspid Flow',
+            'Uterine Artery Doppler',
+            'Anomaly Scan',
+            'Doppler Ultrasound',
+            'Cervical Scan'
+          ],
+          links: [],
+          contact: [
+            'FMF Asia Pacific'
+          ],
+          email: '',
+          disclaimer: 'The FMFAPAC certification and audit programme is a skill enhancement initiative and does not constitute an assessment of a practitioner\'s overall clinical performance or day-to-day practice and should not be referenced for any medico-legal purposes.'
         }
       ]
 
