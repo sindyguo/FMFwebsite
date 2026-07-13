@@ -34,7 +34,95 @@
 
       <div class="section">
         <div class="section-title">{{ pathwayTitle }}</div>
-        <div class="pathway-grid">
+        <div v-if="selectedCountry.slug === 'usa'" class="usa-process-wrapper">
+          <div class="usa-process-list">
+            <div
+              v-for="(step, index) in selectedCountry.pathway"
+              :key="step.title"
+              class="pathway-card usa-process-card">
+              <div class="step-number">{{ index + 1 }}</div>
+              <div>
+                <div class="step-title">{{ step.title }}</div>
+                <div class="step-desc">
+                  {{ step.desc }}
+                  <a
+                    v-if="step.url"
+                    class="inline-link"
+                    :href="step.url"
+                    target="_blank"
+                    rel="noopener">
+                    {{ step.linkLabel }}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="usa-process-flowchart" class="usa-flowchart">
+            <div class="usa-flow-row">
+              <div class="usa-flow-label">
+                <span>First Accreditation</span>
+                <small>NT and/or PE</small>
+              </div>
+              <div class="usa-flow-track">
+                <div
+                  v-for="step in usaFirstAccreditationFlow"
+                  :key="step.title"
+                  class="usa-flow-box"
+                  :class="step.type">
+                  <strong>{{ step.title }}</strong>
+                  <span>{{ step.text }}</span>
+                </div>
+              </div>
+              <div class="usa-flow-outcomes">
+                <div class="usa-flow-lane pass-lane">
+                  <div class="usa-flow-box pass">Pass</div>
+                  <div class="usa-flow-box certificate">
+                    <strong>Certificate of Completion</strong>
+                    <span>Name listed on public accredited user list</span>
+                  </div>
+                  <div class="usa-flow-box renewal">Renewal due annually</div>
+                </div>
+                <div class="usa-flow-lane fail-lane">
+                  <div class="usa-flow-box fail">Fail</div>
+                  <div class="usa-flow-box retry">Read report and submit 3 new images</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="usa-flow-row">
+              <div class="usa-flow-label">
+                <span>Existing User / Annual Accreditation</span>
+                <small>NT and/or PE</small>
+              </div>
+              <div class="usa-flow-track">
+                <div
+                  v-for="step in usaAnnualAccreditationFlow"
+                  :key="step.title"
+                  class="usa-flow-box"
+                  :class="step.type">
+                  <strong>{{ step.title }}</strong>
+                  <span>{{ step.text }}</span>
+                </div>
+              </div>
+              <div class="usa-flow-outcomes">
+                <div class="usa-flow-lane pass-lane">
+                  <div class="usa-flow-box pass">Pass</div>
+                  <div class="usa-flow-box certificate">
+                    <strong>Certificate of Completion</strong>
+                    <span>Name listed on public accredited user list</span>
+                  </div>
+                  <div class="usa-flow-box renewal">Renewal due annually</div>
+                </div>
+                <div class="usa-flow-lane fail-lane">
+                  <div class="usa-flow-box fail">Fail</div>
+                  <div class="usa-flow-box retry">Read report and submit 3 new images</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-else class="pathway-grid">
           <div
             v-for="(step, index) in selectedCountry.pathway"
             :key="step.title"
@@ -46,7 +134,7 @@
             </div>
           </div>
         </div>
-        <div v-if="selectedCountry.certifications.length" class="certification-band">
+        <div v-if="selectedCountry.slug !== 'usa' && selectedCountry.certifications.length" class="certification-band">
           <div class="subsection-title">{{ areasTitle }}</div>
           <div class="tag-list">
             <span
@@ -84,6 +172,13 @@
             class="contact-line">
             {{ line }}
           </div>
+          <a
+            v-for="email in selectedCountry.emails || []"
+            :key="email"
+            class="inline-link contact-email"
+            :href="`mailto:${email}`">
+            {{ email }}
+          </a>
           <a v-if="selectedCountry.email" class="inline-link contact-email" :href="`mailto:${selectedCountry.email}`">
             {{ selectedCountry.email }}
           </a>
@@ -113,29 +208,30 @@
           summary: 'FMF USA accreditation for NT and/or PE users',
           title: 'FMF USA Accreditation Process',
           description: [
-            'As an affiliate of the Fetal Medicine Foundation, FMF USA provides accreditation pathways for users in the United States in accordance with FMF standards.',
-            'FMF USA advocates for excellence in women’s healthcare and champions the unique needs and perspectives of those practicing in the United States. Participation in critical studies, highlighting thought-leader updates, providing on-line and live education programs, and maintaining credible skill certifications are just a few examples of our contributions.',
-            'FMF USA continues offering our programs of education, credentialling, and ongoing quality assurance.'
+            'FMF USA offers accreditation in the following areas: NT and PE.',
+            'The objective is to provide regular audit and quality assurance for practitioners undertaking first-trimester screening for chromosomal abnormalities.'
           ],
           pathway: [
             {
-              title: 'First accreditation',
-              desc: 'New users can follow the FMF USA first accreditation route for NT and/or PE.'
+              title: 'Complete online FMF course',
+              desc: 'All new and existing users are required to complete the free online FMF NT and PE course.',
+              linkLabel: 'Open online courses',
+              url: 'https://www.fetalmedicine.org/website/#/course?categoryName=Online%20Courses'
             },
             {
-              title: 'Training resources',
-              desc: 'Users can review the NT tutorial through the First Trimester Training Module and the uterine artery Doppler tutorial.'
+              title: 'Review training tutorials',
+              desc: 'Users can review the First Trimester Training Module NT tutorial and the Uterine Artery Doppler tutorial before submitting their images through their personal FMF page.'
             },
             {
-              title: 'Submission and payment',
-              desc: 'Accreditation details and payment are handled through the FMF USA accreditation portal.'
+              title: 'Review detailed process',
+              desc: 'Detailed accreditation process can be viewed in the flowchart below.'
             },
             {
-              title: 'Annual accreditation',
-              desc: 'Existing users follow the annual accreditation and clinical quality assurance route for NT and/or PE.'
+              title: 'Complete payment',
+              desc: 'All payments are handled through the FMF USA accreditation portal.'
             }
           ],
-          certifications: ['NT', 'PE'],
+          certifications: [],
           links: [
             {
               label: 'FMF USA website',
@@ -156,14 +252,19 @@
               label: 'Uterine artery Doppler tutorial',
               display: 'video.fetalmedicineusa.com/utad',
               url: 'http://video.fetalmedicineusa.com/utad/story_html5.html'
+            },
+            {
+              label: 'The First Trimester Training Module (Firefox browser)',
+              display: 'fetalmedicineusa.com/1st_Trimester_Survival_Guide/launcher.html',
+              url: 'https://fetalmedicineusa.com/1st_Trimester_Survival_Guide/launcher.html'
             }
           ],
           contact: [
             'Cathy Downing, RT, RDMS, RVT',
-            'Email: Downingc@fetalmedicine.org',
-            'Tel: +1 937-416-4248'
+            '+1 937-416-4248'
           ],
-          email: 'usaaudit@fetalmedicine.org',
+          emails: ['Downingc@fetalmedicine.org', 'usaaudit@fetalmedicine.org'],
+          email: '',
           disclaimer: 'The annual clinical quality assurance by FMF USA signifies that a provider has met specific educational benchmarks and participated in the standardised image audit process, but it does not replace formal board certification or institutional medical staff requirements or guarantee clinical performance.'
         },
         {
@@ -376,7 +477,7 @@
 
       return {
         topBannerList: [{
-          img: require('@/assets/img/fmf_affiliations_header_v2.png'),
+          img: require('@/assets/img/fmf_affiliations_header_v3.jpeg'),
           title: 'FMF Affiliates',
           desc: ''
         }],
@@ -396,6 +497,46 @@
       },
       areasTitle() {
         return `${this.processNoun} areas`
+      },
+      usaFirstAccreditationFlow() {
+        return [
+          {
+            title: '1',
+            text: 'Register on the FMF website and receive your FMF ID number'
+          },
+          {
+            title: '2',
+            text: 'Complete online FMF course for NT and/or Pre-eclampsia'
+          },
+          {
+            title: '3',
+            text: 'Submit 3 NT / UT images and complete payment'
+          },
+          {
+            title: '4',
+            text: 'FMF USA reviews submission and issues a report'
+          }
+        ]
+      },
+      usaAnnualAccreditationFlow() {
+        return [
+          {
+            title: '1',
+            text: 'Log in to your FMF page'
+          },
+          {
+            title: '2',
+            text: 'Online FMF course previously completed; repeat not required'
+          },
+          {
+            title: '3',
+            text: 'Submit 3 NT / UT images and complete payment'
+          },
+          {
+            title: '4',
+            text: 'FMF USA reviews submission and issues a report'
+          }
+        ]
       }
     },
     methods: {
@@ -422,12 +563,25 @@
 
   ::v-deep .top-banner .top-banner-bg {
     background-color: #eaf4fc;
-    background-size: 100% auto;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
   }
 
   ::v-deep .top-banner .top-banner-content .title {
     margin: 0;
-    text-shadow: 0 2px 6px rgba(6, 32, 68, 0.7), 0 0 2px rgba(6, 32, 68, 0.9);
+    -webkit-text-stroke: 2.5px #036fc0;
+    paint-order: stroke fill;
+    text-shadow:
+      -2px -2px 0 #036fc0,
+      0 -2px 0 #036fc0,
+      2px -2px 0 #036fc0,
+      -2px 0 0 #036fc0,
+      2px 0 0 #036fc0,
+      -2px 2px 0 #036fc0,
+      0 2px 0 #036fc0,
+      2px 2px 0 #036fc0,
+      0 3px 8px rgba(3, 111, 192, 0.28);
   }
 
   .affiliations-content {
@@ -556,6 +710,170 @@
     line-height: 24px;
   }
 
+  .usa-process-wrapper {
+    display: grid;
+    gap: 22px;
+  }
+
+  .usa-process-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .usa-process-card {
+    background: #f7fbff;
+  }
+
+  .usa-flowchart {
+    display: grid;
+    gap: 28px;
+    overflow-x: visible;
+    padding: 4px 2px 8px;
+  }
+
+  .usa-flow-row {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(180px, 230px) minmax(0, 1fr);
+    grid-template-areas:
+      'label track'
+      'label outcomes';
+    gap: 14px 18px;
+    align-items: stretch;
+  }
+
+  .usa-flow-label {
+    grid-area: label;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #08336f 0%, #031f55 100%);
+    color: #ffffff;
+    padding: 16px 18px;
+    box-shadow: 0 8px 18px rgba(3, 31, 85, 0.18);
+  }
+
+  .usa-flow-label span {
+    font-size: clamp(16px, 1.7vw, 20px);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .usa-flow-label small {
+    margin-top: 6px;
+    font-size: clamp(13px, 1.4vw, 16px);
+    font-style: italic;
+    opacity: 0.92;
+  }
+
+  .usa-flow-track {
+    grid-area: track;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: center;
+    gap: 18px;
+  }
+
+  .usa-flow-lane {
+    display: grid;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .usa-flow-outcomes {
+    grid-area: outcomes;
+    display: grid;
+    gap: 14px;
+  }
+
+  .pass-lane {
+    grid-template-columns: minmax(72px, 0.45fr) minmax(150px, 1.1fr) minmax(108px, 0.7fr);
+  }
+
+  .fail-lane {
+    grid-template-columns: minmax(72px, 0.45fr) minmax(150px, 1.8fr);
+  }
+
+  .usa-flow-box {
+    position: relative;
+    min-height: 88px;
+    min-width: 0;
+    border: 2px solid #082a68;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #f9fdff 0%, #edf8ff 100%);
+    color: #082a68;
+    padding: 14px 12px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(8, 42, 104, 0.08);
+  }
+
+  .usa-flow-track .usa-flow-box:not(:last-child)::after,
+  .usa-flow-lane .usa-flow-box:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -23px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-left: 14px solid #082a68;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+  }
+
+  .usa-flow-box strong {
+    display: block;
+    font-size: clamp(18px, 2vw, 24px);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+
+  .usa-flow-box span {
+    display: block;
+    font-size: clamp(12px, 1.15vw, 14px);
+    line-height: 1.45;
+    font-weight: 600;
+  }
+
+  .usa-flow-box.pass,
+  .usa-flow-box.fail {
+    min-width: 0;
+    min-height: 60px;
+    font-size: clamp(15px, 1.6vw, 18px);
+    font-weight: 700;
+  }
+
+  .usa-flow-box.pass {
+    background: linear-gradient(180deg, #e8ffd5 0%, #c8f2a9 100%);
+    color: #142615;
+  }
+
+  .usa-flow-box.fail {
+    background: linear-gradient(180deg, #ffe6e3 0%, #ffb8b1 100%);
+    color: #241111;
+  }
+
+  .usa-flow-box.certificate {
+    min-width: 0;
+  }
+
+  .usa-flow-box.certificate strong {
+    font-size: clamp(12px, 1.2vw, 15px);
+    margin-bottom: 8px;
+  }
+
+  .usa-flow-box.renewal,
+  .usa-flow-box.retry {
+    min-width: 0;
+    font-size: clamp(12px, 1.2vw, 15px);
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
   .certification-band {
     margin-top: 18px;
     padding-top: 18px;
@@ -625,7 +943,7 @@
   }
 
   .contact-email {
-    display: inline-block;
+    display: block;
     margin-top: 8px;
   }
 
@@ -646,8 +964,37 @@
     }
 
     .country-grid,
-    .pathway-grid {
+    .pathway-grid,
+    .usa-process-list {
       grid-template-columns: 1fr;
+    }
+
+    .usa-flow-row {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        'label'
+        'track'
+        'outcomes';
+    }
+
+    .usa-flow-label {
+      min-height: 86px;
+    }
+
+    .usa-flow-track,
+    .pass-lane,
+    .fail-lane {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .usa-flow-track .usa-flow-box:not(:last-child)::after,
+    .usa-flow-lane .usa-flow-box:not(:last-child)::after {
+      display: none;
+    }
+
+    .usa-flow-box {
+      min-height: auto;
     }
 
     .resource-link {
