@@ -478,7 +478,7 @@
       return {
         topBannerList: [{
           img: require('@/assets/img/fmf_affiliations_header_v3.jpeg'),
-          title: 'FMF Affiliates',
+          title: '',
           desc: ''
         }],
         countries
