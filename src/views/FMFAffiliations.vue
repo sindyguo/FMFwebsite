@@ -220,7 +220,9 @@
             },
             {
               title: 'Review training tutorials',
-              desc: 'Users can review the First Trimester Training Module NT tutorial and the Uterine Artery Doppler tutorial before submitting their images through their personal FMF page.'
+              desc: 'Users can review the First Trimester Training Module NT tutorial and the Uterine Artery Doppler tutorial before submitting their images through their personal FMF page.',
+              linkLabel: 'Click here',
+              url: 'https://fetalmedicineusa.com/1st_Trimester_Survival_Guide/launcher.html#'
             },
             {
               title: 'Review detailed process',
@@ -228,7 +230,9 @@
             },
             {
               title: 'Complete payment',
-              desc: 'All payments are handled through the FMF USA accreditation portal.'
+              desc: 'All payments are handled through the FMF USA accreditation portal.',
+              linkLabel: 'Payment information',
+              url: 'https://fetalmedicineusa.com/paypal.php'
             }
           ],
           certifications: [],
