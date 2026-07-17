@@ -213,7 +213,7 @@
           ],
           pathway: [
             {
-              title: 'Complete online FMF course',
+              title: 'Complete online FMF courses',
               desc: 'All new and existing users are required to complete the free of charge online FMF NT and PE course.',
               linkLabel: 'Open online courses',
               url: 'https://www.fetalmedicine.org/website/#/course?categoryName=Online%20Courses'
@@ -227,7 +227,7 @@
                   url: 'https://www.fetalmedicineusa.com/1st_Trimester_Survival_Guide/launcher.html'
                 },
                 {
-                  label: 'Uterine artery doppler tutorial',
+                  label: 'Uterine artery Doppler tutorial',
                   url: 'http://video.fetalmedicineusa.com/utad/story_html5.html'
                 }
               ]
@@ -820,7 +820,7 @@
   .usa-flow-main-box {
     min-height: 92px;
     align-items: center;
-    font-size: clamp(18px, 1.9vw, 24px);
+    font-size: clamp(15px, 1.6vw, 18px);
     font-weight: 700;
     line-height: 1.35;
     padding: 18px 28px;
