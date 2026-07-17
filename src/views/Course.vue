@@ -10,6 +10,11 @@
           <div class="course-completion-title">
             List of healthcare professionals who have completed theoretical courses
           </div>
+          <div class="course-completion-description">
+            For the 11–13 weeks scan and preeclampsia screening courses, the maps include individuals who have
+            completed the courses since 2008. For all other courses, which have either undergone substantial revisions
+            or are entirely new, the maps include only those who have completed the most recent version of the course.
+          </div>
           <div class="course-completion-list">
             <button
               v-for="course in listData"
@@ -539,7 +544,14 @@
       font-size: 18px;
       font-weight: 700;
       color: #0f5aa4;
+      margin-bottom: 8px;
+    }
+    .course-completion-description {
+      max-width: 980px;
       margin-bottom: 14px;
+      color: #5d6f7b;
+      font-size: 14px;
+      line-height: 22px;
     }
     .course-completion-list {
       display: flex;
@@ -878,6 +890,7 @@
       }
       .course-grid             { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
       .course-completion-title { font-size: 16px; }
+      .course-completion-description { font-size: 13px; line-height: 21px; }
       .course-results-title    { font-size: 20px; }
       .completion-map-layout   { grid-template-columns: 1fr; }
       .completion-map-panel,
@@ -895,6 +908,7 @@
       .course-library            { padding: 8px 0 24px; }
       .course-completion-section { padding: 14px; margin-bottom: 16px; }
       .course-completion-title   { font-size: 15px; margin-bottom: 10px; }
+      .course-completion-description { font-size: 13px; line-height: 20px; margin-bottom: 12px; }
       .completion-chip           { padding: 6px 12px; font-size: 12px; }
       .course-results-title      { font-size: 18px; }
       .course-results-sub        { font-size: 13px; }
@@ -923,6 +937,7 @@
       .course-library            { padding: 6px 0 20px; }
       .course-completion-section { padding: 12px; margin-bottom: 14px; }
       .course-completion-title   { font-size: 14px; margin-bottom: 8px; }
+      .course-completion-description { font-size: 12px; line-height: 19px; margin-bottom: 10px; }
       .completion-chip           { padding: 5px 10px; font-size: 11px; }
       .course-results-title      { font-size: 16px; }
       .course-results-sub        { font-size: 12px; }
@@ -952,6 +967,7 @@
       .course-library            { padding: 6px 0 16px; }
       .course-completion-section { padding: 10px; margin-bottom: 12px; }
       .course-completion-title   { font-size: 13px; margin-bottom: 8px; }
+      .course-completion-description { font-size: 12px; line-height: 18px; margin-bottom: 10px; }
       .completion-chip           { padding: 5px 9px; font-size: 11px; }
       .course-results-title      { font-size: 15px; }
       .course-results-sub        { font-size: 12px; }

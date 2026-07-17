@@ -45,8 +45,19 @@
                 <div class="step-title">{{ step.title }}</div>
                 <div class="step-desc">
                   {{ step.desc }}
+                  <template v-if="step.links && step.links.length">
+                    <a
+                      v-for="link in step.links"
+                      :key="link.label"
+                      class="inline-link step-link"
+                      :href="link.url"
+                      target="_blank"
+                      rel="noopener">
+                      {{ link.label }}
+                    </a>
+                  </template>
                   <a
-                    v-if="step.url"
+                    v-else-if="step.url"
                     class="inline-link"
                     :href="step.url"
                     target="_blank"
@@ -65,13 +76,8 @@
                 <small>NT and/or PE</small>
               </div>
               <div class="usa-flow-track">
-                <div
-                  v-for="step in usaFirstAccreditationFlow"
-                  :key="step.title"
-                  class="usa-flow-box"
-                  :class="step.type">
-                  <strong>{{ step.title }}</strong>
-                  <span>{{ step.text }}</span>
+                <div class="usa-flow-box usa-flow-main-box">
+                  Attend online courses on FMF website, complete payment and submit 3 NT/UT images.
                 </div>
               </div>
               <div class="usa-flow-outcomes">
@@ -96,13 +102,8 @@
                 <small>NT and/or PE</small>
               </div>
               <div class="usa-flow-track">
-                <div
-                  v-for="step in usaAnnualAccreditationFlow"
-                  :key="step.title"
-                  class="usa-flow-box"
-                  :class="step.type">
-                  <strong>{{ step.title }}</strong>
-                  <span>{{ step.text }}</span>
+                <div class="usa-flow-box usa-flow-main-box">
+                  Attend online courses on FMF website, complete payment and submit 3 NT/UT images.
                 </div>
               </div>
               <div class="usa-flow-outcomes">
@@ -208,31 +209,38 @@
           summary: 'FMF USA accreditation for NT and/or PE users',
           title: 'FMF USA Accreditation Process',
           description: [
-            'FMF USA offers accreditation in the following areas: NT and PE.',
-            'The objective is to provide regular audit and quality assurance for practitioners undertaking first-trimester screening for chromosomal abnormalities.'
+            'FMF USA offers accreditation in Nuchal translucency and Preeclampsia.'
           ],
           pathway: [
             {
               title: 'Complete online FMF course',
-              desc: 'All new and existing users are required to complete the free online FMF NT and PE course.',
+              desc: 'All new and existing users are required to complete the free of charge online FMF NT and PE course.',
               linkLabel: 'Open online courses',
               url: 'https://www.fetalmedicine.org/website/#/course?categoryName=Online%20Courses'
             },
             {
-              title: 'Review training tutorials',
-              desc: 'Users can review the First Trimester Training Module NT tutorial and the Uterine Artery Doppler tutorial before submitting their images through their personal FMF page.',
-              linkLabel: 'Click here',
-              url: 'https://fetalmedicineusa.com/1st_Trimester_Survival_Guide/launcher.html#'
-            },
-            {
-              title: 'Review detailed process',
-              desc: 'Detailed accreditation process can be viewed in the flowchart below.'
+              title: 'Complete online FMFUSA training tutorials',
+              desc: '',
+              links: [
+                {
+                  label: 'NT tutorial',
+                  url: 'https://www.fetalmedicineusa.com/1st_Trimester_Survival_Guide/launcher.html'
+                },
+                {
+                  label: 'Uterine artery doppler tutorial',
+                  url: 'http://video.fetalmedicineusa.com/utad/story_html5.html'
+                }
+              ]
             },
             {
               title: 'Complete payment',
               desc: 'All payments are handled through the FMF USA accreditation portal.',
               linkLabel: 'Payment information',
               url: 'https://fetalmedicineusa.com/paypal.php'
+            },
+            {
+              title: 'Submit 3 NT / UT images',
+              desc: 'Submitting images through FMF affiliates tab on your personal page of FMF website.'
             }
           ],
           certifications: [],
@@ -501,46 +509,6 @@
       },
       areasTitle() {
         return `${this.processNoun} areas`
-      },
-      usaFirstAccreditationFlow() {
-        return [
-          {
-            title: '1',
-            text: 'Register on the FMF website and receive your FMF ID number'
-          },
-          {
-            title: '2',
-            text: 'Complete online FMF course for NT and/or Pre-eclampsia'
-          },
-          {
-            title: '3',
-            text: 'Submit 3 NT / UT images and complete payment'
-          },
-          {
-            title: '4',
-            text: 'FMF USA reviews submission and issues a report'
-          }
-        ]
-      },
-      usaAnnualAccreditationFlow() {
-        return [
-          {
-            title: '1',
-            text: 'Log in to your FMF page'
-          },
-          {
-            title: '2',
-            text: 'Online FMF course previously completed; repeat not required'
-          },
-          {
-            title: '3',
-            text: 'Submit 3 NT / UT images and complete payment'
-          },
-          {
-            title: '4',
-            text: 'FMF USA reviews submission and issues a report'
-          }
-        ]
       }
     },
     methods: {
@@ -714,6 +682,12 @@
     line-height: 24px;
   }
 
+  .step-link {
+    display: block;
+    width: fit-content;
+    margin-top: 4px;
+  }
+
   .usa-process-wrapper {
     display: grid;
     gap: 22px;
@@ -776,7 +750,7 @@
   .usa-flow-track {
     grid-area: track;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     align-items: center;
     gap: 18px;
   }
@@ -841,6 +815,15 @@
     font-size: clamp(12px, 1.15vw, 14px);
     line-height: 1.45;
     font-weight: 600;
+  }
+
+  .usa-flow-main-box {
+    min-height: 92px;
+    align-items: center;
+    font-size: clamp(18px, 1.9vw, 24px);
+    font-weight: 700;
+    line-height: 1.35;
+    padding: 18px 28px;
   }
 
   .usa-flow-box.pass,
