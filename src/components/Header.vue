@@ -435,7 +435,7 @@
             } else {
               data.push({
                 id: 'fmf-affiliations',
-                categoryName: 'FMF Affiliates',
+                categoryName: 'FMF Affiliations',
                 routePath: '/fmf-affiliations',
                 childrenList: affiliationsChildren
               })
