@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>World Congress Onsite Registration</title>
+    <style>
+      :root {
+        --fmf-blue: #036fc0;
+        --deep-blue: #0e3045;
+        --ink: #102a3a;
+        --muted: #5b6870;
+        --line: rgba(14, 48, 69, 0.16);
+        --paper: #ffffff;
+        --cash: #167b5f;
+        --cash-dark: #0f5b47;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--ink);
+        background: #f6f8fa;
+      }
+
+      .page {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        background:
+          linear-gradient(90deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.9) 46%, rgba(255, 255, 255, 0.18) 100%),
+          url("./world-congress-onsite-hero.png") center / cover no-repeat;
+      }
+
+      .shell {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        padding: 28px 0;
+      }
+
+      .logo {
+        display: block;
+        width: 260px;
+        max-width: 70vw;
+        height: auto;
+      }
+
+      .hero {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        padding: 28px 0 56px;
+      }
+
+      .content {
+        width: min(720px, 100%);
+      }
+
+      .eyebrow {
+        margin: 0 0 18px;
+        color: var(--fmf-blue);
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--deep-blue);
+        font-size: 52px;
+        line-height: 1.08;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .meta {
+        margin: 24px 0 0;
+        display: grid;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 22px;
+        line-height: 1.35;
+      }
+
+      .divider {
+        width: min(560px, 100%);
+        height: 1px;
+        margin: 34px 0;
+        background: var(--line);
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        width: min(640px, 100%);
+      }
+
+      .action {
+        min-height: 118px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 24px 26px;
+        border-radius: 8px;
+        text-decoration: none;
+        box-shadow: 0 18px 34px rgba(15, 39, 56, 0.15);
+        transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+      }
+
+      .action:focus-visible {
+        outline: 4px solid rgba(3, 111, 192, 0.26);
+        outline-offset: 4px;
+      }
+
+      .action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 22px 42px rgba(15, 39, 56, 0.2);
+      }
+
+      .action svg {
+        flex: 0 0 auto;
+        width: 34px;
+        height: 34px;
+      }
+
+      .action strong {
+        display: block;
+        color: #ffffff;
+        font-size: 22px;
+        line-height: 1.18;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .action-text {
+        display: block;
+      }
+
+      .action-text small {
+        display: block;
+        margin-top: 7px;
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 15px;
+        line-height: 1.35;
+      }
+
+      .action-online {
+        background: var(--fmf-blue);
+      }
+
+      .action-online:hover {
+        background: #025fa4;
+      }
+
+      .action-cash {
+        background: var(--cash);
+      }
+
+      .action-cash:hover {
+        background: var(--cash-dark);
+      }
+
+      .status {
+        min-height: 22px;
+        margin-top: 22px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .footer {
+        padding: 22px 0;
+        color: rgba(16, 42, 58, 0.72);
+        font-size: 14px;
+      }
+
+      @media (max-width: 760px) {
+        .page {
+          background:
+            linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.94) 58%, rgba(255, 255, 255, 0.84) 100%),
+            url("./world-congress-onsite-hero.png") center top / cover no-repeat;
+        }
+
+        .shell {
+          width: min(100% - 28px, 560px);
+        }
+
+        .topbar {
+          padding: 22px 0 8px;
+        }
+
+        .logo {
+          width: 220px;
+        }
+
+        .hero {
+          align-items: flex-start;
+          padding: 44px 0 34px;
+        }
+
+        .eyebrow {
+          font-size: 15px;
+          margin-bottom: 14px;
+        }
+
+        h1 {
+          font-size: 34px;
+          line-height: 1.12;
+        }
+
+        .meta {
+          margin-top: 18px;
+          font-size: 18px;
+        }
+
+        .divider {
+          margin: 28px 0;
+        }
+
+        .actions {
+          grid-template-columns: 1fr;
+          gap: 14px;
+        }
+
+        .action {
+          min-height: 104px;
+          padding: 22px;
+        }
+
+        .action strong {
+          font-size: 20px;
+        }
+
+        .footer {
+          padding-bottom: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="topbar">
+        <div class="shell">
+          <img class="logo" src="./fmf-logo.svg" alt="The Fetal Medicine Foundation" />
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="shell">
+          <div class="content">
+            <p class="eyebrow">Onsite registration</p>
+            <h1 id="congressTitle">23rd World Congress in Fetal Medicine</h1>
+            <div class="meta">
+              <div id="congressDate">28 June - 2 July 2026</div>
+              <div id="congressLocation">Austria Center Vienna, Vienna, Austria</div>
+            </div>
+            <div class="divider"></div>
+            <div class="actions" aria-label="Registration payment options">
+              <a id="onlineButton" class="action action-online" href="./#/congress">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="14" rx="2" stroke="white" stroke-width="2" />
+                  <path d="M3 10h18" stroke="white" stroke-width="2" />
+                  <path d="M7 15h4" stroke="white" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <span class="action-text">
+                  <strong>Online registration payment</strong>
+                  <small>Register and pay online</small>
+                </span>
+              </a>
+              <a id="cashButton" class="action action-cash" href="./#/congress">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="3" y="6" width="18" height="12" rx="2" stroke="white" stroke-width="2" />
+                  <circle cx="12" cy="12" r="3" stroke="white" stroke-width="2" />
+                  <path d="M6 9v6M18 9v6" stroke="white" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                <span class="action-text">
+                  <strong>Cash payment</strong>
+                  <small>Register onsite and pay at the desk</small>
+                </span>
+              </a>
+            </div>
+            <div id="status" class="status" role="status"></div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="shell">The Fetal Medicine Foundation</div>
+      </footer>
+    </main>
+
+    <script>
+      (function () {
+        var fallback = {
+          title: "23rd World Congress in Fetal Medicine",
+          date: "28 June - 2 July 2026",
+          location: "Austria Center Vienna, Vienna, Austria",
+        };
+
+        var titleEl = document.getElementById("congressTitle");
+        var dateEl = document.getElementById("congressDate");
+        var locationEl = document.getElementById("congressLocation");
+        var statusEl = document.getElementById("status");
+        var onlineButton = document.getElementById("onlineButton");
+        var cashButton = document.getElementById("cashButton");
+
+        function appBase() {
+          if (window.location.protocol === "file:") {
+            return "./index.html";
+          }
+          return window.location.pathname.replace(/\/[^/]*$/, "/");
+        }
+
+        function setLinks(congressId) {
+          var base = appBase();
+          if (!congressId) {
+            onlineButton.href = base + "#/congress";
+            cashButton.href = base + "#/congress";
+            return;
+          }
+          var suffix = congressId ? "?id=" + encodeURIComponent(congressId) : "";
+          onlineButton.href = base + "#/congressSignUp" + suffix + (suffix ? "&" : "?") + "onsitePayment=online";
+          cashButton.href = base + "#/congressSignUp" + suffix + (suffix ? "&" : "?") + "onsitePayment=cash";
+        }
+
+        function cleanText(value) {
+          var div = document.createElement("div");
+          div.innerHTML = value || "";
+          return (div.textContent || div.innerText || "").trim();
+        }
+
+        function formatDateRange(startString, endString) {
+          if (!startString || !endString) return fallback.date;
+          var start = new Date(startString);
+          var end = new Date(endString);
+          if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return fallback.date;
+          var months = [
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+          ];
+          return start.getDate() + " " + months[start.getMonth()] + " - " + end.getDate() + " " + months[end.getMonth()] + " " + end.getFullYear();
+        }
+
+        function applyCongress(data) {
+          titleEl.textContent = cleanText(data.title) || fallback.title;
+          dateEl.textContent = formatDateRange(data.startTime, data.endTime);
+          locationEl.textContent = [data.location, data.city, data.country].filter(Boolean).join(", ") || fallback.location;
+          setLinks(data.id);
+          statusEl.textContent = "";
+        }
+
+        setLinks("");
+
+        if (window.location.protocol === "file:") {
+          statusEl.textContent = "Open through the website to use the live congress link.";
+          return;
+        }
+
+        var params = new URLSearchParams({
+          page: "1",
+          pageSize: "1",
+          publishStatus: "1",
+          congressType: "Congress",
+        });
+
+        fetch("/app-api/fmf/website/congress/list?" + params.toString(), { credentials: "same-origin" })
+          .then(function (response) {
+            if (!response.ok) throw new Error("Request failed");
+            return response.json();
+          })
+          .then(function (payload) {
+            var list = payload && payload.data && Array.isArray(payload.data.list) ? payload.data.list : [];
+            if (!list[0]) throw new Error("No congress found");
+            applyCongress(list[0]);
+          })
+          .catch(function () {
+            titleEl.textContent = fallback.title;
+            dateEl.textContent = fallback.date;
+            locationEl.textContent = fallback.location;
+            statusEl.textContent = "Live congress details unavailable. Buttons will open the congress registration page.";
+          });
+      })();
+    </script>
+  </body>
+</html>
