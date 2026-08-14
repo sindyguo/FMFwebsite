@@ -183,6 +183,15 @@
           <a v-if="selectedCountry.email" class="inline-link contact-email" :href="`mailto:${selectedCountry.email}`">
             {{ selectedCountry.email }}
           </a>
+          <a
+            v-for="link in selectedCountry.contactLinks || []"
+            :key="link.url"
+            class="inline-link contact-email"
+            :href="link.url"
+            target="_blank"
+            rel="noopener">
+            {{ link.label }}
+          </a>
         </div>
       </div>
 
@@ -481,6 +490,12 @@
           links: [],
           contact: [
             'FMF Asia Pacific'
+          ],
+          contactLinks: [
+            {
+              label: 'https://www.fetalmedicine-apac.org/en/',
+              url: 'https://www.fetalmedicine-apac.org/en/'
+            }
           ],
           email: '',
           disclaimer: 'The FMFAPAC certification and audit programme is a skill enhancement initiative and does not constitute an assessment of a practitioner\'s overall clinical performance or day-to-day practice and should not be referenced for any medico-legal purposes.'
