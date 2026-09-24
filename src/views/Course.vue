@@ -6,6 +6,32 @@
 
     <section class="course-library">
       <div class="main-container">
+        <section class="course-engagement" aria-labelledby="course-engagement-title">
+          <div class="course-engagement-intro">
+            <div class="course-engagement-kicker">
+              <span class="course-engagement-dot" aria-hidden="true"></span>
+              Platform reach
+            </div>
+            <h2 id="course-engagement-title" class="course-engagement-title">Course Engagement</h2>
+            <p class="course-engagement-copy">
+              A shared learning resource for healthcare professionals around the world.
+            </p>
+          </div>
+          <div class="course-engagement-stats">
+            <div class="course-engagement-stat">
+              <div class="course-engagement-stat-label">Total visits</div>
+              <div class="course-engagement-stat-value">543,004</div>
+              <div class="course-engagement-stat-note">Since June 2026</div>
+            </div>
+            <div class="course-engagement-divider" aria-hidden="true"></div>
+            <div class="course-engagement-stat">
+              <div class="course-engagement-stat-label">Visits last month</div>
+              <div class="course-engagement-stat-value">146,342</div>
+              <div class="course-engagement-stat-note">Across all online courses</div>
+            </div>
+          </div>
+        </section>
+
         <div class="course-completion-section">
           <div class="course-completion-title">
             List of healthcare professionals who have completed theoretical courses
@@ -494,6 +520,109 @@
     .course-library {
       padding: 12px 0 40px;
     }
+    .course-engagement {
+      display: grid;
+      grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.35fr);
+      align-items: stretch;
+      gap: 42px;
+      margin-bottom: 24px;
+      padding: 28px 34px;
+      border-radius: 16px;
+      background: linear-gradient(112deg, #0d3857 0%, #0f5a84 100%);
+      box-shadow: 0 16px 32px rgba(14, 48, 69, 0.16);
+      color: #ffffff;
+      overflow: hidden;
+      position: relative;
+    }
+    .course-engagement::after {
+      content: '';
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      right: -88px;
+      bottom: -150px;
+      border: 1px solid rgba(148, 229, 225, 0.28);
+      border-radius: 50%;
+      box-shadow: 0 0 0 24px rgba(148, 229, 225, 0.04), 0 0 0 48px rgba(148, 229, 225, 0.035);
+      pointer-events: none;
+    }
+    .course-engagement-intro,
+    .course-engagement-stats {
+      position: relative;
+      z-index: 1;
+    }
+    .course-engagement-intro {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .course-engagement-kicker {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #9ce5e0;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+    .course-engagement-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #9ce5e0;
+      box-shadow: 0 0 0 4px rgba(156, 229, 224, 0.16);
+    }
+    .course-engagement-title {
+      margin: 13px 0 8px;
+      color: #ffffff;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+    .course-engagement-copy {
+      max-width: 310px;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 13px;
+      line-height: 1.65;
+    }
+    .course-engagement-stats {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+      align-items: center;
+      gap: 28px;
+      min-height: 118px;
+    }
+    .course-engagement-stat-label {
+      margin-bottom: 11px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .course-engagement-stat-value {
+      color: #ffffff;
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .course-engagement-stat-note {
+      margin-top: 9px;
+      color: #9ce5e0;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .course-engagement-divider {
+      width: 1px;
+      height: 68px;
+      background: rgba(255, 255, 255, 0.2);
+    }
     .course-search-row {
       max-width: 520px;
       margin-bottom: 16px;
@@ -876,6 +1005,10 @@
         padding-left: 32px !important;
         padding-right: 32px !important;
       }
+      .course-engagement       { gap: 24px; padding: 24px 26px; }
+      .course-engagement-title { font-size: 24px; }
+      .course-engagement-stats { gap: 18px; }
+      .course-engagement-stat-value { font-size: 30px; }
       .course-grid             { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
       .course-completion-title { font-size: 16px; }
       .course-results-title    { font-size: 20px; }
@@ -893,6 +1026,10 @@
         padding-right: 16px !important;
       }
       .course-library            { padding: 8px 0 24px; }
+      .course-engagement         { grid-template-columns: 1fr; gap: 22px; padding: 22px 20px; }
+      .course-engagement-title   { font-size: 23px; }
+      .course-engagement-stats   { min-height: 0; gap: 16px; }
+      .course-engagement-stat-value { font-size: 30px; }
       .course-completion-section { padding: 14px; margin-bottom: 16px; }
       .course-completion-title   { font-size: 15px; margin-bottom: 10px; }
       .completion-chip           { padding: 6px 12px; font-size: 12px; }
@@ -921,6 +1058,12 @@
         padding-right: 12px !important;
       }
       .course-library            { padding: 6px 0 20px; }
+      .course-engagement         { grid-template-columns: 1fr; gap: 20px; padding: 20px 16px; }
+      .course-engagement-title   { font-size: 21px; }
+      .course-engagement-stats   { gap: 12px; }
+      .course-engagement-stat-value { font-size: 27px; }
+      .course-engagement-stat-label,
+      .course-engagement-stat-note { font-size: 11px; }
       .course-completion-section { padding: 12px; margin-bottom: 14px; }
       .course-completion-title   { font-size: 14px; margin-bottom: 8px; }
       .completion-chip           { padding: 5px 10px; font-size: 11px; }
@@ -950,6 +1093,10 @@
         padding-right: 10px !important;
       }
       .course-library            { padding: 6px 0 16px; }
+      .course-engagement         { grid-template-columns: 1fr; gap: 18px; padding: 18px 14px; }
+      .course-engagement-title   { font-size: 20px; }
+      .course-engagement-stats   { gap: 10px; }
+      .course-engagement-stat-value { font-size: 24px; }
       .course-completion-section { padding: 10px; margin-bottom: 12px; }
       .course-completion-title   { font-size: 13px; margin-bottom: 8px; }
       .completion-chip           { padding: 5px 9px; font-size: 11px; }
