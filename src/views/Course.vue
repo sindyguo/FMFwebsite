@@ -517,9 +517,9 @@
       display: grid;
       grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.35fr);
       align-items: stretch;
-      gap: 42px;
+      gap: 26px;
       margin-bottom: 24px;
-      padding: 28px 34px;
+      padding: 12px 24px;
       border-radius: 16px;
       background: linear-gradient(112deg, #0d3857 0%, #0f5a84 100%);
       box-shadow: 0 16px 32px rgba(14, 48, 69, 0.16);
@@ -552,7 +552,7 @@
     .course-engagement-title {
       margin: 0;
       color: #ffffff;
-      font-size: 28px;
+      font-size: 21px;
       font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.15;
@@ -561,33 +561,33 @@
       display: grid;
       grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
       align-items: center;
-      gap: 28px;
-      min-height: 118px;
+      gap: 18px;
+      min-height: 70px;
     }
     .course-engagement-stat-label {
-      margin-bottom: 11px;
+      margin-bottom: 5px;
       color: rgba(255, 255, 255, 0.7);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       letter-spacing: 0.02em;
     }
     .course-engagement-stat-value {
       color: #ffffff;
-      font-size: 36px;
+      font-size: 26px;
       font-weight: 700;
       letter-spacing: -0.04em;
       line-height: 1;
       white-space: nowrap;
     }
     .course-engagement-stat-note {
-      margin-top: 9px;
+      margin-top: 4px;
       color: #9ce5e0;
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.4;
     }
     .course-engagement-divider {
       width: 1px;
-      height: 68px;
+      height: 44px;
       background: rgba(255, 255, 255, 0.2);
     }
     .course-search-row {
@@ -972,10 +972,10 @@
         padding-left: 32px !important;
         padding-right: 32px !important;
       }
-      .course-engagement       { gap: 24px; padding: 24px 26px; }
-      .course-engagement-title { font-size: 24px; }
-      .course-engagement-stats { gap: 18px; }
-      .course-engagement-stat-value { font-size: 30px; }
+      .course-engagement       { gap: 18px; padding: 12px 18px; }
+      .course-engagement-title { font-size: 20px; }
+      .course-engagement-stats { gap: 12px; }
+      .course-engagement-stat-value { font-size: 25px; }
       .course-grid             { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
       .course-completion-title { font-size: 16px; }
       .course-results-title    { font-size: 20px; }
@@ -993,10 +993,10 @@
         padding-right: 16px !important;
       }
       .course-library            { padding: 8px 0 24px; }
-      .course-engagement         { grid-template-columns: 1fr; gap: 22px; padding: 22px 20px; }
-      .course-engagement-title   { font-size: 23px; }
-      .course-engagement-stats   { min-height: 0; gap: 16px; }
-      .course-engagement-stat-value { font-size: 30px; }
+      .course-engagement         { grid-template-columns: 1fr; gap: 12px; padding: 12px 14px; }
+      .course-engagement-title   { font-size: 19px; }
+      .course-engagement-stats   { gap: 10px; }
+      .course-engagement-stat-value { font-size: 24px; }
       .course-completion-section { padding: 14px; margin-bottom: 16px; }
       .course-completion-title   { font-size: 15px; margin-bottom: 10px; }
       .completion-chip           { padding: 6px 12px; font-size: 12px; }
@@ -1025,10 +1025,10 @@
         padding-right: 12px !important;
       }
       .course-library            { padding: 6px 0 20px; }
-      .course-engagement         { grid-template-columns: 1fr; gap: 20px; padding: 20px 16px; }
-      .course-engagement-title   { font-size: 21px; }
-      .course-engagement-stats   { gap: 12px; }
-      .course-engagement-stat-value { font-size: 27px; }
+      .course-engagement         { grid-template-columns: 1fr; gap: 10px; padding: 11px 12px; }
+      .course-engagement-title   { font-size: 18px; }
+      .course-engagement-stats   { gap: 8px; }
+      .course-engagement-stat-value { font-size: 23px; }
       .course-engagement-stat-label,
       .course-engagement-stat-note { font-size: 11px; }
       .course-completion-section { padding: 12px; margin-bottom: 14px; }
@@ -1060,10 +1060,10 @@
         padding-right: 10px !important;
       }
       .course-library            { padding: 6px 0 16px; }
-      .course-engagement         { grid-template-columns: 1fr; gap: 18px; padding: 18px 14px; }
-      .course-engagement-title   { font-size: 20px; }
-      .course-engagement-stats   { gap: 10px; }
-      .course-engagement-stat-value { font-size: 24px; }
+      .course-engagement         { grid-template-columns: 1fr; gap: 9px; padding: 10px; }
+      .course-engagement-title   { font-size: 17px; }
+      .course-engagement-stats   { gap: 7px; }
+      .course-engagement-stat-value { font-size: 21px; }
       .course-completion-section { padding: 10px; margin-bottom: 12px; }
       .course-completion-title   { font-size: 13px; margin-bottom: 8px; }
       .completion-chip           { padding: 5px 9px; font-size: 11px; }
