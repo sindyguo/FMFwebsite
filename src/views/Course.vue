@@ -278,7 +278,7 @@
         this.$api.websiteCourseNavigation(reqData).then(resp => {
           console.log('websiteCourseNavigation:', resp)
           if ((resp.code === 200 || resp.code === 0) && Array.isArray(resp.data)) {
-            this.listData = resp.data
+            this.listData = resp.data.filter(item => item.categoryName !== '31312321')
           } else {
             this.listData = []
           }
