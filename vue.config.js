@@ -1,24 +1,24 @@
 const { defineConfig } = require('@vue/cli-service')
 
-const { version } = require('./package.json');
-
-module.exports = {
-  chainWebpack: config => {
-    // 生成manifest.json文件
-    config.plugin('define').tap(args => {
-      args[0]['process.env'].APP_VERSION = JSON.stringify(version);
-      args[0]['process.env'].BUILD_TIME = JSON.stringify(new Date().toISOString());
-      return args;
-    });
-  }
-};
+const { version } = require('./package.json')
 
 module.exports = defineConfig({
-  transpileDependencies: true,
-  publicPath: '/website/',
+  // Keep the deployment path for production, but make local preview work at /.
+  publicPath: process.env.NODE_ENV === 'production' ? '/website/' : '/',
+  // The app's dependencies are already browser-compatible. Transpiling every
+  // dependency makes the first local compile unnecessarily slow.
+  transpileDependencies: false,
+  chainWebpack: config => {
+    config.plugin('define').tap(args => {
+      args[0]['process.env'].APP_VERSION = JSON.stringify(version)
+      args[0]['process.env'].BUILD_TIME = JSON.stringify(new Date().toISOString())
+      return args
+    })
+  },
   devServer: {
+    host: '127.0.0.1',
     port: 8080,
-    open: true,
+    open: false,
     proxy: {
       // 代理配置
       '/baseServer': {

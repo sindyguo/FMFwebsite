@@ -8,14 +8,7 @@
       <div class="main-container">
         <section class="course-engagement" aria-labelledby="course-engagement-title">
           <div class="course-engagement-intro">
-            <div class="course-engagement-kicker">
-              <span class="course-engagement-dot" aria-hidden="true"></span>
-              Platform reach
-            </div>
             <h2 id="course-engagement-title" class="course-engagement-title">Course Engagement</h2>
-            <p class="course-engagement-copy">
-              A shared learning resource for healthcare professionals around the world.
-            </p>
           </div>
           <div class="course-engagement-stats">
             <div class="course-engagement-stat">
@@ -556,39 +549,13 @@
       flex-direction: column;
       justify-content: center;
     }
-    .course-engagement-kicker {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #9ce5e0;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      line-height: 1.2;
-      text-transform: uppercase;
-    }
-    .course-engagement-dot {
-      display: inline-block;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #9ce5e0;
-      box-shadow: 0 0 0 4px rgba(156, 229, 224, 0.16);
-    }
     .course-engagement-title {
-      margin: 13px 0 8px;
+      margin: 0;
       color: #ffffff;
       font-size: 28px;
       font-weight: 700;
       letter-spacing: -0.02em;
       line-height: 1.15;
-    }
-    .course-engagement-copy {
-      max-width: 310px;
-      margin: 0;
-      color: rgba(255, 255, 255, 0.74);
-      font-size: 13px;
-      line-height: 1.65;
     }
     .course-engagement-stats {
       display: grid;
